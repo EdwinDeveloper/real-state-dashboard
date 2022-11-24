@@ -10,6 +10,12 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
+.commission:hover {
+  background-color: #ffffff;
+  border-radius: 20;
+  color: #000000
+}
+
 a {
   color: inherit;
   text-decoration: none;

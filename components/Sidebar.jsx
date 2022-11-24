@@ -15,9 +15,9 @@ import {
 import Logo from '../assets/loadingLogo.png'
 
 const menuItems = [
-  { id: 1, label: "Principal", icon: HomeIcon, link: "/" },
-  { id: 2, label: "Administración de projectos", icon: ArticleIcon, link: "/posts" },
-  { id: 3, label: "Inversiones", icon: UsersIcon, link: "/users" },
+  { id: 1, label: "Comisiones", icon: ArticleIcon, link: "/" },
+  { id: 2, label: "Proyectos", icon: HomeIcon, link: "/projects" },
+  { id: 3, label: "Usuarios", icon: UsersIcon, link: "/users" },
   { id: 4, label: "Otros", icon: VideosIcon, link: "/tutorials" },
 ]
 
@@ -28,7 +28,9 @@ const Sidebar = () => {
   const router = useRouter()
 
   const activeMenu = useMemo(
-    () => menuItems.find((menu) => menu.link === router.pathname),
+    () => menuItems.find((menu) => {
+      return menu.link === router.pathname
+    }),
     [router.pathname]
   )
 
