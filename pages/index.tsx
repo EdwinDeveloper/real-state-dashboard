@@ -64,13 +64,6 @@ export default function Home() {
   return (
     // <LogIn/>
     <Layout>
-      {/* <div style={{
-        'width': '100%',
-        'marginTop': 20,
-        'textAlign': 'center',
-        'justifyContent': 'center',
-        'alignItems': 'center',
-      }}> */}
       <div className={classNames('w-100 min-h-screen text-center my-4 rounded-3xl')}>
         <div>
           Bonos
