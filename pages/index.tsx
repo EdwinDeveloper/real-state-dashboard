@@ -1,6 +1,6 @@
 import Layout from "../components/Layout"
 import classNames from "classnames"
-import LogIn from '../screens/logIn'
+import LogInF from '../screens/logInF'
 import { useState } from "react"
 
 export default function Home() {
@@ -62,7 +62,7 @@ export default function Home() {
     setBonCase(theCase)
   }
   return (
-    // <LogIn/>
+    // <LogInF/>
     <Layout>
       <div className={classNames('w-100 min-h-screen text-center my-4 rounded-3xl')}>
         <div>
