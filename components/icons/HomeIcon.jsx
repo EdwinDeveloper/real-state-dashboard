@@ -1,6 +1,6 @@
 import * as React from "react"
 
-function HomeIcon({ fill = "#6C7281", ...rest }) {
+function HomeIcon({ fill = "#FFFFFF", ...rest }) {
   return (
     <svg
       width={24}

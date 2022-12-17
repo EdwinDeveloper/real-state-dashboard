@@ -34,14 +34,6 @@ const Sidebar = () => {
     [router.pathname]
   )
 
-  const wrapperClasses = classNames(
-    "h-screen px-4 pt-8 pb-4 bg-light flex justify-between flex-col",
-    {
-      ["w-80"]: !toggleCollapse,
-      ["w-20"]: toggleCollapse,
-    }
-  )
-
   const collapseIconClasses = classNames(
     "p-4 rounded bg-light-lighter absolute right-0",
     {
@@ -51,10 +43,10 @@ const Sidebar = () => {
 
   const getNavItemClasses = (menu) => {
     return classNames(
-      "flex items-center cursor-pointer hover:bg-light-lighter rounded w-full overflow-hidden whitespace-nowrap",
-      {
-        ["bg-light-lighter"]: activeMenu.id === menu.id,
-      }
+      "flex items-center cursor-pointer rounded w-full overflow-hidden whitespace-nowrap", //hover:bg-light-lighter",
+      // {
+      //   ["bg-light-lighter"]: activeMenu.id === menu.id,
+      // }
     )
   }
 
@@ -68,14 +60,38 @@ const Sidebar = () => {
 
   return (
     <div
-      className={wrapperClasses}
       onMouseEnter={onMouseOver}
       onMouseLeave={onMouseOver}
-      style={{ transition: "width 300ms cubic-bezier(0.2, 0, 0, 1) 0s" }}
+      style={{
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        backgroundColor: "#159988",
+        paddingBottom: "1rem",
+        paddingtop: "2rem",
+        paddingLeft: "1rem",
+        width: toggleCollapse ? "5%" : "20%",
+        transition: "width 300ms cubic-bezier(0.2, 0, 0, 1) 0s",
+      }}
     >
-      <div className="flex flex-col">
-        <div className="flex items-center justify-between relative">
-          <div className="flex items-center pl-1 gap-4">
+      <div style={{
+        display: "flex",
+        flexDirection: "column"
+      }}>
+        <div style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          alignItems: "center",
+          position: "relative"
+        }}>
+          <div style={{
+            display: "flex",
+            flexDirection: "column",
+            paddingLeft: 1,
+            gap: "1rem",
+          }}>
             {/* <LogoIcon /> */}
             <Image src={Logo} width='80' height='80'/>
             <span
@@ -96,22 +112,29 @@ const Sidebar = () => {
           )}
         </div>
 
-        <div className="flex flex-col items-start mt-24">
+        <div style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-start",
+          marginTop: "6rem",
+        }}>
           {menuItems.map(({ icon: Icon, ...menu }) => {
             const classes = getNavItemClasses(menu)
             return (
               <div className={classes}>
                 <Link legacyBehavior href={menu.link}>
-                  <a className="flex py-4 px-3 items-center w-full h-full">
+                  <a style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    width: "100%",
+                    height: 60
+                  }}>
                     <div style={{ width: "2.5rem" }}>
                       <Icon />
                     </div>
                     {!toggleCollapse && (
-                      <span
-                        className={classNames(
-                          "text-md font-medium text-text-light"
-                        )}
-                      >
+                      <span style={{color: "white"}}>
                         {menu.label}
                       </span>
                     )}
@@ -128,7 +151,7 @@ const Sidebar = () => {
           <LogoutIcon />
         </div>
         {!toggleCollapse && (
-          <span className={classNames("text-md font-medium text-text-light")}>
+          <span style={{color: "white"}}>
             Cerrar Sesión
           </span>
         )}

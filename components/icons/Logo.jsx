@@ -1,6 +1,6 @@
 import * as React from "react"
 
-function Logo({ fill = "#3B81F6", ...rest }) {
+function Logo({ fill = "#FFFFFF", ...rest }) {
   return (
     <svg
       width={40}
