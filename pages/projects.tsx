@@ -1,64 +1,24 @@
-import * as React from 'react'
+import React, {useState, useEffect} from 'react'
 import dayjs, { Dayjs } from 'dayjs'
 import Box from '@mui/material/Box'
 import Layout from "../components/Layout"
-import Stack from '@mui/material/Stack'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import Button from '@mui/material/Button'
 import { ValidationTextField } from '../public/ValidationTextField'
 import AddExtra  from '../components/projectComponents/AddElement'
-import EnhancedTable from '../components/DinamicTable'
 import { DetailElement } from '../components/projectComponents/DetailElement'
 import Inputs  from '../components/projectComponents/Inputs'
 import ImageList from '@mui/material/ImageList'
 import ImageListItem from '@mui/material/ImageListItem'
+import { Extra } from '../components/Objects/Extra'
+
+const detailsList = [
+  {
+    key: "construcción",
+    info: "118.70 m2"
+  }
+]
 
 const projects = () => {
-
-  const detailsList = [
-    {
-      key: "construcción",
-      info: "118.70 m2"
-    },
-    {
-      key: "condicion",
-      info: "Nueva"
-    },
-    {
-      key: "construcción",
-      info: "118.70 m2"
-    },
-    {
-      key: "condicion",
-      info: "Nueva"
-    },
-    {
-      key: "construcción",
-      info: "118.70 m2"
-    },
-    {
-      key: "condicion",
-      info: "Nueva"
-    },
-    {
-      key: "construcción",
-      info: "118.70 m2"
-    },
-    {
-      key: "condicion",
-      info: "Nueva"
-    },
-    {
-      key: "construcción",
-      info: "118.70 m2"
-    },
-    {
-      key: "condicion",
-      info: "Nueva"
-    },
-  ]
 
   const [preSaleDate, setPreSaleDate] = React.useState<Dayjs | null>(dayjs(''))
   const [deliveryDate, setDeliveryDate] = React.useState<Dayjs | null>(dayjs(''))
@@ -67,13 +27,28 @@ const projects = () => {
   const [extras, setExtras] = React.useState([])
   const [showDetails, setShowDetails] = React.useState(false) 
   const [showExtras, setShowExtras] = React.useState(false)
+  // const [extraToShow, setExtraToShow] = React.useState<Extra[]>([])
+  const [extraToShow, setExtraToShow] = React.useState([])
 
-  const final:any = []
-  detailsList.forEach((element)=>{
+  useEffect(()=>{
+    const final: any = []
+    detailsList.forEach((element)=>{
+      final.push(
+        <DetailElement element={element}/>
+      )
+    })
+    setExtraToShow(final)
+  }, [])
+  
+
+  const addExtraInfo = (element: any) => {
+    const final: any = extraToShow
     final.push(
       <DetailElement element={element}/>
     )
-  })
+    setExtraToShow(final)
+    setShowDetails(false)
+  }
 
   const itemData = [
     {
@@ -114,76 +89,78 @@ const projects = () => {
     <Layout>
       <div style={{
         width: "100%",
-        height: 900,
+        height: 1900,
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
+        justifyContent: "flex-start",
         alignItems: "center",
+        overflow: "scroll",
       }}>
-        <div style={{
-          width: "90%",
-          height: 600,
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between"
-        }}>
-        <Inputs/>
-        <div style={{
-                marginTop: 70,
-          }} >
           <div style={{
-            marginBottom: 20,
+            width: "95%",
+            height: 700,
             display: "flex",
             flexDirection: "row",
-            justifyContent: "space-around"
+            justifyContent: "space-between",
+            alignItems: "center",
           }}>
-            <div>
-              <Button style={{backgroundColor: "#159988"}} variant="contained" color="success">Nueva Imagen</Button>
+            <Inputs/>
+            <div style={{
+                    marginTop: 70,
+              }} >
+                <div style={{
+                  marginBottom: 20,
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-around"
+                }}>
+                  <div>
+                    <Button style={{backgroundColor: "#159988"}} variant="contained" color="success">Nueva Imagen</Button>
+                  </div>
+                  <div>
+                  <Box
+                      component="form"
+                      noValidate
+                      sx={{
+                        display: 'grid',
+                        gridTemplateColumns: { sm: '1fr' },
+                        gap: 1,
+                      }}
+                    >
+                  <ValidationTextField
+                          label="Url de la imagen"
+                          required
+                          variant="outlined"
+                          helperText="Introduce la url de la imagen"
+                          defaultValue=""
+                          placeholder='url de la imagen'
+                          id="validation-outlined-input"
+                        />
+                        </Box>
+                  </div>
+                </div>
+              <div>
+                  <ImageList sx={{ width: 500, height: 350 }} cols={3} rowHeight={164}>
+                  {itemData.map((item) => (
+                    <ImageListItem key={item.img}>
+                      <img
+                        src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
+                        srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                        alt={item.title}
+                        loading="lazy"
+                      />
+                    </ImageListItem>
+                  ))}
+                </ImageList>
+              </div>
             </div>
-            <div>
-            <Box
-                component="form"
-                noValidate
-                sx={{
-                  display: 'grid',
-                  gridTemplateColumns: { sm: '1fr' },
-                  gap: 1,
-                }}
-              >
-            <ValidationTextField
-                    label="Url de la imagen"
-                    required
-                    variant="outlined"
-                    helperText="Introduce la url de la imagen"
-                    defaultValue=""
-                    placeholder='url de la imagen'
-                    id="validation-outlined-input"
-                  />
-                  </Box>
-            </div>
-          </div>
-          <div>
-              <ImageList sx={{ width: 500, height: 350 }} cols={3} rowHeight={164}>
-              {itemData.map((item) => (
-                <ImageListItem key={item.img}>
-                  <img
-                    src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-                    srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                    alt={item.title}
-                    loading="lazy"
-                  />
-                </ImageListItem>
-              ))}
-            </ImageList>
-          </div>
-        </div>
       </div>
        <div style={{
         width: "95%",
-        height: 300,
+        height: 600,
         display: "flex",
         flexDirection: "column",
-        marginTop: 10
+        marginTop: 10,
       }}>
      
         <div style={{
@@ -191,7 +168,7 @@ const projects = () => {
           display: "flex",
           justifyContent: "flex-start",
           alignItems: "center",
-          height: 200,
+          height: 250,
           flexDirection: "column",
           marginBottom: 30,
         }}>
@@ -220,7 +197,7 @@ const projects = () => {
               justifyContent: "space-around",
               alignItems: "center",
             }}>
-              <AddExtra/>¿
+              <AddExtra add={addExtraInfo}/>
             </div>
           }
           { !showDetails &&
@@ -228,7 +205,7 @@ const projects = () => {
               overflow: "scroll",
               width: "100%",
             }}>
-              {final}
+              {extraToShow}
             </div>
           }
         </div>
@@ -238,16 +215,15 @@ const projects = () => {
           display: "flex",
           justifyContent: "flex-start",
           alignItems: "center",
-          height: "100%",
+          height: 250,
           flexDirection: "column",
-          marginBottom: 20
+          marginBottom: 30,
         }}>
           <div style={{
             display: "flex",
             flexDirection: "row",
             width: "100%",
             justifyContent: "space-around",
-            marginBottom: 50,
           }}>
             <div>
               <text style={{
@@ -255,7 +231,7 @@ const projects = () => {
               }}>Información Extra</text>
             </div>
             <div>
-              <Button  style={{backgroundColor: "#159988"}} onClick={()=>{setShowExtras(true)}} variant="contained" color="success">Nuevo extra</Button>
+              <Button style={{backgroundColor: "#159988"}} onClick={()=>{setShowExtras(true)}} variant="contained" color="success">Nuevo extra</Button>
             </div>
           </div>
           { showExtras && 
@@ -270,12 +246,12 @@ const projects = () => {
               <AddExtra/>
             </div>
           }
-          { !showDetails &&
+          { !showExtras &&
             <div style={{
               overflow: "scroll",
               width: "100%",
             }}>
-              {final}
+              {""}
             </div>
           }
         </div>

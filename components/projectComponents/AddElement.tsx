@@ -1,17 +1,8 @@
 import * as React from 'react'
-import dayjs, { Dayjs } from 'dayjs';
-import { styled } from '@mui/material/styles'
-import Box from '@mui/material/Box'
-import TextField from '@mui/material/TextField'
-import Layout from "../Layout"
-import Stack from '@mui/material/Stack';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Button from '@mui/material/Button';
 import { ValidationTextField } from '../../public/ValidationTextField'
 
-const AddExtra = () => {
+const AddExtra = (props:any) => {
     const [info, setInfo] = React.useState('')
     const [description, setDescription] = React.useState('')
   
@@ -23,9 +14,10 @@ const AddExtra = () => {
     }
     const buildModel = () => {
       if(info != '' && description != ''){
-        console.log({
+        const extra = {
           info, description
-        })
+        }
+        props.add(extra)
       }
     }
   
@@ -72,7 +64,7 @@ const AddExtra = () => {
           display: "flex",
           justifyContent: "center"
         }}>
-          <Button onClick={buildModel} variant="contained">Añadir</Button>
+          <Button style={{backgroundColor: "#159988"}} onClick={buildModel} variant="contained" color="success">Añadir</Button>
         </div>
       </div>
     )

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Button from '@mui/material/Button';
 
-export const DetailElement = (props) => {
+export const DetailElement = (props:any) => {
   const { key, info } = props.element
     return (
         <div style={{
