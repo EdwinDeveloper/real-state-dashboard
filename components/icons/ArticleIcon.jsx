@@ -6,7 +6,7 @@ function ArticleIcon({ fill = "#FFFFFF", ...rest }) {
       width={36}
       height={36}
       fill="none"
-      class="bi bi-currency-dollar"
+      className="bi bi-currency-dollar"
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       {...rest}

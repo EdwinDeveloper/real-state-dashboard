@@ -3,22 +3,26 @@ import Button from '@mui/material/Button';
 import { ValidationTextField } from '../../public/ValidationTextField'
 
 const AddExtra = (props:any) => {
+    const [key, setKey] = React.useState('')
     const [info, setInfo] = React.useState('')
-    const [description, setDescription] = React.useState('')
   
+    const getKeyValue = (e: any) => {
+      setKey(e.target.value)
+    }
     const getInfoValue = (e: any) => {
       setInfo(e.target.value)
     }
-    const getExtraValue = (e: any) => {
-      setDescription(e.target.value)
-    }
     const buildModel = () => {
-      if(info != '' && description != ''){
+      if(key != '' && info != ''){
         const extra = {
-          info, description
+          key, info
         }
         props.add(extra)
       }
+    }
+
+    const ca = ()=> {
+      props.cancel("details")
     }
   
     return (
@@ -43,7 +47,7 @@ const AddExtra = (props:any) => {
                     defaultValue=""
                     placeholder='Información'
                     id="validation-outlined-input"
-                    onChange={getInfoValue}
+                    onChange={getKeyValue}
             />
           </div>
           <div>
@@ -56,15 +60,16 @@ const AddExtra = (props:any) => {
                     defaultValue=""
                     placeholder='Descripción'
                     id="validation-outlined-input"
-                    onChange={getExtraValue}
+                    onChange={getInfoValue}
             />
           </div>
         </div>
         <div style={{
           display: "flex",
-          justifyContent: "center"
+          justifyContent: "space-around"
         }}>
           <Button style={{backgroundColor: "#159988"}} onClick={buildModel} variant="contained" color="success">Añadir</Button>
+          <Button style={{backgroundColor: "#C2511D"}} onClick={ca} variant="contained" color="error">Cancelar</Button>
         </div>
       </div>
     )

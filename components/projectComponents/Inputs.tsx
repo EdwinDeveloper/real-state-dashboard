@@ -15,15 +15,15 @@ import FormHelperText from '@mui/material/FormHelperText';
 const Inputs = (props: any) => {
 
   const select = [
-    <MenuItem value={12}>12% Ivarica</MenuItem>,
-    <MenuItem value={20}>20% Hortus</MenuItem>,
-    <MenuItem value={35}>35% General</MenuItem>
+    <MenuItem key={1} value={12}>12% Ivarica</MenuItem>,
+    <MenuItem key={2} value={20}>20% Hortus</MenuItem>,
+    <MenuItem key={3} value={35}>35% General</MenuItem>
   ]
 
   const companies = [
-    <MenuItem value={"Gova"}>Gova</MenuItem>,
-    <MenuItem value={"BBVA"}>BBVA</MenuItem>,
-    <MenuItem value={"Bajio"}>Banco Bajio</MenuItem>
+    <MenuItem key={1} value={"Gova"}>Gova</MenuItem>,
+    <MenuItem key={2} value={"BBVA"}>BBVA</MenuItem>,
+    <MenuItem key={3} value={"Bajio"}>Banco Bajio</MenuItem>
   ]
 
   const [age, setAge] = React.useState('');

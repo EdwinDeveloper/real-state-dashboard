@@ -9,21 +9,6 @@ export default function Home() {
       id: "eee",
       description: "Bono Principal",
       amount: 0.0035
-    },
-    {
-      id: "eee",
-      description: "Bono Aldea Hortus",
-      amount: 0.0035
-    },
-    {
-      id: "eee",
-      description: "Bono Navideño",
-      amount: 0.0035
-    },
-    {
-      id: "eee",
-      description: "Bono Karima",
-      amount: 0.0035
     }
   ]
   let model: any[] = []

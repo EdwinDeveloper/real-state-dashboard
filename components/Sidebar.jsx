@@ -93,7 +93,7 @@ const Sidebar = () => {
             gap: "1rem",
           }}>
             {/* <LogoIcon /> */}
-            <Image src={Logo} width='80' height='80'/>
+            <Image alt="title" src={Logo} width='80' height='80'/>
             <span
               className={classNames("mt-2 text-lg font-medium text-text", {
                 hidden: toggleCollapse,
@@ -118,11 +118,11 @@ const Sidebar = () => {
           justifyContent: "flex-start",
           marginTop: "6rem",
         }}>
-          {menuItems.map(({ icon: Icon, ...menu }) => {
+          {menuItems.map(({ icon: Icon, ...menu }, index) => {
             const classes = getNavItemClasses(menu)
             return (
-              <div className={classes}>
-                <Link legacyBehavior href={menu.link}>
+              <div key={index} className={classes}>
+                <Link key={index} legacyBehavior href={menu.link}>
                   <a style={{
                     display: "flex",
                     flexDirection: "row",
