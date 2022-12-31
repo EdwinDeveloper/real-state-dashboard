@@ -10,45 +10,8 @@ import Inputs  from '../components/projectComponents/Inputs'
 import ImageList from '@mui/material/ImageList'
 import ImageListItem from '@mui/material/ImageListItem'
 import { Extra } from '../components/Objects/Extra'
-import { v4 } from "uuid";
+import uuid from 'react-uuid';
 import DetailsReviewCard from '../components/Objects/DetailsReviewCard'
-
-const detailsList: any = []
-const imageList: any = [
-  {
-    img: 'https://www.govacasa.mx/images/uploads/gallery/xgppw2oil988vmvju2sz2kc2a9xdsudv.jpg',
-    title: 'Breakfast',
-  }
-  //,
-  // {
-  //   img: 'https://www.govacasa.mx/images/uploads/gallery/bma4b5rfndp9c1yaoc5m54hpuxc90s1o.jpg',
-  //   title: 'Burger',
-  // },
-  // {
-  //   img: 'https://www.govacasa.mx/images/uploads/areas/oVOBdvKlsyUrcouf.jpg',
-  //   title: 'Camera',
-  // },
-  // {
-  //   img: 'https://www.govacasa.mx/images/uploads/models/hLvjRxknPHX03kSW.jpg',
-  //   title: 'Coffee',
-  // },
-  // {
-  //   img: 'https://www.govacasa.mx/images/uploads/gallery/xjgazamok3ezwucol147iaa7eyu3u6qq.jpg',
-  //   title: 'Hats',
-  // },
-  // {
-  //   img: 'https://www.govacasa.mx/images/uploads/gallery/pq4gqordr0efe0wq2waz5uy3yt3obrgu.jpg',
-  //   title: 'Honey',
-  // },
-  // {
-  //   img: 'https://www.govacasa.mx/images/uploads/gallery/opxdfkhidy5dkveiqil4h8hk1scwma2t.jpg',
-  //   title: 'Basketball',
-  // },
-  // {
-  //   img: 'https://www.govacasa.mx/images/uploads/gallery/hhzbhffu7by1h5e6zd1garoaqxnbx8yc.jpg',
-  //   title: 'Bike',
-  // },
-]
 
 const projects = () => {
 
@@ -59,47 +22,52 @@ const projects = () => {
   const [extras, setExtras] = React.useState([])
   const [showDetails, setShowDetails] = React.useState(false) 
   const [showExtras, setShowExtras] = React.useState(false)
-  // const [extraToShow, setExtraToShow] = React.useState<Extra[]>([])
+
   const [extraToShow, setExtraToShow] = React.useState([])
+  const [updExtra, setUpdExtra] = React.useState(null)
+
   const [imagesToShow, setImagesToShow] = React.useState([])
   const [newImage, setNewImage] = React.useState('')
 
   useEffect(()=>{
-    const final: any = []
-    detailsList.forEach((element: any, index)=>{
-      final.push(
-        <DetailsReviewCard del={delExtraInfo} element={element} id={index}/>
-      )
-    })
-    setExtraToShow(final)
-    const allImages: any = []
-    imageList.forEach((image: any)=>{
-      allImages.push(image)
-    })
-    setImagesToShow(allImages)
+
   }, [])
 
   const handleChange = (event: any) => {
     console.log(event.target.value)
   }
-  
-
   const addExtraInfo = (element: any) => {
-    const final: any = extraToShow
-    final.push(
-      <DetailsReviewCard del={delExtraInfo} element={element} id={final.length}/>
-    )
-    setExtraToShow(final)
+    const newElement: any = extraToShow
+    newElement.push(element)
+    setExtraToShow(newElement)
     setShowDetails(false)
   }
-  const delExtraInfo = (id: any) => {
-    let items: any = extraToShow
-    let newArray = items.filter((item, filterIndex) => {
-      console.log(filterIndex, " : ", id)
-      return filterIndex !== id
+  const delExtraInfo = (id) => {
+    let extrasUpdate = extraToShow.filter((extra) => {
+      return extra.id !== id
     })
-    console.log("id : ", id, " : " ,newArray)
-    setExtraToShow(newArray)
+    setExtraToShow(extrasUpdate)
+  }
+  const updateExtraInfoFinal = (extra) => {
+    const newElement: any = extraToShow
+    newElement.forEach((e, i) => { if(e.id === extra.id) newElement[i] = extra  })
+    console.log("datas : ",extra)
+    setExtraToShow(newElement)
+    setUpdExtra(null)
+    setShowDetails(false)
+  }
+  const updateExtraInfo = (id) => {
+    let extraUpdate = extraToShow.filter((extra)=> {
+      return extra.id === id
+    })
+    setUpdExtra(extraUpdate[0])
+    setShowDetails(true)
+  }
+  const onCheckImage = (event, index) => {
+    let newArray = imagesToShow.filter((image, filterIndex) => {
+      return filterIndex !== index
+    })
+    setImagesToShow(newArray)
   }
   
   const cancel = (flow: string) => {
@@ -113,17 +81,6 @@ const projects = () => {
       default:
         break
     }
-  }
-
-  const onCheckImage = (event, index) => {
-    let images: any = imagesToShow
-    let newArray = images.filter((image, filterIndex) => {
-      return filterIndex !== index
-    })
-    setImagesToShow(newArray)
-  }
-  const onCheckDetail = (event, index) => {
-    
   }
 
   return (
@@ -251,7 +208,7 @@ const projects = () => {
               justifyContent: "space-around",
               alignItems: "center",
             }}>
-              <AddExtra add={addExtraInfo} cancel={cancel}/>
+              <AddExtra upd={updExtra} update={updateExtraInfoFinal} add={addExtraInfo} cancel={cancel}/>
             </div>
           }
           { !showDetails &&
@@ -259,7 +216,10 @@ const projects = () => {
               overflow: "scroll",
               width: "100%",
             }}>
-              {extraToShow}
+              { extraToShow.map((element)=>(
+                  <DetailsReviewCard upd={updateExtraInfo} del={delExtraInfo} element={element}/>
+                ))
+              }
             </div>
           }
         </div>

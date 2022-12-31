@@ -1,27 +1,43 @@
-import * as React from 'react'
+import React, { useState, useEffect } from 'react'
 import Button from '@mui/material/Button';
 import { ValidationTextField } from '../../public/ValidationTextField'
+import uuid from 'react-uuid';
 
 const AddExtra = (props:any) => {
-    const [key, setKey] = React.useState('')
-    const [info, setInfo] = React.useState('')
+    const [keyIn, setKeyIn] = React.useState('')
+    const [infoIn, setInfoIn] = React.useState('')
+    const { upd } = props
+
+    useEffect(()=>{
+      const { upd } = props
+      if(upd!==null){
+        const { key, info, id } = upd
+        setKeyIn(key)
+        setInfoIn(info)
+      }
+    }, [])
   
     const getKeyValue = (e: any) => {
-      setKey(e.target.value)
+      setKeyIn(e.target.value)
     }
     const getInfoValue = (e: any) => {
-      setInfo(e.target.value)
+      setInfoIn(e.target.value)
     }
     const buildModel = () => {
-      if(key != '' && info != ''){
+      if(keyIn != '' && infoIn != ''){
         const extra = {
-          key, info
+          key: keyIn, info: infoIn, id: uuid()
         }
-        props.add(extra)
+        if(upd===null){
+          props.add(extra)
+        }else{
+          props.update({ key: keyIn, info: infoIn, id: upd.id })
+        }
+        
       }
     }
 
-    const ca = ()=> {
+    const cancel = ()=> {
       props.cancel("details")
     }
   
@@ -47,6 +63,7 @@ const AddExtra = (props:any) => {
                     defaultValue=""
                     placeholder='Información'
                     id="validation-outlined-input"
+                    value={keyIn}
                     onChange={getKeyValue}
             />
           </div>
@@ -60,6 +77,7 @@ const AddExtra = (props:any) => {
                     defaultValue=""
                     placeholder='Descripción'
                     id="validation-outlined-input"
+                    value={infoIn}
                     onChange={getInfoValue}
             />
           </div>
@@ -69,7 +87,7 @@ const AddExtra = (props:any) => {
           justifyContent: "space-around"
         }}>
           <Button style={{backgroundColor: "#159988"}} onClick={buildModel} variant="contained" color="success">Añadir</Button>
-          <Button style={{backgroundColor: "#C2511D"}} onClick={ca} variant="contained" color="error">Cancelar</Button>
+          <Button style={{backgroundColor: "#C2511D"}} onClick={cancel} variant="contained" color="error">Cancelar</Button>
         </div>
       </div>
     )
