@@ -4,7 +4,8 @@ import Box from '@mui/material/Box'
 import Layout from "../components/Layout"
 import Button from '@mui/material/Button'
 import { ValidationTextField } from '../public/ValidationTextField'
-import AddExtra  from '../components/projectComponents/AddElement'
+import AddDetail from '../components/projectComponents/AddDetail'
+import AddExtra from '../components/projectComponents/AddExtra'
 import { DetailElement } from '../components/projectComponents/DetailElement'
 import Inputs  from '../components/projectComponents/Inputs'
 import ImageList from '@mui/material/ImageList'
@@ -18,11 +19,11 @@ const projects = () => {
   const [preSaleDate, setPreSaleDate] = React.useState<Dayjs | null>(dayjs(''))
   const [deliveryDate, setDeliveryDate] = React.useState<Dayjs | null>(dayjs(''))
 
-  const [details, setDetails] = React.useState([])
-  const [extras, setExtras] = React.useState([])
-  const [showDetails, setShowDetails] = React.useState(false) 
-  const [showExtras, setShowExtras] = React.useState(false)
+  const [showDetails, setShowDetails] = React.useState(false)
+  const [detailsToShow, setDetailsToShow] = React.useState([])
+  const [updDetail, setUpdDetail] = React.useState(null)
 
+  const [showExtras, setShowExtras] = React.useState(false)
   const [extraToShow, setExtraToShow] = React.useState([])
   const [updExtra, setUpdExtra] = React.useState(null)
 
@@ -33,14 +34,38 @@ const projects = () => {
 
   }, [])
 
-  const handleChange = (event: any) => {
-    console.log(event.target.value)
+  const addDetailInfo = (element: any) => {
+    const newElement: any = detailsToShow
+    newElement.push(element)
+    setDetailsToShow(newElement)
+    setShowDetails(false)
   }
+  const delDetailInfo = (id) => {
+    let detailsUpdate = detailsToShow.filter((detail) => {
+      return detail.id !== id
+    })
+    setDetailsToShow(detailsUpdate)
+  }
+  const updateDetailInfoFinal = (detail) => {
+    const newElement: any = detailsToShow
+    newElement.forEach((e, i) => { if(e.id === detail.id) newElement[i] = detail  })
+    setDetailsToShow(newElement)
+    setUpdDetail(null)
+    setShowDetails(false)
+  }
+  const updateDetailInfo = (id) => {
+    let detailUpdate = detailsToShow.filter((detail)=> {
+      return detail.id === id
+    })
+    setUpdDetail(detailUpdate[0])
+    setShowDetails(true)
+  }
+
   const addExtraInfo = (element: any) => {
     const newElement: any = extraToShow
     newElement.push(element)
     setExtraToShow(newElement)
-    setShowDetails(false)
+    setShowExtras(false)
   }
   const delExtraInfo = (id) => {
     let extrasUpdate = extraToShow.filter((extra) => {
@@ -51,18 +76,18 @@ const projects = () => {
   const updateExtraInfoFinal = (extra) => {
     const newElement: any = extraToShow
     newElement.forEach((e, i) => { if(e.id === extra.id) newElement[i] = extra  })
-    console.log("datas : ",extra)
     setExtraToShow(newElement)
     setUpdExtra(null)
-    setShowDetails(false)
+    setShowExtras(false)
   }
   const updateExtraInfo = (id) => {
     let extraUpdate = extraToShow.filter((extra)=> {
       return extra.id === id
     })
     setUpdExtra(extraUpdate[0])
-    setShowDetails(true)
+    setShowExtras(true)
   }
+
   const onCheckImage = (event, index) => {
     let newArray = imagesToShow.filter((image, filterIndex) => {
       return filterIndex !== index
@@ -75,7 +100,7 @@ const projects = () => {
       case "details":
         setShowDetails(false)
         break
-      case "extra":
+      case "extras":
         setShowExtras(false)
         break
       default:
@@ -208,7 +233,7 @@ const projects = () => {
               justifyContent: "space-around",
               alignItems: "center",
             }}>
-              <AddExtra upd={updExtra} update={updateExtraInfoFinal} add={addExtraInfo} cancel={cancel}/>
+              <AddDetail upd={updDetail} update={updateDetailInfoFinal} add={addDetailInfo} cancel={cancel}/>
             </div>
           }
           { !showDetails &&
@@ -216,8 +241,8 @@ const projects = () => {
               overflow: "scroll",
               width: "100%",
             }}>
-              { extraToShow.map((element)=>(
-                  <DetailsReviewCard upd={updateExtraInfo} del={delExtraInfo} element={element}/>
+              { detailsToShow.map((det)=>(
+                  <DetailsReviewCard upd={updateDetailInfo} del={delDetailInfo} element={det}/>
                 ))
               }
             </div>
@@ -257,7 +282,7 @@ const projects = () => {
               justifyContent: "space-around",
               alignItems: "center",
             }}>
-              <AddExtra/>
+              <AddExtra upd={updExtra} update={updateExtraInfoFinal} add={addExtraInfo} cancel={cancel}/>
             </div>
           }
           { !showExtras &&
@@ -265,7 +290,10 @@ const projects = () => {
               overflow: "scroll",
               width: "100%",
             }}>
-              {""}
+              { extraToShow.map((ex)=>(
+                  <DetailsReviewCard upd={updateExtraInfo} del={delExtraInfo} element={ex}/>
+                ))
+              }
             </div>
           }
         </div>

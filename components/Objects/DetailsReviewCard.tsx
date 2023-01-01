@@ -43,7 +43,7 @@ export default function DetailsReviewCard(props: any) {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            D
+            {key.substring(0,1)}
           </Avatar>
         }
         action={

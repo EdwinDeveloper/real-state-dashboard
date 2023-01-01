@@ -38,7 +38,7 @@ const AddExtra = (props:any) => {
     }
 
     const cancel = ()=> {
-      props.cancel("details")
+      props.cancel("extras")
     }
   
     return (
