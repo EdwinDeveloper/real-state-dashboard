@@ -30,6 +30,24 @@ const projects = () => {
   const [imagesToShow, setImagesToShow] = React.useState([])
   const [newImage, setNewImage] = React.useState('')
 
+  const commissions = [
+    {
+      "id": "df9c1ca7-b812-4a07-acd8-b402e7de4361",
+      "description": "Main commission",
+      "percentage": 0.40
+    },
+    {
+      "id": "df9c1ca7-b812-4a07-acd8-b402e7de4362",
+      "description": "Ivarika",
+      "percentage": 0.45
+    },
+    {
+      "id": "df9c1ca7-b812-4a07-acd8-b402e7de4363",
+      "description": "Aldea Hortus",
+      "percentage": 0.50
+    }
+  ]
+
   useEffect(()=>{
 
   }, [])
@@ -127,7 +145,7 @@ const projects = () => {
             justifyContent: "space-between",
             alignItems: "center",
           }}>
-            <Inputs/>
+            <Inputs commissions={commissions}/>
             <div style={{
                     marginTop: 70,
               }} >
