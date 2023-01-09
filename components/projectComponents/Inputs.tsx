@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, forwardRef, useImperativeHandle } from 'react'
 import dayjs, { Dayjs } from 'dayjs'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
@@ -14,9 +14,56 @@ import FormHelperText from '@mui/material/FormHelperText'
 import Textarea from '@mui/joy/Textarea'
 import Button from '@mui/material/Button'
 
-const Inputs = (props: any) => {
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
-  const { commissions } = props
+const Modal = (props: any) => {
+
+  const { message, title } = props
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  return (
+    <div>
+    <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+    >
+        <Box sx={style}>
+        <Typography id="modal-modal-title" variant="h6" component="h2">
+            {title}
+        </Typography>
+        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            {message}
+        </Typography>
+        </Box>
+    </Modal>
+    </div>
+  )
+}
+
+const Inputs = forwardRef( (props: {}, ref: ForwardedRef<unknown>) => {
+
+  useImperativeHandle(ref, ()=>{
+    return {
+      inputForm: inputForm
+    }
+  })
+
+  const { checkForm, companies, commissions, take_info } = props
 
   const [name, setName] = useState('')
   const [model, setModel] = useState('')
@@ -26,47 +73,42 @@ const Inputs = (props: any) => {
   const [preSaleDate, setPreSaleDate] = React.useState<Dayjs | null>(dayjs(''))
   const [premisesDeliveryDate, setPremisesDeliveryDate] = React.useState<Dayjs | null>(dayjs(''))
   const [description, setDescription] = useState('')
+  const [idComission, setIdCommission] = useState('')
+  const [idCompany, setIdCompany] = useState('')
 
-  const checkModel = () => {
+  const inputForm = () => {
     let project = {
       name,
       model,
       description,
       pre_sale_price: preSalePrice,
-      pre_sale_date: preSaleDate.toISOString(),
-      premises_delivery_date: premisesDeliveryDate.toISOString(),
+      //pre_sale_date: preSaleDate.toISOString(),
+      //premises_delivery_date: premisesDeliveryDate.toISOString(),
+      pre_sale_date: preSaleDate,
+      premises_delivery_date: premisesDeliveryDate,
       rent_price_approximate: rentPriceApproximate,
       resale_price_approximate: resalePriceApproximate,
-      commission: "df9c1ca7-b812-4a07-acd8-b402e7de4361",
-      company_related: "0c57e1d3-0976-4064-a6f7-5459ae0fd0b9"
+      commission: idComission,
+      company_related: idCompany
     }
-    console.log(project)
+    return project
   }
 
-  const select = commissions.map((com, index)=>{
+  const commissionSelect = commissions.map((com, index)=>{
     let percentage = parseFloat(com.percentage)
-    return <MenuItem key={index} value={percentage}>{percentage}% {com.description}</MenuItem>
+    return <MenuItem key={index} value={com.id}>{percentage}% {com.description}</MenuItem>
   })
 
-  //console.log("inputs : ",selectCommissions)
+  const companiesSelect = companies.map((compa, index)=>{
+    return <MenuItem key={index} value={compa.id}>{compa.description}</MenuItem>
+  })
 
-  // const select = [
-  //   <MenuItem key={1} value={12}>12% Ivarica</MenuItem>,
-  //   <MenuItem key={2} value={20}>20% Hortus</MenuItem>,
-  //   <MenuItem key={3} value={35}>35% General</MenuItem>
-  // ]
-
-  const companies = [
-    <MenuItem key={1} value={"Gova"}>Gova</MenuItem>,
-    <MenuItem key={2} value={"BBVA"}>BBVA</MenuItem>,
-    <MenuItem key={3} value={"Bajio"}>Banco Bajio</MenuItem>
-  ]
-
-  const [age, setAge] = React.useState('');
-
-    const handleChange = (event: SelectChangeEvent) => {
-      setAge(event.target.value);
-    };
+    const selectCommission = (event: SelectChangeEvent) => {
+      setIdCommission(event.target.value)
+    }
+    const selectCompany = (event: SelectChangeEvent) => {
+      setIdCompany(event.target.value)
+    }
 
     return (
         <div style={{
@@ -161,7 +203,7 @@ const Inputs = (props: any) => {
                       views={['year', 'month', 'day']}
                       value={premisesDeliveryDate}
                       onChange={(premisesDeliveryDate) => {
-                        setPremisesDeliveryDate(premisesDeliveryDate);
+                        setPremisesDeliveryDate(premisesDeliveryDate)
                       }}
                       renderInput={(params) =>(
                           <ValidationTextField
@@ -177,11 +219,11 @@ const Inputs = (props: any) => {
                   <Select
                     labelId="demo-simple-select-helper-label"
                     id="demo-simple-select-helper"
-                    value={age}
+                    value={idComission}
                     label="Comissión"
-                    onChange={handleChange}
+                    onChange={selectCommission}
                   >
-                    {select}
+                    {commissionSelect}
                   </Select>
                   <FormHelperText>Commissión por asignar</FormHelperText>
                 </FormControl>
@@ -190,11 +232,11 @@ const Inputs = (props: any) => {
                   <Select
                     labelId="demo-simple-select-helper-label"
                     id="demo-simple-select-helper"
-                    value={age}
+                    value={idCompany}
                     label="Empresa"
-                    onChange={handleChange}
+                    onChange={selectCompany}
                   >
-                    {companies}
+                    {companiesSelect}
                   </Select>
                   <FormHelperText>Commissión por asignar</FormHelperText>
                 </FormControl>
@@ -207,11 +249,10 @@ const Inputs = (props: any) => {
                   variant="outlined"
                   onChange={(description)=>{setDescription(description.target.value)}}
                 />
-                <Button style={{backgroundColor: "#159988"}} onClick={checkModel} variant="contained" color="success">Check Model</Button>
             </Box>
             
           </div>
     )
-}
+})
 
 export default Inputs

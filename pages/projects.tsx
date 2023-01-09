@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import dayjs, { Dayjs } from 'dayjs'
 import Box from '@mui/material/Box'
 import Layout from "../components/Layout"
@@ -46,11 +46,32 @@ const projects = () => {
       "description": "Aldea Hortus",
       "percentage": 0.50
     }
+  ] 
+
+  const companies = [
+    {
+      "id": "df9c1ca7-b812-4a07-acd8-b402e7de4365",
+      "description": "Gova"
+    },
+    {
+      "id": "df9c1ca7-b812-4a07-acd8-b402e7de4366",
+      "description": "Aldea Hortus"
+    },
+    {
+      "id": "df9c1ca7-b812-4a07-acd8-b402e7de4367",
+      "description": "BBVA"
+    },
+    {
+      "id": "df9c1ca7-b812-4a07-acd8-b402e7de4368",
+      "description": "Monterrey"
+    }
   ]
 
   useEffect(()=>{
 
   }, [])
+
+  const inputRef = useRef()
 
   const addDetailInfo = (element: any) => {
     const newElement: any = detailsToShow
@@ -126,6 +147,11 @@ const projects = () => {
     }
   }
 
+  const checkForm = () => {
+    const form = inputRef.current.inputForm()
+    console.log("desde afuera : ", form)
+  }
+
   return (
     <Layout>
       <div style={{
@@ -137,6 +163,17 @@ const projects = () => {
         alignItems: "center",
         overflow: "scroll",
       }}>
+         <div style={{
+          width: "45%",
+          height: 100,
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+         }}>
+            <Button style={{backgroundColor: "#159988"}} variant="contained" color="success" onClick={checkForm}>Lista</Button>
+            <Button style={{backgroundColor: "#159988"}} variant="contained" color="success">Nuevo</Button>
+         </div>
           <div style={{
             width: "95%",
             height: 700,
@@ -145,7 +182,7 @@ const projects = () => {
             justifyContent: "space-between",
             alignItems: "center",
           }}>
-            <Inputs commissions={commissions}/>
+            <Inputs ref={inputRef} checkForm={checkForm} companies={companies} commissions={commissions}/>
             <div style={{
                     marginTop: 70,
               }} >
