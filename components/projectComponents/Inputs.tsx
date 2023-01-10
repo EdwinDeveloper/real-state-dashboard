@@ -1,4 +1,4 @@
-import React, { useState, forwardRef, useImperativeHandle } from 'react'
+import React, { useState, forwardRef, useImperativeHandle, useRef } from 'react'
 import dayjs, { Dayjs } from 'dayjs'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
@@ -13,47 +13,7 @@ import MenuItem from '@mui/material/MenuItem'
 import FormHelperText from '@mui/material/FormHelperText'
 import Textarea from '@mui/joy/Textarea'
 import Button from '@mui/material/Button'
-
-const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
-
-const Modal = (props: any) => {
-
-  const { message, title } = props
-
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  return (
-    <div>
-    <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-    >
-        <Box sx={style}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-            {title}
-        </Typography>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {message}
-        </Typography>
-        </Box>
-    </Modal>
-    </div>
-  )
-}
+import ModalPer from './ModalPer'
 
 const Inputs = forwardRef( (props: {}, ref: ForwardedRef<unknown>) => {
 
@@ -62,6 +22,8 @@ const Inputs = forwardRef( (props: {}, ref: ForwardedRef<unknown>) => {
       inputForm: inputForm
     }
   })
+
+  const ModalRef = useRef()
 
   const { checkForm, companies, commissions, take_info } = props
 
@@ -75,6 +37,10 @@ const Inputs = forwardRef( (props: {}, ref: ForwardedRef<unknown>) => {
   const [description, setDescription] = useState('')
   const [idComission, setIdCommission] = useState('')
   const [idCompany, setIdCompany] = useState('')
+
+  const activate_modal = () => {
+    ModalRef.current.openModal()
+  }
 
   const inputForm = () => {
     let project = {
@@ -91,15 +57,44 @@ const Inputs = forwardRef( (props: {}, ref: ForwardedRef<unknown>) => {
       commission: idComission,
       company_related: idCompany
     }
+    if(name===''){
+      activate_modal()
+    }else if(model===''){
+      activate_modal()
+    }
+    else if(description===''){
+      activate_modal()
+    }
+    else if(preSalePrice===0){
+      activate_modal()
+    }
+    else if(typeof preSaleDate==='string'){
+      activate_modal()
+    }
+    else if(typeof premisesDeliveryDate==='string'){
+      activate_modal()
+    }
+    else if(rentPriceApproximate===0){
+      activate_modal()
+    }
+    else if(resalePriceApproximate===0){
+      activate_modal()
+    }
+    else if(idComission===''){
+      activate_modal()
+    }
+    else if(idCompany===''){
+      activate_modal()
+    }
     return project
   }
 
-  const commissionSelect = commissions.map((com, index)=>{
+  const commissionSelect = commissions.map((com: any, index: any)=>{
     let percentage = parseFloat(com.percentage)
     return <MenuItem key={index} value={com.id}>{percentage}% {com.description}</MenuItem>
   })
 
-  const companiesSelect = companies.map((compa, index)=>{
+  const companiesSelect = companies.map((compa: any, index: any)=>{
     return <MenuItem key={index} value={compa.id}>{compa.description}</MenuItem>
   })
 
@@ -116,6 +111,7 @@ const Inputs = forwardRef( (props: {}, ref: ForwardedRef<unknown>) => {
             height: 600,
             marginTop: 70,
           }}>
+            <ModalPer ref={ModalRef} title={"campos faltantes"} message={"Lo sentimos, debes rellenar los campos"}/>
             <Box
               component="form"
               noValidate

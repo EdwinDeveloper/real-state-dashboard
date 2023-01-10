@@ -1,33 +1,26 @@
-import React, {useState, useEffect, useRef} from 'react'
-import dayjs, { Dayjs } from 'dayjs'
+import React, { useEffect, useRef} from 'react'
 import Box from '@mui/material/Box'
 import Layout from "../components/Layout"
 import Button from '@mui/material/Button'
 import { ValidationTextField } from '../public/ValidationTextField'
 import AddDetail from '../components/projectComponents/AddDetail'
 import AddExtra from '../components/projectComponents/AddExtra'
-import { DetailElement } from '../components/projectComponents/DetailElement'
 import Inputs  from '../components/projectComponents/Inputs'
 import ImageList from '@mui/material/ImageList'
 import ImageListItem from '@mui/material/ImageListItem'
-import { Extra } from '../components/Objects/Extra'
-import uuid from 'react-uuid';
 import DetailsReviewCard from '../components/Objects/DetailsReviewCard'
 
 const projects = () => {
 
-  const [preSaleDate, setPreSaleDate] = React.useState<Dayjs | null>(dayjs(''))
-  const [deliveryDate, setDeliveryDate] = React.useState<Dayjs | null>(dayjs(''))
-
   const [showDetails, setShowDetails] = React.useState(false)
-  const [detailsToShow, setDetailsToShow] = React.useState([])
+  const [detailsToShow, setDetailsToShow] = React.useState<any[]>([])
   const [updDetail, setUpdDetail] = React.useState(null)
 
   const [showExtras, setShowExtras] = React.useState(false)
-  const [extraToShow, setExtraToShow] = React.useState([])
+  const [extraToShow, setExtraToShow] = React.useState<any[]>([])
   const [updExtra, setUpdExtra] = React.useState(null)
 
-  const [imagesToShow, setImagesToShow] = React.useState([])
+  const [imagesToShow, setImagesToShow] = React.useState<any[]>([])
   const [newImage, setNewImage] = React.useState('')
 
   const commissions = [
@@ -79,20 +72,20 @@ const projects = () => {
     setDetailsToShow(newElement)
     setShowDetails(false)
   }
-  const delDetailInfo = (id) => {
+  const delDetailInfo = (id: String) => {
     let detailsUpdate = detailsToShow.filter((detail) => {
       return detail.id !== id
     })
     setDetailsToShow(detailsUpdate)
   }
-  const updateDetailInfoFinal = (detail) => {
+  const updateDetailInfoFinal = (detail: any) => {
     const newElement: any = detailsToShow
-    newElement.forEach((e, i) => { if(e.id === detail.id) newElement[i] = detail  })
+    newElement.forEach((e: any, i: any) => { if(e.id === detail.id) newElement[i] = detail  })
     setDetailsToShow(newElement)
     setUpdDetail(null)
     setShowDetails(false)
   }
-  const updateDetailInfo = (id) => {
+  const updateDetailInfo = (id: String) => {
     let detailUpdate = detailsToShow.filter((detail)=> {
       return detail.id === id
     })
@@ -106,20 +99,20 @@ const projects = () => {
     setExtraToShow(newElement)
     setShowExtras(false)
   }
-  const delExtraInfo = (id) => {
+  const delExtraInfo = (id: String) => {
     let extrasUpdate = extraToShow.filter((extra) => {
       return extra.id !== id
     })
     setExtraToShow(extrasUpdate)
   }
-  const updateExtraInfoFinal = (extra) => {
+  const updateExtraInfoFinal = (extra: any) => {
     const newElement: any = extraToShow
-    newElement.forEach((e, i) => { if(e.id === extra.id) newElement[i] = extra  })
+    newElement.forEach((e: any, i: any) => { if(e.id === extra.id) newElement[i] = extra  })
     setExtraToShow(newElement)
     setUpdExtra(null)
     setShowExtras(false)
   }
-  const updateExtraInfo = (id) => {
+  const updateExtraInfo = (id: String) => {
     let extraUpdate = extraToShow.filter((extra)=> {
       return extra.id === id
     })
@@ -127,7 +120,7 @@ const projects = () => {
     setShowExtras(true)
   }
 
-  const onCheckImage = (event, index) => {
+  const onCheckImage = (event: any, index: any) => {
     let newArray = imagesToShow.filter((image, filterIndex) => {
       return filterIndex !== index
     })
@@ -148,8 +141,13 @@ const projects = () => {
   }
 
   const checkForm = () => {
-    const form = inputRef.current.inputForm()
-    console.log("desde afuera : ", form)
+    if(inputRef.current != null){
+      const form = inputRef.current.inputForm()
+      form['images'] = imagesToShow
+      form['details'] = detailsToShow
+      form['extras'] = extraToShow
+      console.log("desde afuera : ", form)
+    }
   }
 
   return (
@@ -198,7 +196,7 @@ const projects = () => {
                       variant="contained" 
                       color="success"
                       onClick={() => {
-                        if(newImage!=="") setImagesToShow((images)=> [...images, { title: "extra", img: newImage }])
+                        if(newImage!=="") setImagesToShow((images)=> [...images, { title: "extra", url: newImage }])
                       }}
                     >Nueva Imagen</Button>
                   </div>
@@ -232,8 +230,8 @@ const projects = () => {
                       
                         <ImageListItem key={index}>
                           <img
-                            src={`${item.img}?w=164&h=164&fit=crop&auto=format`}
-                            srcSet={`${item.img}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                            src={`${item.url}?w=164&h=164&fit=crop&auto=format`}
+                            srcSet={`${item.url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                             alt={item.title}
                             loading="lazy"
                             onClick={(event)=>onCheckImage(event, index)}
