@@ -12,10 +12,8 @@ import Select, { SelectChangeEvent } from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import FormHelperText from '@mui/material/FormHelperText'
 import Textarea from '@mui/joy/Textarea'
-import Button from '@mui/material/Button'
-import ModalPer from './ModalPer'
 
-const Inputs = forwardRef( (props: {}, ref: ForwardedRef<unknown>) => {
+const Inputs = forwardRef( (props: any, ref: any) => {
 
   useImperativeHandle(ref, ()=>{
     return {
@@ -29,18 +27,14 @@ const Inputs = forwardRef( (props: {}, ref: ForwardedRef<unknown>) => {
 
   const [name, setName] = useState('')
   const [model, setModel] = useState('')
-  const [preSalePrice, setPreSalePrice] = useState(0.0)
-  const [rentPriceApproximate, setRentPriceApproximate] = useState(0.0)
-  const [resalePriceApproximate, setResalePriceApproximate] = useState(0.0)
+  const [preSalePrice, setPreSalePrice] = useState("")
+  const [rentPriceApproximate, setRentPriceApproximate] = useState("")
+  const [resalePriceApproximate, setResalePriceApproximate] = useState("")
   const [preSaleDate, setPreSaleDate] = React.useState<Dayjs | null>(dayjs(''))
   const [premisesDeliveryDate, setPremisesDeliveryDate] = React.useState<Dayjs | null>(dayjs(''))
   const [description, setDescription] = useState('')
   const [idComission, setIdCommission] = useState('')
   const [idCompany, setIdCompany] = useState('')
-
-  const activate_modal = () => {
-    ModalRef.current.openModal()
-  }
 
   const inputForm = () => {
     let project = {
@@ -56,35 +50,6 @@ const Inputs = forwardRef( (props: {}, ref: ForwardedRef<unknown>) => {
       resale_price_approximate: resalePriceApproximate,
       commission: idComission,
       company_related: idCompany
-    }
-    if(name===''){
-      activate_modal()
-    }else if(model===''){
-      activate_modal()
-    }
-    else if(description===''){
-      activate_modal()
-    }
-    else if(preSalePrice===0){
-      activate_modal()
-    }
-    else if(typeof preSaleDate==='string'){
-      activate_modal()
-    }
-    else if(typeof premisesDeliveryDate==='string'){
-      activate_modal()
-    }
-    else if(rentPriceApproximate===0){
-      activate_modal()
-    }
-    else if(resalePriceApproximate===0){
-      activate_modal()
-    }
-    else if(idComission===''){
-      activate_modal()
-    }
-    else if(idCompany===''){
-      activate_modal()
     }
     return project
   }
@@ -111,7 +76,6 @@ const Inputs = forwardRef( (props: {}, ref: ForwardedRef<unknown>) => {
             height: 600,
             marginTop: 70,
           }}>
-            <ModalPer ref={ModalRef} title={"campos faltantes"} message={"Lo sentimos, debes rellenar los campos"}/>
             <Box
               component="form"
               noValidate

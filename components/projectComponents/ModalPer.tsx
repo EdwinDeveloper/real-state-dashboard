@@ -16,7 +16,7 @@ const style = {
   p: 4,
 }
 
-const ModalPer = forwardRef((props: {}, ref: ForwardedRef<unknown>) => {
+const ModalPer = forwardRef((props: any, ref: any) => {
 
     useImperativeHandle(ref, ()=>{
         return {
