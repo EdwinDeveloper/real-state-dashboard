@@ -1,6 +1,5 @@
 import * as React from 'react'
 import Image from 'next/image'
-import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import CssBaseline from '@mui/material/CssBaseline'
 import TextField from '@mui/material/TextField'
@@ -9,19 +8,17 @@ import Checkbox from '@mui/material/Checkbox'
 import Link from '@mui/material/Link'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import logo from '../assets/loadingLogo.png'
+import { logIn } from '../redux/fetch/services'
+import { apiCall } from '../redux/fetch/management'
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © SD ASOCIADOS'}
-      {/* <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '} */}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -31,6 +28,17 @@ function Copyright(props) {
 const theme = createTheme()
 
 export default function SignIn() {
+  const [email, setEmail] = React.useState('')
+  const [password, setPassword] = React.useState('')
+
+  const buildRequestLogin = async() => {
+    let loginRequest = {
+      email, password
+    }
+    let response = await apiCall(logIn, loginRequest)
+    console.log(response)
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
@@ -66,6 +74,7 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={(event)=>{setEmail(event.target.value)}}
             />
             <TextField
               margin="normal"
@@ -76,6 +85,7 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={(event)=>{setPassword(event.target.value)}}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -90,6 +100,7 @@ export default function SignIn() {
               color="secondary"
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={()=>{buildRequestLogin()}}
             >
               Iniciar Sesión
             </Button>
