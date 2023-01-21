@@ -1,6 +1,6 @@
 import call from './call'
 
-const url_base = "http://localhost:8000"
+const url_base = "http://127.0.0.1:8000"
 
 export function setup(request, token){
     return call({

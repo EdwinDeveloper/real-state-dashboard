@@ -3,14 +3,16 @@ import { HYDRATE } from "next-redux-wrapper"
 
 // Type for our state
 export interface AppState {
-  authState: boolean
-  state: number
+  authState: boolean,
+  state: number,
+  authToken: string,
 }
 
 // Initial state
 const initialState: AppState = {
   authState: false,
-  state: 1
+  state: 1,
+  authToken: "",
 }
 
 // Actual Slice
@@ -26,6 +28,9 @@ export const authSlice = createSlice({
     setState(state, action) {
       state.state = action.payload
     },
+    setAuthToken(state, action) {
+      state.authState = action.payload
+    }
 
     // Special reducer for hydrating the state. Special case for next-redux-wrapper
     // extraReducers: {
@@ -40,7 +45,7 @@ export const authSlice = createSlice({
   },
 })
 
-export const { setAuthState, setState } = authSlice.actions
+export const { setAuthState, setState, setAuthToken } = authSlice.actions
 
 export const selectAppState = (state: AppState) => state.AppState
 

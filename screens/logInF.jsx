@@ -1,4 +1,4 @@
-import React, { useState} from 'react'
+import React, { useEffect, useRef} from 'react'
 import Image from 'next/image'
 import Button from '@mui/material/Button'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -12,11 +12,12 @@ import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import logo from '../assets/loadingLogo.png'
-import { logIn } from '../redux/fetch/services'
+import { logIn, meInfo } from '../redux/fetch/services'
 import { apiCall } from '../redux/fetch/management'
-import { setState } from "../redux/index"
+import { setAuthState, setAuthToken, setState } from "../redux/index"
 import { useDispatch } from "react-redux"
-// import ModalPer from '../components/projectComponents/ModalPer'
+import ModalPer from '../components/projectComponents/ModalPer'
+import axios from 'axios'
 
 function Copyright(props) {
   return (
@@ -28,37 +29,72 @@ function Copyright(props) {
   )
 }
 
-//const ModalRef = useRef()
-
 const theme = createTheme()
 
 export default function SignIn() {
+
+  const [message, setMessage] = React.useState('')
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
 
   const dispatch = useDispatch()
 
+  const ModalRef = useRef()
+
   const buildRequestLogin = async() => {
     let loginRequest = {
       email, password
     }
-    //let response = await apiCall(logIn, loginRequest)
+    
     //console.log(response)
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    })
-    dispatch(setState(2))
+    const { openModal } = ModalRef.current
+    if(data.get('email')===""){
+      setMessage('Debes colocar un correo electronico para iniciar sesión')
+      openModal()
+    }else if(data.get('password')===""){
+      setMessage('Debes colocar tu contraseña de acceso')
+      openModal()
+    }else{
+      let loginRequest = { email: data.get('email'), password: data.get('password') }
+      let responseLogIn = await apiCall(logIn, loginRequest)
+      const { status, messages, token } = responseLogIn
+      if(status===200){
+        console.log("token : ", token)
+        let config = {
+            headers: {
+                "Content-Type": "application/json",
+                withCredentials : true,
+                crossdomain : true,
+              }
+          }
+          let url = "http://127.0.0.1:8000/api/user/me/"
+          axios.defaults.headers.common['Authorization'] = `Token ${token}`
+        let respos = await axios.get( url, null, JSON.stringify(config) ).then(response=>response).catch(error=>console.log(error))
+        console.log("respon : ", respos)
+        //let responseGetData = await apiCall(meInfo, null, token)
+        //console.log("Response : ", responseGetData)
+          // setTimeout(() => {
+          //   dispatch(setAuthToken(responseLogIn.token))
+          //   dispatch(setState(2))
+          // }, 2000)
+          // setMessage('Bienvenido')
+          // openModal()
+      }else {
+        setMessage(messages[0].value)
+        openModal()
+      }
+      
+    }
   }
 
   return (
     <ThemeProvider theme={theme}>
-      {/* <ModalPer ref={ModalRef} title={"Formulario"} message={"Campos incompletos"}/> */}
+      <ModalPer ref={ModalRef} title={"Formulario"} message={message}/>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

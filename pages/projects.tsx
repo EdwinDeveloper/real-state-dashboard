@@ -54,13 +54,6 @@ const projects = () => {
             backgroundColor: '#FFFFFF',
           }}>
             <CardProject/>
-            <CardProject/>
-            <CardProject/>
-            <CardProject/>
-            <CardProject/>
-            <CardProject/>
-            <CardProject/>
-            <CardProject/>
           </Box>
         </Box>
       }
