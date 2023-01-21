@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useState} from 'react'
 import Image from 'next/image'
 import Button from '@mui/material/Button'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -14,6 +14,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import logo from '../assets/loadingLogo.png'
 import { logIn } from '../redux/fetch/services'
 import { apiCall } from '../redux/fetch/management'
+import { setState } from "../redux/index"
+import { useDispatch } from "react-redux"
+// import ModalPer from '../components/projectComponents/ModalPer'
 
 function Copyright(props) {
   return (
@@ -25,18 +28,22 @@ function Copyright(props) {
   )
 }
 
+//const ModalRef = useRef()
+
 const theme = createTheme()
 
 export default function SignIn() {
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
 
+  const dispatch = useDispatch()
+
   const buildRequestLogin = async() => {
     let loginRequest = {
       email, password
     }
-    let response = await apiCall(logIn, loginRequest)
-    console.log(response)
+    //let response = await apiCall(logIn, loginRequest)
+    //console.log(response)
   }
 
   const handleSubmit = (event) => {
@@ -46,10 +53,12 @@ export default function SignIn() {
       email: data.get('email'),
       password: data.get('password'),
     })
+    dispatch(setState(2))
   }
 
   return (
     <ThemeProvider theme={theme}>
+      {/* <ModalPer ref={ModalRef} title={"Formulario"} message={"Campos incompletos"}/> */}
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -60,7 +69,7 @@ export default function SignIn() {
             alignItems: 'center',
           }}
         >
-          <Image src={logo} width='80' height='80'/>
+          <Image alt='logo' src={logo} width='80' height='80'/>
           <Typography component="h1" variant="h5">
             Iniciar Sesión
           </Typography>
@@ -100,7 +109,7 @@ export default function SignIn() {
               color="secondary"
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              onClick={()=>{buildRequestLogin()}}
+              //onClick={()=>{buildRequestLogin()}}
             >
               Iniciar Sesión
             </Button>

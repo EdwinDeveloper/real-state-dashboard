@@ -3,11 +3,12 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import React, { useState, useMemo } from "react"
 import Image from 'next/image'
+import { setState } from "../redux/index"
+import { useDispatch } from "react-redux"
 import {
   ArticleIcon,
   CollapsIcon,
   HomeIcon,
-  LogoIcon,
   LogoutIcon,
   UsersIcon,
   VideosIcon,
@@ -26,6 +27,8 @@ const Sidebar = () => {
   const [isCollapsible, setIsCollapsible] = useState(false)
 
   const router = useRouter()
+
+  const dispatch = useDispatch()
 
   const activeMenu = useMemo(
     () => menuItems.find((menu) => {
@@ -56,6 +59,10 @@ const Sidebar = () => {
 
   const handleSidebarToggle = () => {
     setToggleCollapse(!toggleCollapse)
+  }
+  const finishSesión = () => {
+    console.log("saliendo")
+    dispatch(setState(1))
   }
 
   return (
@@ -151,7 +158,9 @@ const Sidebar = () => {
           <LogoutIcon />
         </div>
         {!toggleCollapse && (
-          <span style={{color: "white"}}>
+          <span onClick={()=>{
+            finishSesión()
+          }} style={{color: "white"}}>
             Cerrar Sesión
           </span>
         )}

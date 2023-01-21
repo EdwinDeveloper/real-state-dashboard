@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 export default function call(config){
-   console.log("config : ", config)
     return axios(config).then((response)=>response).catch(function (error) {
       
        if(error.response){

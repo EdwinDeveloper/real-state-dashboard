@@ -7,7 +7,7 @@ import CardProject from '../components/projectComponents/CardProject'
 
 const projects = () => {
 
-  const [show, setShow] = useState<String | null>('new')
+  const [show, setShow] = useState<String | null>('list')
 
   useEffect(()=>{
 
