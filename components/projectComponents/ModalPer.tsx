@@ -18,12 +18,11 @@ const style = {
 
 const ModalPer:FC<ModalData> = forwardRef((props, ref: any) => {
 
-    useImperativeHandle(ref, ()=>{
-        return {
-          openModal: handleOpen,
-          closeModal: handleClose
+    useImperativeHandle(ref, ()=>({
+            openModal: handleOpen,
+            closeModal: handleClose
         }
-      })
+    ), [])
     const [open, setOpen] = React.useState(false)
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)

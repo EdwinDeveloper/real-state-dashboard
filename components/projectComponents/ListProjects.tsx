@@ -65,8 +65,8 @@ const ListProjects:FC = (props: any) => {
     }
   ]
 
-  const inputRef = useRef()
-  const ModalRef = useRef()
+  const inputRef = useRef(null)
+  const ModalRef = useRef(null)
 
   const addDetailInfo = (element: any) => {
     const newElement: any = detailsToShow
@@ -144,70 +144,71 @@ const ListProjects:FC = (props: any) => {
 
   const checkForm = () => {
     if(inputRef.current != null){
-        const { inputForm } = inputRef.current
-      const form = inputForm()
-      const { openModal } = ModalRef.current
+      const { inputForm } = inputRef.current
       
-      console.log(form['pre_sale_date'])
+      const form = inputForm()
+      if(ModalRef.current!==undefined && ModalRef.current!==null){
+        const { openModal } = ModalRef.current
 
-      if(form['name']===''){
-        setModalMessage("Lo sentimos, debes rellenar los campos")
-        openModal()
-      }else if(form['model']===''){
-        setModalMessage("Lo sentimos, debes rellenar los campos")
-        openModal()
-      }
-      else if(form['description']===''){
-        setModalMessage("Lo sentimos, debes rellenar los campos")
-        openModal()
-      }
-      else if(form['pre_sale_price']===0){
-        setModalMessage("Lo sentimos, debes rellenar los campos")
-        openModal()
-      }
-      else if(form['rent_price_approximate']===0){
-        setModalMessage("Lo sentimos, debes rellenar los campos")
-        openModal()
-      }
-      else if(form['resale_price_approximate']===0){
-        setModalMessage("Lo sentimos, debes rellenar los campos")
-        openModal()
-      }
-      else if(form['commission']===''){
-        setModalMessage("Lo sentimos, debes rellenar los campos")
-        openModal()
-      }
-      else if(form['company_related']===''){
-        setModalMessage("Lo sentimos, debes rellenar los campos")
-        openModal()
-      }
-      else if(imagesToShow.length===0){
-        setModalMessage("El proyecto debe tener al menos una imagen")
-        openModal()
-      }
-      else if(detailsToShow.length===0){
-        setModalMessage("El proyecto debe tener al menos un detalle")
-        openModal()
-      }
-      else if(extraToShow.length===0){
-        setModalMessage("El proyecto debe tener al menos un extra")
-        openModal()
-      }
-      else if(typeof form['pre_sale_date']==='object'){
-        setModalMessage("Lo sentimos, debes seleccionar la fecha de preventa")
-        openModal()
-      }
-      else if(typeof form['premises_delivery_date']==='object'){
-        setModalMessage("Lo sentimos, debes seleccionar la fecha de entrega")
-        openModal()
-      }
-      else{
-        form['pre_sale_date'] = form['pre_sale_date'].toISOString()
-        form['premises_delivery_date'] = form['premises_delivery_date'].toISOString()
-        form['images'] = imagesToShow
-        form['details'] = detailsToShow
-        form['extras'] = extraToShow
-        console.log("f : ", form)
+        if(form['name']===''){
+          setModalMessage("Lo sentimos, debes rellenar los campos")
+          openModal()
+        }else if(form['model']===''){
+          setModalMessage("Lo sentimos, debes rellenar los campos")
+          openModal()
+        }
+        else if(form['description']===''){
+          setModalMessage("Lo sentimos, debes rellenar los campos")
+          openModal()
+        }
+        else if(form['pre_sale_price']===0){
+          setModalMessage("Lo sentimos, debes rellenar los campos")
+          openModal()
+        }
+        else if(form['rent_price_approximate']===0){
+          setModalMessage("Lo sentimos, debes rellenar los campos")
+          openModal()
+        }
+        else if(form['resale_price_approximate']===0){
+          setModalMessage("Lo sentimos, debes rellenar los campos")
+          openModal()
+        }
+        else if(form['commission']===''){
+          setModalMessage("Lo sentimos, debes rellenar los campos")
+          openModal()
+        }
+        else if(form['company_related']===''){
+          setModalMessage("Lo sentimos, debes rellenar los campos")
+          openModal()
+        }
+        else if(imagesToShow.length===0){
+          setModalMessage("El proyecto debe tener al menos una imagen")
+          openModal()
+        }
+        else if(detailsToShow.length===0){
+          setModalMessage("El proyecto debe tener al menos un detalle")
+          openModal()
+        }
+        else if(extraToShow.length===0){
+          setModalMessage("El proyecto debe tener al menos un extra")
+          openModal()
+        }
+        else if(typeof form['pre_sale_date']==='object'){
+          setModalMessage("Lo sentimos, debes seleccionar la fecha de preventa")
+          openModal()
+        }
+        else if(typeof form['premises_delivery_date']==='object'){
+          setModalMessage("Lo sentimos, debes seleccionar la fecha de entrega")
+          openModal()
+        }
+        else{
+          form['pre_sale_date'] = form['pre_sale_date'].toISOString()
+          form['premises_delivery_date'] = form['premises_delivery_date'].toISOString()
+          form['images'] = imagesToShow
+          form['details'] = detailsToShow
+          form['extras'] = extraToShow
+          console.log("f : ", form)
+        }
       }
     }
   }

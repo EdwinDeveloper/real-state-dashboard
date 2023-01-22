@@ -1,6 +1,6 @@
 export interface AuthTokenResponse {
-    status: number,
-    token: string,
-    body: {},
-    messages: []
+    status: number | null,
+    token: string | null,
+    body: {} | null,
+    messages: [] | null
 }

@@ -19,6 +19,7 @@ import { useDispatch } from "react-redux"
 import ModalPer from '../components/projectComponents/ModalPer'
 import axios from 'axios'
 import { AuthTokenResponse } from '../components/Models/AuthTokenResponse'
+import { UserInfoResponse } from '../components/Models/UserInfoResponse'
 
 function Copyright(props: any) {
   return (
@@ -36,7 +37,7 @@ export default function SignIn() {
 
   const [message, setMessage] = React.useState<string>('')
   const [email, setEmail] = React.useState<string>('')
-  const [password, setPassword] = React.useState<string>('')
+  const [password, setPassword] = React.useState('')
 
   const dispatch = useDispatch()
 
@@ -45,38 +46,39 @@ export default function SignIn() {
   const handleSubmit = async(event: any) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    const { openModal } = ModalRef.current
-    if(data.get('email')===""){
-      setMessage('Debes colocar un correo electronico para iniciar sesión')
-      openModal()
-    }else if(data.get('password')===""){
-      setMessage('Debes colocar tu contraseña de acceso')
-      openModal()
-    }else{
-      let loginRequest = { email: data.get('email'), password: data.get('password') }
-      let responseLogIn: AuthTokenResponse = await apiCall(logIn, loginRequest)
-      const { status, messages, token } = responseLogIn
-      if(status===200){
-        let responseGetData = await apiCall(meInfo, null, token)
-        if(responseGetData.is_staff){
-          setTimeout(() => {
-            dispatch(setAuthToken(responseLogIn.token))
-            dispatch(setUserInfo(responseGetData))
-            dispatch(setState(2))
-          }, 2000)
-          setMessage('Bienvenido')
-          openModal()
-        }else{
-          setMessage('Solo acceden usuarios staff')
+    if(ModalRef.current !== undefined && ModalRef.current !== null){
+      const { openModal } = ModalRef.current
+      if(data.get('email')===""){
+        setMessage('Debes colocar un correo electronico para iniciar sesión')
+        openModal()
+      }else if(data.get('password')===""){
+        setMessage('Debes colocar tu contraseña de acceso')
+        openModal()
+      }else{
+        let loginRequest = { email: data.get('email'), password: data.get('password') }
+        let responseLogIn: AuthTokenResponse = await apiCall(logIn, loginRequest)
+        const { status, messages, token } = responseLogIn
+        if(status===200){
+          let responseGetData: UserInfoResponse = await apiCall(meInfo, null, token)
+          if(responseGetData.is_staff){
+            setTimeout(() => {
+              dispatch(setAuthToken(responseLogIn.token))
+              dispatch(setUserInfo(responseGetData))
+              dispatch(setState(2))
+            }, 2000)
+            setMessage('Bienvenido')
+            openModal()
+          }else{
+            setMessage('Solo acceden usuarios staff')
+            openModal()
+          }
+        }else {
+          setMessage(messages[0].value)
           openModal()
         }
-      }else {
-        setMessage(messages[0].value)
-        openModal()
-      }
-      
-    }
+    } 
   }
+}
 
   return (
     <ThemeProvider theme={theme}>

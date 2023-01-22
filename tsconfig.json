@@ -4,6 +4,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
+    //"strict": false,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
@@ -15,6 +16,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/projects.jsx", "pages/projects.jsx", "components/Layout.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/projects.jsx", "pages/projects.jsx", "components/Layout.jsx", "redux/fetch/call.js"],
   "exclude": ["node_modules"]
 }
