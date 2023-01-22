@@ -1,4 +1,4 @@
-import React, { useState, forwardRef, useImperativeHandle } from 'react'
+import React, { FC, useState, forwardRef, useImperativeHandle } from 'react'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
@@ -16,7 +16,7 @@ const style = {
   p: 4,
 }
 
-const ModalPer = forwardRef((props: any, ref: any) => {
+const ModalPer:FC = forwardRef((props: any, ref: any) => {
 
     useImperativeHandle(ref, ()=>{
         return {

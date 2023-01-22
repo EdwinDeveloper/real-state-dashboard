@@ -1,7 +1,7 @@
-import * as React from 'react'
+import React, { FC } from 'react'
 import Button from '@mui/material/Button';
 
-export const DetailElement = (props:any) => {
+const DetailElement:FC = (props:any) => {
   const { key, info } = props.element
     return (
         <div style={{
@@ -36,3 +36,5 @@ export const DetailElement = (props:any) => {
           </div>
     )
 }
+
+export default DetailElement

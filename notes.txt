@@ -1,0 +1,3 @@
+npm run build # to build the product
+npx serve out # to serve the production production
+

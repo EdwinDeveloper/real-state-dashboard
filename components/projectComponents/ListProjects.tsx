@@ -1,4 +1,4 @@
-import React, { useEffect, useRef} from 'react'
+import React, { FC, useEffect, useRef} from 'react'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import { ValidationTextField } from '../../public/ValidationTextField'
@@ -10,7 +10,7 @@ import ImageListItem from '@mui/material/ImageListItem'
 import DetailsReviewCard from '../Objects/DetailsReviewCard'
 import ModalPer from '../projectComponents/ModalPer'
 
-const ListProjects = (props: any) => {
+const ListProjects:FC = (props: any) => {
 
   const { handleShow } = props
 

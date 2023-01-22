@@ -14,7 +14,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import logo from '../assets/loadingLogo.png'
 import { logIn, meInfo } from '../redux/fetch/services'
 import { apiCall } from '../redux/fetch/management'
-import { setAuthState, setAuthToken, setState } from "../redux/index"
+import { setAuthState, setAuthToken, setState, setUserInfo } from "../redux/index"
 import { useDispatch } from "react-redux"
 import ModalPer from '../components/projectComponents/ModalPer'
 import axios from 'axios'
@@ -64,26 +64,19 @@ export default function SignIn() {
       let responseLogIn = await apiCall(logIn, loginRequest)
       const { status, messages, token } = responseLogIn
       if(status===200){
-        console.log("token : ", token)
-        let config = {
-            headers: {
-                "Content-Type": "application/json",
-                withCredentials : true,
-                crossdomain : true,
-              }
-          }
-          let url = "http://127.0.0.1:8000/api/user/me/"
-          axios.defaults.headers.common['Authorization'] = `Token ${token}`
-        let respos = await axios.get( url, null, JSON.stringify(config) ).then(response=>response).catch(error=>console.log(error))
-        console.log("respon : ", respos)
-        //let responseGetData = await apiCall(meInfo, null, token)
-        //console.log("Response : ", responseGetData)
-          // setTimeout(() => {
-          //   dispatch(setAuthToken(responseLogIn.token))
-          //   dispatch(setState(2))
-          // }, 2000)
-          // setMessage('Bienvenido')
-          // openModal()
+        let responseGetData = await apiCall(meInfo, null, token)
+        if(responseGetData.is_staff){
+          setTimeout(() => {
+            dispatch(setAuthToken(responseLogIn.token))
+            dispatch(setUserInfo(responseGetData))
+            dispatch(setState(2))
+          }, 2000)
+          setMessage('Bienvenido')
+          openModal()
+        }else{
+          setMessage('Solo acceden usuarios staff')
+          openModal()
+        }
       }else {
         setMessage(messages[0].value)
         openModal()

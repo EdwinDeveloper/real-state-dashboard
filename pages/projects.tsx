@@ -1,11 +1,17 @@
-import React, { useEffect, useRef, useState} from 'react'
+import React, { FC, useEffect, useRef, useState} from 'react'
 import Layout from "../components/Layout"
 import ListProjects from '../components/projectComponents/ListProjects'
 import Button from '@mui/material/Button'
 import Box from '@material-ui/core/Box'
 import CardProject from '../components/projectComponents/CardProject'
+import { SelectAppState } from '../redux/index'
+import { useSelector } from "react-redux"
+import { Project } from '../components/Models/Project'
 
-const projects = () => {
+const projects:FC = (props) => {
+
+  const AppState = useSelector(SelectAppState);
+  const { userInfo } = AppState
 
   const [show, setShow] = useState<String | null>('list')
 
@@ -14,8 +20,16 @@ const projects = () => {
   }, [])
 
   const handleShow = (screen: String) => {
-    console.log("no mascreen: ", screen)
     setShow(screen)
+  }
+
+  let projects: Project[]= []
+  if(userInfo.projects !== undefined ){
+    if(userInfo.projects.length > 0){
+      userInfo.projects.forEach((project: Project) => {
+        projects.push(<CardProject name={project.name} description={project.description}/>)
+      })
+    }    
   }
 
   return (
@@ -53,7 +67,7 @@ const projects = () => {
             alignItems: "stretch",
             backgroundColor: '#FFFFFF',
           }}>
-            <CardProject/>
+            {projects}
           </Box>
         </Box>
       }

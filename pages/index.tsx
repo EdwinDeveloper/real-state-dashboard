@@ -1,15 +1,15 @@
+import { FC } from 'react'
 import Layout from "../components/Layout"
 import Box from '@material-ui/core/Box'
 import Button from '@mui/material/Button'
 import LogInF from '../screens/logInF'
-import { selectAppState } from '../redux/index'
-import { useDispatch, useSelector } from "react-redux"
+import { SelectAppState } from '../redux/index'
+import { useSelector } from "react-redux"
 
-export default function Home() {
+const Home:FC = () => {
 
-  const AppState = useSelector(selectAppState);
+  const AppState = useSelector(SelectAppState);
   const { state } = AppState
-  console.log("the state : ", state)
   
   return (
     <>
@@ -38,3 +38,5 @@ export default function Home() {
     </>
   )
 }
+
+export default Home

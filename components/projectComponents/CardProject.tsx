@@ -1,12 +1,14 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { Project } from '../Models/Project';
 
-export default function ImgMediaCard() {
+const ImgMediaCard:FC<Project>  = (props) => {
+  
   return (
     <Card style={{
         width: "90%",
@@ -29,11 +31,10 @@ export default function ImgMediaCard() {
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          Lizard
+          {props.name}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Lizards are a widespread group of squamate reptiles, with over 6,000
-          species, ranging across all continents except Antarctica
+          {props.description}
         </Typography>
       </CardContent>
       <CardActions>
@@ -42,3 +43,5 @@ export default function ImgMediaCard() {
     </Card>
   );
 }
+
+export default ImgMediaCard

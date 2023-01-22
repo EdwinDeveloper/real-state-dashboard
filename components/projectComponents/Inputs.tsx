@@ -1,4 +1,4 @@
-import React, { useState, forwardRef, useImperativeHandle, useRef } from 'react'
+import React, { FC, useState, forwardRef, useImperativeHandle, useRef } from 'react'
 import dayjs, { Dayjs } from 'dayjs'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
@@ -13,7 +13,7 @@ import MenuItem from '@mui/material/MenuItem'
 import FormHelperText from '@mui/material/FormHelperText'
 import Textarea from '@mui/joy/Textarea'
 
-const Inputs = forwardRef( (props: any, ref: any) => {
+const Inputs:FC = forwardRef( (props: any, ref: any) => {
 
   useImperativeHandle(ref, ()=>{
     return {
@@ -214,5 +214,7 @@ const Inputs = forwardRef( (props: any, ref: any) => {
           </div>
     )
 })
+
+Inputs.displayName = "Inputs"
 
 export default Inputs

@@ -6,6 +6,7 @@ export interface AppState {
   authState: boolean,
   state: number,
   authToken: string,
+  userInfo: {}
 }
 
 // Initial state
@@ -13,6 +14,7 @@ const initialState: AppState = {
   authState: false,
   state: 1,
   authToken: "",
+  userInfo: {}
 }
 
 // Actual Slice
@@ -30,7 +32,10 @@ export const authSlice = createSlice({
     },
     setAuthToken(state, action) {
       state.authState = action.payload
-    }
+    },
+    setUserInfo(state, action) {
+      state.userInfo = action.payload
+    },
 
     // Special reducer for hydrating the state. Special case for next-redux-wrapper
     // extraReducers: {
@@ -45,8 +50,8 @@ export const authSlice = createSlice({
   },
 })
 
-export const { setAuthState, setState, setAuthToken } = authSlice.actions
+export const { setAuthState, setState, setAuthToken, setUserInfo } = authSlice.actions
 
-export const selectAppState = (state: AppState) => state.AppState
+export const SelectAppState = (state: AppState) => state.AppState
 
 export default authSlice.reducer

@@ -1,8 +1,8 @@
-import React, { useEfect } from 'react'
+import React, { FC } from 'react'
 import Image from 'next/image'
 import logo from '../assets/loadingLogo.png'
 
-const LogIn = () => {
+const LogIn:FC = () => {
     return (
         <div style={{
             width: "100%",
@@ -29,13 +29,13 @@ const LogIn = () => {
                     }}>
                         <div style={{
                             display: "flex",
-                            witdh: "100%",
+                            // witdh: "100%",
                             height: 140,
                             justifyContent: "center",
                             alignItems: "center",
                             borderRadius: 10,
                         }}>
-                            <Image src={logo} width='80' height='80'/>
+                            {/* <Image src={logo} width='80' height='80'/> */}
                         </div>
                         <text style={{
                             color: "#000000",

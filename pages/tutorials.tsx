@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { FC } from 'react'
 import Layout from '../components/Layout'
 import Card from '../components/Card'
 
-const tutorials = () => {
+const Tutorials:FC = () => {
   return (
     <Layout>
       <Card/>
@@ -10,4 +10,4 @@ const tutorials = () => {
   )
 }
 
-export default tutorials
+export default Tutorials

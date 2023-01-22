@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 import Button from '@mui/material/Button';
 import { ValidationTextField } from '../../public/ValidationTextField'
 import uuid from 'react-uuid';
 
-const AddDetail = (props:any) => {
+const AddDetail:FC = (props:any) => {
     const [keyIn, setKeyIn] = React.useState('')
     const [infoIn, setInfoIn] = React.useState('')
     const { upd } = props
