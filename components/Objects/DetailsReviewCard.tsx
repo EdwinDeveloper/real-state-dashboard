@@ -1,32 +1,26 @@
-import * as React from 'react'
-import { styled } from '@mui/material/styles'
+import React, { FC } from 'react'
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
-import CardMedia from '@mui/material/CardMedia'
 import CardContent from '@mui/material/CardContent'
 import CardActions from '@mui/material/CardActions'
-import Collapse from '@mui/material/Collapse'
 import Avatar from '@mui/material/Avatar'
-import IconButton, { IconButtonProps } from '@mui/material/IconButton'
+import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import { red } from '@mui/material/colors'
-import FavoriteIcon from '@mui/icons-material/Favorite'
-import ShareIcon from '@mui/icons-material/Share'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
-import PositionedMenu from './PositionedMenu'
 import Menu from "@material-ui/core/Menu"
 import MenuItem from "@material-ui/core/MenuItem"
 
-
-export default function DetailsReviewCard(props: any) {
-  const [anchorEl, setAnchorEl] = React.useState(null)
+const DetailsReviewCard:FC = (props: any) => {
+  const [anchorEl, setAnchorEl] = React.useState<Element | null>(null)
   const { key, info, id } = props.element
   const { upd, del } = props
 
-  const handleClick = event => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
     setAnchorEl(event.currentTarget)
   }
-  const handleClose = (option) => {
+  const handleClose = () => {
     setAnchorEl(null)
   }
   const updateDetail = () => {
@@ -73,3 +67,5 @@ export default function DetailsReviewCard(props: any) {
     </Card>
   )
 }
+
+export default DetailsReviewCard

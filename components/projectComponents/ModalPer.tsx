@@ -1,8 +1,8 @@
 import React, { FC, useState, forwardRef, useImperativeHandle } from 'react'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Modal from '@mui/material/Modal'
+import { ModalData } from '../Models/ModalData'
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -16,7 +16,7 @@ const style = {
   p: 4,
 }
 
-const ModalPer:FC = forwardRef((props: any, ref: any) => {
+const ModalPer:FC<ModalData> = forwardRef((props, ref: any) => {
 
     useImperativeHandle(ref, ()=>{
         return {
@@ -24,8 +24,6 @@ const ModalPer:FC = forwardRef((props: any, ref: any) => {
           closeModal: handleClose
         }
       })
-
-    const { message, title } = props
     const [open, setOpen] = React.useState(false)
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
@@ -40,15 +38,17 @@ const ModalPer:FC = forwardRef((props: any, ref: any) => {
         >
             <Box sx={style}>
             <Typography id="modal-modal-title" variant="h6" component="h2">
-                {title}
+                {props.title}
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                {message}
+                {props.message}
             </Typography>
             </Box>
         </Modal>
         </div>
     )
 })
+
+ModalPer.displayName="ModalPer"
 
 export default ModalPer

@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef} from 'react'
+import React, { FC, useRef} from 'react'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import { ValidationTextField } from '../../public/ValidationTextField'
@@ -9,6 +9,7 @@ import ImageList from '@mui/material/ImageList'
 import ImageListItem from '@mui/material/ImageListItem'
 import DetailsReviewCard from '../Objects/DetailsReviewCard'
 import ModalPer from '../projectComponents/ModalPer'
+
 
 const ListProjects:FC = (props: any) => {
 
@@ -63,10 +64,6 @@ const ListProjects:FC = (props: any) => {
       "description": "Monterrey"
     }
   ]
-
-  useEffect(()=>{
-
-  }, [])
 
   const inputRef = useRef()
   const ModalRef = useRef()
@@ -307,9 +304,9 @@ const ListProjects:FC = (props: any) => {
               <div>
                   <ImageList sx={{ width: 500, height: 400 }} cols={3} rowHeight={164}>
                   {
-                    imagesToShow.map((item: any, index: Number) => (
+                    imagesToShow.map((item: any, index: number) => (
                       
-                        <ImageListItem>
+                        <ImageListItem key={index}>
                           <img
                             src={`${item.url}?w=164&h=164&fit=crop&auto=format`}
                             srcSet={`${item.url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
@@ -375,8 +372,8 @@ const ListProjects:FC = (props: any) => {
               overflow: "scroll",
               width: "100%",
             }}>
-              { detailsToShow.map((det)=>(
-                  <DetailsReviewCard upd={updateDetailInfo} del={delDetailInfo} element={det}/>
+              { detailsToShow.map((det: any, index: number)=>(
+                  <DetailsReviewCard key={index} upd={updateDetailInfo} del={delDetailInfo} element={det}/>
                 ))
               }
             </div>
@@ -424,8 +421,8 @@ const ListProjects:FC = (props: any) => {
               overflow: "scroll",
               width: "100%",
             }}>
-              { extraToShow.map((ex)=>(
-                  <DetailsReviewCard upd={updateExtraInfo} del={delExtraInfo} element={ex}/>
+              { extraToShow.map((ex: any, index: number)=>(
+                  <DetailsReviewCard key={index} upd={updateExtraInfo} del={delExtraInfo} element={ex}/>
                 ))
               }
             </div>

@@ -18,8 +18,9 @@ import { setAuthState, setAuthToken, setState, setUserInfo } from "../redux/inde
 import { useDispatch } from "react-redux"
 import ModalPer from '../components/projectComponents/ModalPer'
 import axios from 'axios'
+import { AuthTokenResponse } from '../components/Models/AuthTokenResponse'
 
-function Copyright(props) {
+function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © SD ASOCIADOS'}
@@ -33,23 +34,15 @@ const theme = createTheme()
 
 export default function SignIn() {
 
-  const [message, setMessage] = React.useState('')
-  const [email, setEmail] = React.useState('')
-  const [password, setPassword] = React.useState('')
+  const [message, setMessage] = React.useState<string>('')
+  const [email, setEmail] = React.useState<string>('')
+  const [password, setPassword] = React.useState<string>('')
 
   const dispatch = useDispatch()
 
   const ModalRef = useRef()
 
-  const buildRequestLogin = async() => {
-    let loginRequest = {
-      email, password
-    }
-    
-    //console.log(response)
-  }
-
-  const handleSubmit = async(event) => {
+  const handleSubmit = async(event: any) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
     const { openModal } = ModalRef.current
@@ -61,7 +54,7 @@ export default function SignIn() {
       openModal()
     }else{
       let loginRequest = { email: data.get('email'), password: data.get('password') }
-      let responseLogIn = await apiCall(logIn, loginRequest)
+      let responseLogIn: AuthTokenResponse = await apiCall(logIn, loginRequest)
       const { status, messages, token } = responseLogIn
       if(status===200){
         let responseGetData = await apiCall(meInfo, null, token)
