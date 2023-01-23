@@ -16,6 +16,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/projects.jsx", "pages/projects.jsx", "components/Layout.jsx", "redux/fetch/call.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/projects.jsx", "pages/projects.jsx", "components/Layout.jsx", "redux/fetch/call.js", "redux/fetch/services.js"],
   "exclude": ["node_modules"]
 }

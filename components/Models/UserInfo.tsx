@@ -1,6 +1,6 @@
 import { Project } from "./Project";
 
-export interface UserInfoResponse {
+export interface UserInfo {
     id: string,
     country_code: string,
     phone_number: string,
@@ -13,4 +13,7 @@ export interface UserInfoResponse {
     is_staff: boolean,
     projects: Project[],
     videos: Object,
+
+    status?: number,
+    body?: Object,
 }

@@ -14,14 +14,14 @@ export interface Project {
     commission: string,
     company_related: string,
 }
-interface Image {
+export interface Image {
     url: string,
 }
-interface Detail {
+export interface Detail {
     key: string,
     info: string,
 }
-interface Extras {
+export interface Extras {
     key: string,
     info: string,
 }

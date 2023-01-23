@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
@@ -12,7 +12,7 @@ import Menu from "@material-ui/core/Menu"
 import MenuItem from "@material-ui/core/MenuItem"
 
 const DetailsReviewCard:FC = (props: any) => {
-  const [anchorEl, setAnchorEl] = React.useState<Element | null>(null)
+  const [anchorEl, setAnchorEl] = useState<Element | null>(null)
   const { key, info, id } = props.element
   const { upd, del } = props
 

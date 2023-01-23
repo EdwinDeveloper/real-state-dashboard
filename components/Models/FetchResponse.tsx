@@ -1,4 +1,4 @@
-export interface AuthTokenResponse {
+export interface FetchResponse {
     status?: number,
     token?: string,
     body?: {},

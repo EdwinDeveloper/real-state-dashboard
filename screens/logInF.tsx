@@ -17,9 +17,9 @@ import { apiCall } from '../redux/fetch/management'
 import { setAuthState, setAuthToken, setState, setUserInfo } from "../redux/index"
 import { useDispatch } from "react-redux"
 import ModalPer from '../components/projectComponents/ModalPer'
-import axios from 'axios'
 import { AuthTokenResponse } from '../components/Models/AuthTokenResponse'
-import { UserInfoResponse } from '../components/Models/UserInfoResponse'
+import { UserInfo, UserInfoResponse } from '../components/Models/UserInfo'
+import { FetchResponse } from '../components/Models/FetchResponse'
 
 function Copyright(props: any) {
   return (
@@ -56,13 +56,12 @@ export default function SignIn() {
         openModal()
       }else{
         let loginRequest = { email: data.get('email'), password: data.get('password') }
-        let responseLogIn: AuthTokenResponse = await apiCall(logIn, loginRequest)
-        const { status, messages, token } = responseLogIn
-        if(status===200){
-          let responseGetData: UserInfoResponse = await apiCall(meInfo, null, token)
+        let rli: AuthTokenResponse = await apiCall(logIn, loginRequest)
+        if(rli.status===200){
+          let responseGetData: UserInfo = await apiCall(meInfo, null, rli.token)
           if(responseGetData.is_staff){
             setTimeout(() => {
-              dispatch(setAuthToken(responseLogIn.token))
+              dispatch(setAuthToken(rli.token))
               dispatch(setUserInfo(responseGetData))
               dispatch(setState(2))
             }, 2000)

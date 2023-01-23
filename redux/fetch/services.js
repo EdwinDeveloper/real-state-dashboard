@@ -1,3 +1,4 @@
+import { FetchConfig } from '../../components/Models/FetchConfig'
 import call from './call'
 
 const url_base = "http://127.0.0.1:8000"
@@ -24,8 +25,6 @@ export function logIn(request, token){
         data: request
     })
 }
-
-
 
 export function meInfo(request, token){
     return call({
