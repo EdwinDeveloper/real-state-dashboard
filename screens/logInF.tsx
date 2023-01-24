@@ -18,7 +18,7 @@ import { setAuthState, setAuthToken, setState, setUserInfo } from "../redux/inde
 import { useDispatch } from "react-redux"
 import ModalPer from '../components/projectComponents/ModalPer'
 import { AuthTokenResponse } from '../components/Models/AuthTokenResponse'
-import { UserInfo, UserInfoResponse } from '../components/Models/UserInfo'
+import { UserInfo } from '../components/Models/UserInfo'
 import { FetchResponse } from '../components/Models/FetchResponse'
 
 function Copyright(props: any) {
@@ -64,7 +64,7 @@ export default function SignIn() {
               dispatch(setAuthToken(rli.token))
               dispatch(setUserInfo(responseGetData))
               dispatch(setState(2))
-            }, 2000)
+            }, 500)
             setMessage('Bienvenido')
             openModal()
           }else{

@@ -23,14 +23,16 @@ const projects:FC = (props) => {
     setShow(screen)
   }
 
-  let projects: Project[]= []
-  if(userInfo.projects !== undefined ){
-    if(userInfo.projects.length > 0){
-      userInfo.projects.forEach((project: Project) => {
-        projects.push(<CardProject name={project.name} description={project.description}/>)
-      })
-    }    
-  }
+  const renderCards = () => {
+    return userInfo.projects !== undefined ? userInfo.projects.map((project: Project) => {
+      return <CardProject
+        id={project.id} 
+        name={project.name}
+        description={project.description}
+        stateForm={handleShow}
+      />
+    }) : null
+  };
 
   return (
     <Layout>
@@ -50,7 +52,7 @@ const projects:FC = (props) => {
                 width: "20%",
                 marginBottom: 50,
               }}
-              onClick={()=>{handleShow("new")}}
+              onClick={()=>{handleShow("form")}}
               variant="contained"
               color="success"
             >
@@ -67,11 +69,11 @@ const projects:FC = (props) => {
             alignItems: "stretch",
             backgroundColor: '#FFFFFF',
           }}>
-            {projects}
+            {renderCards()}
           </Box>
         </Box>
       }
-      { show === 'new' &&
+      { show === 'form' &&
         <Box style={{
           width: "100%",
           height: 1900,

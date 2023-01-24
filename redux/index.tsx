@@ -6,7 +6,8 @@ export interface AppState {
   authState: boolean,
   state: number,
   authToken: string,
-  userInfo: {}
+  userInfo: {},
+  idProjectSelected: string,
 }
 
 // Initial state
@@ -14,7 +15,8 @@ const initialState: AppState = {
   authState: false,
   state: 1,
   authToken: "",
-  userInfo: {}
+  userInfo: {},
+  idProjectSelected: "",
 }
 
 // Actual Slice
@@ -36,6 +38,9 @@ export const authSlice = createSlice({
     setUserInfo(state, action) {
       state.userInfo = action.payload
     },
+    setIdProjectSelected(state, action) {
+      state.idProjectSelected = action.payload
+    },
 
     // Special reducer for hydrating the state. Special case for next-redux-wrapper
     // extraReducers: {
@@ -50,7 +55,13 @@ export const authSlice = createSlice({
   },
 })
 
-export const { setAuthState, setState, setAuthToken, setUserInfo } = authSlice.actions
+export const {
+  setAuthState,
+  setState,
+  setAuthToken,
+  setUserInfo,
+  setIdProjectSelected,
+} = authSlice.actions
 
 export const SelectAppState = (state: AppState) => state.AppState
 

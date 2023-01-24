@@ -9,6 +9,7 @@ import ImageList from '@mui/material/ImageList'
 import ImageListItem from '@mui/material/ImageListItem'
 import DetailsReviewCard from '../Objects/DetailsReviewCard'
 import ModalPer from '../projectComponents/ModalPer'
+import { DetailComponent } from '../Models/DetailComponent'
 
 
 const ListProjects:FC = (props: any) => {
@@ -74,7 +75,7 @@ const ListProjects:FC = (props: any) => {
     setDetailsToShow(newElement)
     setShowDetails(false)
   }
-  const delDetailInfo = (id: String) => {
+  const deleteDetailInfo = (id: String) => {
     let detailsUpdate = detailsToShow.filter((detail) => {
       return detail.id !== id
     })
@@ -373,8 +374,14 @@ const ListProjects:FC = (props: any) => {
               overflow: "scroll",
               width: "100%",
             }}>
-              { detailsToShow.map((det: any, index: number)=>(
-                  <DetailsReviewCard key={index} upd={updateDetailInfo} del={delDetailInfo} element={det}/>
+              { detailsToShow.map((det: DetailComponent)=>(
+                  <DetailsReviewCard
+                    id={det.id}
+                    info={det.info}
+                    _key={det.key}
+                    updateDetailInfo={updateDetailInfo}
+                    deleteDetailInfo={deleteDetailInfo}
+                  />
                 ))
               }
             </div>

@@ -18,7 +18,7 @@ export interface Image {
     url: string,
 }
 export interface Detail {
-    key: string,
+    key?: string,
     info: string,
 }
 export interface Extras {
