@@ -21,9 +21,7 @@ const Inputs:FC = forwardRef( (props: any, ref: any) => {
     }
   })
 
-  const ModalRef = useRef()
-
-  const { checkForm, companies, commissions, take_info } = props
+  const { companies, commissions } = props
 
   const [name, setName] = useState('')
   const [model, setModel] = useState('')

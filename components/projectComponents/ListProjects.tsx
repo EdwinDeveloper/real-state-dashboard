@@ -10,6 +10,7 @@ import ImageListItem from '@mui/material/ImageListItem'
 import DetailsReviewCard from '../Objects/DetailsReviewCard'
 import ModalPer from '../projectComponents/ModalPer'
 import { DetailComponent } from '../Models/DetailComponent'
+import { ExtraComponent } from '../Models/ExtraComponent'
 
 
 const ListProjects:FC = (props: any) => {
@@ -102,7 +103,7 @@ const ListProjects:FC = (props: any) => {
     setExtraToShow(newElement)
     setShowExtras(false)
   }
-  const delExtraInfo = (id: String) => {
+  const deleteExtraInfo = (id: String) => {
     let extrasUpdate = extraToShow.filter((extra) => {
       return extra.id !== id
     })
@@ -154,51 +155,53 @@ const ListProjects:FC = (props: any) => {
         if(form['name']===''){
           setModalMessage("Lo sentimos, debes rellenar los campos")
           openModal()
-        }else if(form['model']===''){
-          setModalMessage("Lo sentimos, debes rellenar los campos")
-          openModal()
         }
-        else if(form['description']===''){
-          setModalMessage("Lo sentimos, debes rellenar los campos")
-          openModal()
-        }
-        else if(form['pre_sale_price']===0){
-          setModalMessage("Lo sentimos, debes rellenar los campos")
-          openModal()
-        }
-        else if(form['rent_price_approximate']===0){
-          setModalMessage("Lo sentimos, debes rellenar los campos")
-          openModal()
-        }
-        else if(form['resale_price_approximate']===0){
-          setModalMessage("Lo sentimos, debes rellenar los campos")
-          openModal()
-        }
-        else if(form['commission']===''){
-          setModalMessage("Lo sentimos, debes rellenar los campos")
-          openModal()
-        }
-        else if(form['company_related']===''){
-          setModalMessage("Lo sentimos, debes rellenar los campos")
-          openModal()
-        }
-        else if(imagesToShow.length===0){
-          setModalMessage("El proyecto debe tener al menos una imagen")
-          openModal()
-        }
-        else if(detailsToShow.length===0){
-          setModalMessage("El proyecto debe tener al menos un detalle")
-          openModal()
-        }
-        else if(extraToShow.length===0){
-          setModalMessage("El proyecto debe tener al menos un extra")
-          openModal()
-        }
-        else if(typeof form['pre_sale_date']==='object'){
-          setModalMessage("Lo sentimos, debes seleccionar la fecha de preventa")
-          openModal()
-        }
+        // }else if(form['model']===''){
+        //   setModalMessage("Lo sentimos, debes rellenar los campos")
+        //   openModal()
+        // }
+        // else if(form['description']===''){
+        //   setModalMessage("Lo sentimos, debes rellenar los campos")
+        //   openModal()
+        // }
+        // else if(form['pre_sale_price']===0){
+        //   setModalMessage("Lo sentimos, debes rellenar los campos")
+        //   openModal()
+        // }
+        // else if(form['rent_price_approximate']===0){
+        //   setModalMessage("Lo sentimos, debes rellenar los campos")
+        //   openModal()
+        // }
+        // else if(form['resale_price_approximate']===0){
+        //   setModalMessage("Lo sentimos, debes rellenar los campos")
+        //   openModal()
+        // }
+        // else if(form['commission']===''){
+        //   setModalMessage("Lo sentimos, debes rellenar los campos")
+        //   openModal()
+        // }
+        // else if(form['company_related']===''){
+        //   setModalMessage("Lo sentimos, debes rellenar los campos")
+        //   openModal()
+        // }
+        // else if(imagesToShow.length===0){
+        //   setModalMessage("El proyecto debe tener al menos una imagen")
+        //   openModal()
+        // }
+        // else if(detailsToShow.length===0){
+        //   setModalMessage("El proyecto debe tener al menos un detalle")
+        //   openModal()
+        // }
+        // else if(extraToShow.length===0){
+        //   setModalMessage("El proyecto debe tener al menos un extra")
+        //   openModal()
+        // }
+        // else if(typeof form['pre_sale_date']==='object'){
+        //   setModalMessage("Lo sentimos, debes seleccionar la fecha de preventa")
+        //   openModal()
+        // }
         else if(typeof form['premises_delivery_date']==='object'){
+          console.log(form['premises_delivery_date'])
           setModalMessage("Lo sentimos, debes seleccionar la fecha de entrega")
           openModal()
         }
@@ -374,15 +377,13 @@ const ListProjects:FC = (props: any) => {
               overflow: "scroll",
               width: "100%",
             }}>
-              { detailsToShow.map((det: DetailComponent)=>(
-                  <DetailsReviewCard
-                    id={det.id}
-                    info={det.info}
-                    _key={det.key}
-                    updateDetailInfo={updateDetailInfo}
-                    deleteDetailInfo={deleteDetailInfo}
+              { detailsToShow.map((det: DetailComponent)=>{
+                det.deleteDetailInfo=deleteDetailInfo
+                det.updateDetailInfo=updateDetailInfo
+                return  <DetailsReviewCard
+                    detail={det}
                   />
-                ))
+              })
               }
             </div>
           }
@@ -429,9 +430,13 @@ const ListProjects:FC = (props: any) => {
               overflow: "scroll",
               width: "100%",
             }}>
-              { extraToShow.map((ex: any, index: number)=>(
-                  <DetailsReviewCard key={index} upd={updateExtraInfo} del={delExtraInfo} element={ex}/>
-                ))
+              { extraToShow.map((ex: DetailComponent)=>{
+                ex.deleteDetailInfo=deleteExtraInfo
+                ex.updateDetailInfo=updateExtraInfo
+                return <DetailsReviewCard
+                  detail={ex}
+                />
+                })
               }
             </div>
           }

@@ -10,8 +10,6 @@ const Home:FC = () => {
 
   const AppState = useSelector(SelectAppState);
   const { state } = AppState
-
-  console.log("the app state : ", AppState)
   
   return (
     <>

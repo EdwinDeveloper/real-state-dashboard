@@ -10,7 +10,7 @@ export interface Project {
     resale_price_approximate: number,
     images: Image[],
     details: Detail[],
-    extras: Extras[],
+    extras: Extra[],
     commission: string,
     company_related: string,
 }
@@ -18,10 +18,10 @@ export interface Image {
     url: string,
 }
 export interface Detail {
-    key?: string,
+    key: string,
     info: string,
 }
-export interface Extras {
+export interface Extra {
     key: string,
     info: string,
 }

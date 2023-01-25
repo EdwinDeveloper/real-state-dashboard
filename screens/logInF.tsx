@@ -19,7 +19,6 @@ import { useDispatch } from "react-redux"
 import ModalPer from '../components/projectComponents/ModalPer'
 import { AuthTokenResponse } from '../components/Models/AuthTokenResponse'
 import { UserInfo } from '../components/Models/UserInfo'
-import { FetchResponse } from '../components/Models/FetchResponse'
 
 function Copyright(props: any) {
   return (

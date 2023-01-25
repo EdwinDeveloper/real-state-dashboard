@@ -10,10 +10,12 @@ import { red } from '@mui/material/colors'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Menu from "@material-ui/core/Menu"
 import MenuItem from "@material-ui/core/MenuItem"
-import { DetailComponent } from '../Models/DetailComponent'
+import { DetailProps } from '../Models/PropsComponents/DetailProps'
 
-const DetailsReviewCard:FC<DetailComponent> = (props) => {
+const DetailsReviewCard:FC<DetailProps> = (props) => {
   const [anchorEl, setAnchorEl] = useState<Element | null>(null)
+
+  const { detail } = props
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -23,11 +25,11 @@ const DetailsReviewCard:FC<DetailComponent> = (props) => {
     setAnchorEl(null)
   }
   const updateDetail = () => {
-    props.updateDetailInfo(props.id)
+    detail.updateDetailInfo(detail.id)
     setAnchorEl(null)
   }
   const deleteDetail = () => {
-    props.deleteDetailInfo(props.id)
+    detail.deleteDetailInfo(detail.id)
     setAnchorEl(null)
   }
 
@@ -37,7 +39,7 @@ const DetailsReviewCard:FC<DetailComponent> = (props) => {
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
             
-            { props._key !==undefined ? props._key.substring(0,1) : "" }
+            { detail.key !==undefined ? detail.key.substring(0,1) : "" }
           </Avatar>
         }
         action={
@@ -45,7 +47,7 @@ const DetailsReviewCard:FC<DetailComponent> = (props) => {
             <MoreVertIcon />
           </IconButton>
         }
-        title={props._key !==undefined ? props._key : ""}
+        title={ detail.key !==undefined ? detail.key : ""}
         subheader=""
       />
       <Menu
@@ -59,7 +61,7 @@ const DetailsReviewCard:FC<DetailComponent> = (props) => {
         </Menu>
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          {props.info}
+          {detail.info}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
