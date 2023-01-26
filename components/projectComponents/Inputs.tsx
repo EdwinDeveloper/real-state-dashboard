@@ -12,6 +12,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import FormHelperText from '@mui/material/FormHelperText'
 import Textarea from '@mui/joy/Textarea'
+import { Project } from '../Models/Project'
 
 const Inputs:FC = forwardRef( (props: any, ref: any) => {
 
@@ -19,6 +20,7 @@ const Inputs:FC = forwardRef( (props: any, ref: any) => {
     return {
       inputForm: inputForm,
       cleanParams: cleanParams,
+      updateParameters: updateParameters,
     }
   })
 
@@ -46,6 +48,19 @@ const Inputs:FC = forwardRef( (props: any, ref: any) => {
     setDescription('')
     setIdCommission('')
     setIdCompany('')
+  }
+
+  const updateParameters = (project: Project) => {
+    setName(project.name)
+    setModel(project.model)
+    setPreSalePrice(project.pre_sale_price.toString())
+    setRentPriceApproximate(project.rent_price_approximate.toString())
+    setResalePriceApproximate(project.resale_price_approximate.toString())
+    setPreSaleDate(dayjs(project.pre_sale_date))
+    setPremisesDeliveryDate(dayjs(project.premises_delivery_date))
+    setDescription(project.description)
+    setIdCommission(project.commission)
+    setIdCompany(project.company_related)
   }
 
   const inputForm = () => {

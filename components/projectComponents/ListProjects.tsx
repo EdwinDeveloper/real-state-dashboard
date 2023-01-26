@@ -14,15 +14,16 @@ import { SelectAppState } from '../../redux/index'
 import { useSelector as UseSelector } from "react-redux"
 import { createProject } from '../../redux/fetch/services'
 import { apiCall } from '../../redux/fetch/management'
-
+import { Project } from '../Models/Project'
+import { Companie } from '../Models/Companie'
+import { Commission } from '../Models/Commission'
 
 const ListProjects:FC = (props: any) => {
 
   const { handleShow } = props
 
   const AppState = UseSelector(SelectAppState)
-  const { userInfo, authToken } = AppState
-  console.log("user : ", userInfo)
+  const { userInfo, authToken, idProjectSelected } = AppState
 
   const [showDetails, setShowDetails] = React.useState(false)
   const [detailsToShow, setDetailsToShow] = React.useState<any[]>([])
@@ -37,12 +38,12 @@ const ListProjects:FC = (props: any) => {
 
   const [modalMessage, setModalMessage] = React.useState('')
 
-  const commissions = userInfo.commissions
+  const commissions: Commission[] = userInfo.commissions
 
-  const companies = userInfo.companies
+  const companies: Companie[] = userInfo.companies
 
-  const inputRef = useRef(null)
   const ModalRef = useRef(null)
+  const inputRef = useRef(null)
 
   const addDetailInfo = (element: any) => {
     const newElement: any = detailsToShow
@@ -174,7 +175,6 @@ const ListProjects:FC = (props: any) => {
           openModal()
         }
         else if(form['premises_delivery_date'].$d.toString()==='Invalid Date'){
-          console.log(form['premises_delivery_date'])
           setModalMessage("Lo sentimos, debes seleccionar la fecha de entrega")
           openModal()
         }
@@ -192,6 +192,21 @@ const ListProjects:FC = (props: any) => {
         }
       }
     }
+  }
+
+  const updateParam = () => {
+    let projectIn = userInfo.projects.find((project: Project)=>{
+      if(idProjectSelected === project.id){
+        return project
+      }
+    })
+    if( inputRef.current != null){
+      const { updateParameters } = inputRef.current
+      updateParameters(projectIn)
+    }
+  }
+  if(idProjectSelected !== ""){
+    updateParam()
   }
 
   return (
