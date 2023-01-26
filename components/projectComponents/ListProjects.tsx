@@ -10,12 +10,19 @@ import ImageListItem from '@mui/material/ImageListItem'
 import DetailsReviewCard from '../Objects/DetailsReviewCard'
 import ModalPer from '../projectComponents/ModalPer'
 import { DetailComponent } from '../Models/DetailComponent'
-import { ExtraComponent } from '../Models/ExtraComponent'
+import { SelectAppState } from '../../redux/index'
+import { useSelector as UseSelector } from "react-redux"
+import { createProject } from '../../redux/fetch/services'
+import { apiCall } from '../../redux/fetch/management'
 
 
 const ListProjects:FC = (props: any) => {
 
   const { handleShow } = props
+
+  const AppState = UseSelector(SelectAppState)
+  const { userInfo, authToken } = AppState
+  console.log("user : ", userInfo)
 
   const [showDetails, setShowDetails] = React.useState(false)
   const [detailsToShow, setDetailsToShow] = React.useState<any[]>([])
@@ -30,42 +37,9 @@ const ListProjects:FC = (props: any) => {
 
   const [modalMessage, setModalMessage] = React.useState('')
 
-  const commissions = [
-    {
-      "id": "df9c1ca7-b812-4a07-acd8-b402e7de4361",
-      "description": "Main commission",
-      "percentage": 0.40
-    },
-    {
-      "id": "df9c1ca7-b812-4a07-acd8-b402e7de4362",
-      "description": "Ivarika",
-      "percentage": 0.45
-    },
-    {
-      "id": "df9c1ca7-b812-4a07-acd8-b402e7de4363",
-      "description": "Aldea Hortus",
-      "percentage": 0.50
-    }
-  ] 
+  const commissions = userInfo.commissions
 
-  const companies = [
-    {
-      "id": "df9c1ca7-b812-4a07-acd8-b402e7de4365",
-      "description": "Gova"
-    },
-    {
-      "id": "df9c1ca7-b812-4a07-acd8-b402e7de4366",
-      "description": "Aldea Hortus"
-    },
-    {
-      "id": "df9c1ca7-b812-4a07-acd8-b402e7de4367",
-      "description": "BBVA"
-    },
-    {
-      "id": "df9c1ca7-b812-4a07-acd8-b402e7de4368",
-      "description": "Monterrey"
-    }
-  ]
+  const companies = userInfo.companies
 
   const inputRef = useRef(null)
   const ModalRef = useRef(null)
@@ -144,63 +118,62 @@ const ListProjects:FC = (props: any) => {
     }
   }
 
-  const checkForm = () => {
+  const checkForm = async() => {
     if(inputRef.current != null){
-      const { inputForm } = inputRef.current
+      const { inputForm, cleanParams } = inputRef.current
       
       const form = inputForm()
       if(ModalRef.current!==undefined && ModalRef.current!==null){
         const { openModal } = ModalRef.current
-
         if(form['name']===''){
           setModalMessage("Lo sentimos, debes rellenar los campos")
           openModal()
         }
-        // }else if(form['model']===''){
-        //   setModalMessage("Lo sentimos, debes rellenar los campos")
-        //   openModal()
-        // }
-        // else if(form['description']===''){
-        //   setModalMessage("Lo sentimos, debes rellenar los campos")
-        //   openModal()
-        // }
-        // else if(form['pre_sale_price']===0){
-        //   setModalMessage("Lo sentimos, debes rellenar los campos")
-        //   openModal()
-        // }
-        // else if(form['rent_price_approximate']===0){
-        //   setModalMessage("Lo sentimos, debes rellenar los campos")
-        //   openModal()
-        // }
-        // else if(form['resale_price_approximate']===0){
-        //   setModalMessage("Lo sentimos, debes rellenar los campos")
-        //   openModal()
-        // }
-        // else if(form['commission']===''){
-        //   setModalMessage("Lo sentimos, debes rellenar los campos")
-        //   openModal()
-        // }
-        // else if(form['company_related']===''){
-        //   setModalMessage("Lo sentimos, debes rellenar los campos")
-        //   openModal()
-        // }
-        // else if(imagesToShow.length===0){
-        //   setModalMessage("El proyecto debe tener al menos una imagen")
-        //   openModal()
-        // }
-        // else if(detailsToShow.length===0){
-        //   setModalMessage("El proyecto debe tener al menos un detalle")
-        //   openModal()
-        // }
-        // else if(extraToShow.length===0){
-        //   setModalMessage("El proyecto debe tener al menos un extra")
-        //   openModal()
-        // }
-        // else if(typeof form['pre_sale_date']==='object'){
-        //   setModalMessage("Lo sentimos, debes seleccionar la fecha de preventa")
-        //   openModal()
-        // }
-        else if(typeof form['premises_delivery_date']==='object'){
+        else if(form['model']===''){
+          setModalMessage("Lo sentimos, debes rellenar los campos")
+          openModal()
+        }
+        else if(form['description']===''){
+          setModalMessage("Lo sentimos, debes rellenar los campos")
+          openModal()
+        }
+        else if(form['pre_sale_price']===0){
+          setModalMessage("Lo sentimos, debes rellenar los campos")
+          openModal()
+        }
+        else if(form['rent_price_approximate']===0){
+          setModalMessage("Lo sentimos, debes rellenar los campos")
+          openModal()
+        }
+        else if(form['resale_price_approximate']===0){
+          setModalMessage("Lo sentimos, debes rellenar los campos")
+          openModal()
+        }
+        else if(form['commission']===''){
+          setModalMessage("Lo sentimos, debes rellenar los campos")
+          openModal()
+        }
+        else if(form['company_related']===''){
+          setModalMessage("Lo sentimos, debes rellenar los campos")
+          openModal()
+        }
+        else if(imagesToShow.length===0){
+          setModalMessage("El proyecto debe tener al menos una imagen")
+          openModal()
+        }
+        else if(detailsToShow.length===0){
+          setModalMessage("El proyecto debe tener al menos un detalle")
+          openModal()
+        }
+        else if(extraToShow.length===0){
+          setModalMessage("El proyecto debe tener al menos un extra")
+          openModal()
+        }
+        else if(form['pre_sale_date'].$d.toString()==='Invalid Date'){
+          setModalMessage("Lo sentimos, debes seleccionar la fecha de preventa")
+          openModal()
+        }
+        else if(form['premises_delivery_date'].$d.toString()==='Invalid Date'){
           console.log(form['premises_delivery_date'])
           setModalMessage("Lo sentimos, debes seleccionar la fecha de entrega")
           openModal()
@@ -211,7 +184,11 @@ const ListProjects:FC = (props: any) => {
           form['images'] = imagesToShow
           form['details'] = detailsToShow
           form['extras'] = extraToShow
-          console.log("f : ", form)
+          let newProject = await apiCall(createProject, form, authToken)
+          if(newProject.status===201){
+            cleanParams()
+            handleShow("list")
+          }
         }
       }
     }

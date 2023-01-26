@@ -17,7 +17,8 @@ const Inputs:FC = forwardRef( (props: any, ref: any) => {
 
   useImperativeHandle(ref, ()=>{
     return {
-      inputForm: inputForm
+      inputForm: inputForm,
+      cleanParams: cleanParams,
     }
   })
 
@@ -34,14 +35,25 @@ const Inputs:FC = forwardRef( (props: any, ref: any) => {
   const [idComission, setIdCommission] = useState('')
   const [idCompany, setIdCompany] = useState('')
 
+  const cleanParams = () => {
+    setName('')
+    setModel('')
+    setPreSalePrice('')
+    setRentPriceApproximate('')
+    setResalePriceApproximate('')
+    setPreSaleDate(dayjs(''))
+    setPremisesDeliveryDate(dayjs(''))
+    setDescription('')
+    setIdCommission('')
+    setIdCompany('')
+  }
+
   const inputForm = () => {
     let project = {
       name,
       model,
       description,
       pre_sale_price: preSalePrice,
-      //pre_sale_date: preSaleDate.toISOString(),
-      //premises_delivery_date: premisesDeliveryDate.toISOString(),
       pre_sale_date: preSaleDate,
       premises_delivery_date: premisesDeliveryDate,
       rent_price_approximate: rentPriceApproximate,
@@ -58,7 +70,7 @@ const Inputs:FC = forwardRef( (props: any, ref: any) => {
   })
 
   const companiesSelect = companies.map((compa: any, index: any)=>{
-    return <MenuItem key={index} value={compa.id}>{compa.description}</MenuItem>
+    return <MenuItem key={index} value={compa.id}>{compa.name}</MenuItem>
   })
 
     const selectCommission = (event: SelectChangeEvent) => {

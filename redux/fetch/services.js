@@ -48,3 +48,15 @@ export function createReferral(request, token){
         data: request
     })
 }
+
+export function createProject(request, token){
+    return call({
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`
+        },
+        url: `${url_base}/api/company/projects/`,
+        data: request
+    })
+}

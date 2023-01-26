@@ -10,7 +10,7 @@ import { Project } from '../components/Models/Project'
 
 const projects:FC = (props) => {
 
-  const AppState = UseSelector(SelectAppState);
+  const AppState = UseSelector(SelectAppState)
   const { userInfo } = AppState
 
   const [show, setShow] = UseState<String | null>('list')
@@ -28,6 +28,7 @@ const projects:FC = (props) => {
       return <CardProject
         id={project.id} 
         name={project.name}
+        images={project.images}
         description={project.description}
         stateForm={handleShow}
       />

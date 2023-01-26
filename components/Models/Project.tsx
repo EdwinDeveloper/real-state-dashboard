@@ -15,6 +15,7 @@ export interface Project {
     company_related: string,
 }
 export interface Image {
+    id: string,
     url: string,
 }
 export interface Detail {

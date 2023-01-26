@@ -33,7 +33,7 @@ export const authSlice = createSlice({
       state.state = action.payload
     },
     setAuthToken(state, action) {
-      state.authState = action.payload
+      state.authToken = action.payload
     },
     setUserInfo(state, action) {
       state.userInfo = action.payload

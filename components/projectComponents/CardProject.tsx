@@ -37,7 +37,7 @@ const CardProject:FC<ProjectCard>  = (props) => {
         component="img"
         alt="green iguana"
         height="140"
-        image="https://www.govacasa.mx/images/uploads/gallery/xgppw2oil988vmvju2sz2kc2a9xdsudv.jpg"
+        image={props.images[0].url}
       />
       <CardContent key={props.id}>
         <Typography gutterBottom variant="h5" component="div">
