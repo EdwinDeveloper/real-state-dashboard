@@ -36,14 +36,18 @@ const CardProject:FC<ProjectCard>  = (props) => {
         key={props.id}
         component="img"
         alt="green iguana"
-        height="140"
+        style={{
+          height: "26vh"
+        }}
         image={props.images[0].url}
       />
       <CardContent key={props.id}>
         <Typography gutterBottom variant="h5" component="div">
           {props.name}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography style={{
+          height: "15vh"
+        }} variant="body2" color="text.secondary">
           {props.description}
         </Typography>
       </CardContent>

@@ -1,5 +1,4 @@
-import React, { FC, useState, forwardRef, useImperativeHandle, useRef } from 'react'
-import dayjs, { Dayjs } from 'dayjs'
+import React, { FC, forwardRef, useImperativeHandle } from 'react'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -12,72 +11,16 @@ import Select, { SelectChangeEvent } from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import FormHelperText from '@mui/material/FormHelperText'
 import Textarea from '@mui/joy/Textarea'
-import { Project } from '../Models/Project'
+import { InputProps } from '../Models/PropsComponents/InputProps'
 
-const Inputs:FC = forwardRef( (props: any, ref: any) => {
+const Inputs:FC<InputProps> = forwardRef( (props, ref: any) => {
 
   useImperativeHandle(ref, ()=>{
     return {
-      inputForm: inputForm,
-      cleanParams: cleanParams,
-      updateParameters: updateParameters,
     }
   })
 
   const { companies, commissions } = props
-
-  const [name, setName] = useState('')
-  const [model, setModel] = useState('')
-  const [preSalePrice, setPreSalePrice] = useState("")
-  const [rentPriceApproximate, setRentPriceApproximate] = useState("")
-  const [resalePriceApproximate, setResalePriceApproximate] = useState("")
-  const [preSaleDate, setPreSaleDate] = React.useState<Dayjs | null>(dayjs(''))
-  const [premisesDeliveryDate, setPremisesDeliveryDate] = React.useState<Dayjs | null>(dayjs(''))
-  const [description, setDescription] = useState('')
-  const [idComission, setIdCommission] = useState('')
-  const [idCompany, setIdCompany] = useState('')
-
-  const cleanParams = () => {
-    setName('')
-    setModel('')
-    setPreSalePrice('')
-    setRentPriceApproximate('')
-    setResalePriceApproximate('')
-    setPreSaleDate(dayjs(''))
-    setPremisesDeliveryDate(dayjs(''))
-    setDescription('')
-    setIdCommission('')
-    setIdCompany('')
-  }
-
-  const updateParameters = (project: Project) => {
-    setName(project.name)
-    setModel(project.model)
-    setPreSalePrice(project.pre_sale_price.toString())
-    setRentPriceApproximate(project.rent_price_approximate.toString())
-    setResalePriceApproximate(project.resale_price_approximate.toString())
-    setPreSaleDate(dayjs(project.pre_sale_date))
-    setPremisesDeliveryDate(dayjs(project.premises_delivery_date))
-    setDescription(project.description)
-    setIdCommission(project.commission)
-    setIdCompany(project.company_related)
-  }
-
-  const inputForm = () => {
-    let project = {
-      name,
-      model,
-      description,
-      pre_sale_price: preSalePrice,
-      pre_sale_date: preSaleDate,
-      premises_delivery_date: premisesDeliveryDate,
-      rent_price_approximate: rentPriceApproximate,
-      resale_price_approximate: resalePriceApproximate,
-      commission: idComission,
-      company_related: idCompany
-    }
-    return project
-  }
 
   const commissionSelect = commissions.map((com: any, index: any)=>{
     let percentage = parseFloat(com.percentage)
@@ -89,10 +32,10 @@ const Inputs:FC = forwardRef( (props: any, ref: any) => {
   })
 
     const selectCommission = (event: SelectChangeEvent) => {
-      setIdCommission(event.target.value)
+      props.setIdCommission(event.target.value)
     }
     const selectCompany = (event: SelectChangeEvent) => {
-      setIdCompany(event.target.value)
+      props.setIdCompany(event.target.value)
     }
 
     return (
@@ -118,7 +61,8 @@ const Inputs:FC = forwardRef( (props: any, ref: any) => {
                   defaultValue=""
                   placeholder='Nombre del proyecto'
                   id="validation-outlined-input"
-                  onChange={(name)=>{setName(name.target.value)}}
+                  value={props.name}
+                  onChange={(name)=>{props.setName(name.target.value)}}
                 />
                 <ValidationTextField
                   label="Nombre del modelo"
@@ -128,7 +72,8 @@ const Inputs:FC = forwardRef( (props: any, ref: any) => {
                   defaultValue=""
                   placeholder='Nombre del modelo'
                   id="validation-outlined-input"
-                  onChange={(model)=>{setModel(model.target.value)}}
+                  value={props.model}
+                  onChange={(model)=>{props.setModel(model.target.value)}}
                 />
                 <ValidationTextField
                   label="Precio de preventa"
@@ -139,7 +84,8 @@ const Inputs:FC = forwardRef( (props: any, ref: any) => {
                   defaultValue=""
                   placeholder='Precio de preventa'
                   id="validation-outlined-input"
-                  onChange={(preSalePrice)=>{setPreSalePrice(parseFloat(preSalePrice.target.value).toFixed(2))}}
+                  value={props.preSalePrice}
+                  onChange={(preSalePrice)=>{props.setPreSalePrice(parseFloat(preSalePrice.target.value).toFixed(2))}}
                 />
                 <ValidationTextField
                   label="Renta aproximada"
@@ -150,7 +96,8 @@ const Inputs:FC = forwardRef( (props: any, ref: any) => {
                   defaultValue=""
                   placeholder='Renta aproximada'
                   id="validation-outlined-input"
-                  onChange={(rentPriceApproximate)=>{setRentPriceApproximate(parseFloat(rentPriceApproximate.target.value).toFixed(2))}}
+                  value={props.rentPriceApproximate}
+                  onChange={(rentPriceApproximate)=>{props.setRentPriceApproximate(parseFloat(rentPriceApproximate.target.value).toFixed(2))}}
                 />
                 <ValidationTextField
                   label="Reventa aproximada"
@@ -161,16 +108,17 @@ const Inputs:FC = forwardRef( (props: any, ref: any) => {
                   defaultValue=""
                   placeholder='Reventa aproximada'
                   id="validation-outlined-input"
-                  onChange={(newResalePriceApproximate)=>{setResalePriceApproximate(parseFloat(newResalePriceApproximate.target.value).toFixed(2))}}
+                  value={props.resalePriceApproximate}
+                  onChange={(newResalePriceApproximate)=>{props.setResalePriceApproximate(parseFloat(newResalePriceApproximate.target.value).toFixed(2))}}
                 />
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <Stack spacing={3}>
                     <DatePicker
                       label="Fecha de preventa"
                       views={['year', 'month', 'day']}
-                      value={preSaleDate}
+                      value={props.preSaleDate}
                       onChange={(preSaleDate) => {
-                        setPreSaleDate(preSaleDate)
+                        props.setPreSaleDate(preSaleDate)
                       }}
                       renderInput={(params) =>(
                         <ValidationTextField
@@ -186,9 +134,9 @@ const Inputs:FC = forwardRef( (props: any, ref: any) => {
                     <DatePicker
                       label="Fecha de entrega"
                       views={['year', 'month', 'day']}
-                      value={premisesDeliveryDate}
+                      value={props.premisesDeliveryDate}
                       onChange={(premisesDeliveryDate) => {
-                        setPremisesDeliveryDate(premisesDeliveryDate)
+                        props.setPremisesDeliveryDate(premisesDeliveryDate)
                       }}
                       renderInput={(params) =>(
                           <ValidationTextField
@@ -204,7 +152,7 @@ const Inputs:FC = forwardRef( (props: any, ref: any) => {
                   <Select
                     labelId="demo-simple-select-helper-label"
                     id="demo-simple-select-helper"
-                    value={idComission}
+                    value={props.idCommission}
                     label="Comissión"
                     onChange={selectCommission}
                   >
@@ -217,7 +165,7 @@ const Inputs:FC = forwardRef( (props: any, ref: any) => {
                   <Select
                     labelId="demo-simple-select-helper-label"
                     id="demo-simple-select-helper"
-                    value={idCompany}
+                    value={props.idCompany}
                     label="Empresa"
                     onChange={selectCompany}
                   >
@@ -232,7 +180,8 @@ const Inputs:FC = forwardRef( (props: any, ref: any) => {
                   placeholder="Descripción"
                   size="md"
                   variant="outlined"
-                  onChange={(description)=>{setDescription(description.target.value)}}
+                  value={props.description}
+                  onChange={(description)=>{props.setDescription(description.target.value)}}
                 />
             </Box>
             

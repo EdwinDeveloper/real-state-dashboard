@@ -1,4 +1,4 @@
-import React, { FC, useRef} from 'react'
+import React, { FC, useEffect, useRef, useState} from 'react'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import { ValidationTextField } from '../../public/ValidationTextField'
@@ -11,39 +11,33 @@ import DetailsReviewCard from '../Objects/DetailsReviewCard'
 import ModalPer from '../projectComponents/ModalPer'
 import { DetailComponent } from '../Models/DetailComponent'
 import { SelectAppState } from '../../redux/index'
-import { useSelector as UseSelector } from "react-redux"
-import { createProject } from '../../redux/fetch/services'
+import { useSelector as UseSelector, useDispatch } from "react-redux"
+import { createProject, updateProject } from '../../redux/fetch/services'
 import { apiCall } from '../../redux/fetch/management'
-import { Project } from '../Models/Project'
+import { Detail, Extra, Image, Project } from '../Models/Project'
 import { Companie } from '../Models/Companie'
 import { Commission } from '../Models/Commission'
+import dayjs, { Dayjs } from 'dayjs'
+import { setIdProjectSelected } from '../../redux/index'
 
 const ListProjects:FC = (props: any) => {
 
-  const { handleShow } = props
+  const [name, setName] = useState('')
+  const [model, setModel] = useState('')
+  const [preSalePrice, setPreSalePrice] = useState('')
+  const [rentPriceApproximate, setRentPriceApproximate] = useState('')
+  const [resalePriceApproximate, setResalePriceApproximate] = useState('')
+  const [preSaleDate, setPreSaleDate] = useState<Dayjs | null>(dayjs(''))
+  const [premisesDeliveryDate, setPremisesDeliveryDate] = useState<Dayjs | null>(dayjs(''))
+  const [description, setDescription] = useState('')
+  const [idComission, setIdCommission] = useState('')
+  const [idCompany, setIdCompany] = useState('')
 
-  const AppState = UseSelector(SelectAppState)
-  const { userInfo, authToken, idProjectSelected } = AppState
+  const [imagesToShow, setImagesToShow] = useState<Image[]>([])
 
-  const [showDetails, setShowDetails] = React.useState(false)
-  const [detailsToShow, setDetailsToShow] = React.useState<any[]>([])
-  const [updDetail, setUpdDetail] = React.useState(null)
-
-  const [showExtras, setShowExtras] = React.useState(false)
-  const [extraToShow, setExtraToShow] = React.useState<any[]>([])
-  const [updExtra, setUpdExtra] = React.useState(null)
-
-  const [imagesToShow, setImagesToShow] = React.useState<any[]>([])
-  const [newImage, setNewImage] = React.useState('')
-
-  const [modalMessage, setModalMessage] = React.useState('')
-
-  const commissions: Commission[] = userInfo.commissions
-
-  const companies: Companie[] = userInfo.companies
-
-  const ModalRef = useRef(null)
-  const inputRef = useRef(null)
+  const [showDetails, setShowDetails] = useState(false)
+  const [detailsToShow, setDetailsToShow] = useState<any[]>([])
+  const [updDetail, setUpdDetail] = useState(null)
 
   const addDetailInfo = (element: any) => {
     const newElement: any = detailsToShow
@@ -70,6 +64,69 @@ const ListProjects:FC = (props: any) => {
     })
     setUpdDetail(detailUpdate[0])
     setShowDetails(true)
+  }
+
+  useEffect(()=>{
+    const { userInfo, idProjectSelected } = AppState
+    let projectIn: Project = userInfo.projects.find((project: Project)=>{
+      if(idProjectSelected === project.id){
+        return project
+      }
+    })
+    if(projectIn !== null && projectIn !== undefined ){
+      setName(projectIn.name)
+      setModel(projectIn.model)
+      setPreSalePrice(projectIn.pre_sale_price.toString())
+      setRentPriceApproximate(projectIn.rent_price_approximate.toString())
+      setResalePriceApproximate(projectIn.resale_price_approximate.toString())
+      setPreSaleDate(dayjs(projectIn.pre_sale_date))
+      setPremisesDeliveryDate(dayjs(projectIn.premises_delivery_date))
+      setDescription(projectIn.description)
+      setIdCommission(projectIn.commission)
+      setIdCompany(projectIn.company_related)
+      projectIn.images.forEach((imag)=>setImagesToShow((images)=> [...images, { title: imag.title, url: imag.url, id: imag.id }]))
+      projectIn.details.forEach((d: Detail)=>addDetailInfo({key: d.key, info: d.info, id: d.id}))
+      projectIn.extras.forEach((e: Extra)=>addExtraInfo({key: e.key, info: e.info, id: e.id}))
+    }else{
+      setName('')
+      setModel('')
+      setPreSalePrice('')
+      setRentPriceApproximate('')
+      setResalePriceApproximate('')
+      setPreSaleDate(dayjs(''))
+      setPremisesDeliveryDate(dayjs(''))
+      setDescription('')
+      setIdCommission('')
+      setIdCompany('')
+      setImagesToShow([])
+      setDetailsToShow([])
+      setExtraToShow([])
+    }
+  }, [])
+
+  const { handleShow } = props
+
+  const AppState = UseSelector(SelectAppState)
+  const dispatch = useDispatch()
+  const { userInfo, authToken, idProjectSelected } = AppState
+
+  const [showExtras, setShowExtras] = useState(false)
+  const [extraToShow, setExtraToShow] = useState<any[]>([])
+  const [updExtra, setUpdExtra] = useState(null)
+  const [newImage, setNewImage] = useState('')
+
+  const [modalMessage, setModalMessage] = useState('')
+
+  const commissions: Commission[] = userInfo.commissions
+
+  const companies: Companie[] = userInfo.companies
+
+  const ModalRef = useRef(null)
+  const inputRef = useRef(null)
+
+  const cancelForm = () => {
+    dispatch(setIdProjectSelected(""))
+    handleShow("list")
   }
 
   const addExtraInfo = (element: any) => {
@@ -120,42 +177,40 @@ const ListProjects:FC = (props: any) => {
   }
 
   const checkForm = async() => {
-    if(inputRef.current != null){
-      const { inputForm, cleanParams } = inputRef.current
       
-      const form = inputForm()
       if(ModalRef.current!==undefined && ModalRef.current!==null){
         const { openModal } = ModalRef.current
-        if(form['name']===''){
-          setModalMessage("Lo sentimos, debes rellenar los campos")
+
+        if(name===''){
+          setModalMessage("El proyecto debe tener un nombre")
           openModal()
         }
-        else if(form['model']===''){
-          setModalMessage("Lo sentimos, debes rellenar los campos")
+        else if(model===''){
+          setModalMessage("El proyecto debe tener un modelo")
           openModal()
         }
-        else if(form['description']===''){
-          setModalMessage("Lo sentimos, debes rellenar los campos")
+        else if(description===''){
+          setModalMessage("El proyecto debe tener una descripción")
           openModal()
         }
-        else if(form['pre_sale_price']===0){
-          setModalMessage("Lo sentimos, debes rellenar los campos")
+        else if(preSalePrice===""){
+          setModalMessage("El proyecto debe tener un precio de preventa")
           openModal()
         }
-        else if(form['rent_price_approximate']===0){
-          setModalMessage("Lo sentimos, debes rellenar los campos")
+        else if(rentPriceApproximate===""){
+          setModalMessage("El proyecto debe tener un precio de renta")
           openModal()
         }
-        else if(form['resale_price_approximate']===0){
-          setModalMessage("Lo sentimos, debes rellenar los campos")
+        else if(resalePriceApproximate===""){
+          setModalMessage("El proyecto debe tener un precio de reventa")
           openModal()
         }
-        else if(form['commission']===''){
-          setModalMessage("Lo sentimos, debes rellenar los campos")
+        else if(idComission===''){
+          setModalMessage("El proyecto debe tener una comisión")
           openModal()
         }
-        else if(form['company_related']===''){
-          setModalMessage("Lo sentimos, debes rellenar los campos")
+        else if(idCompany===''){
+          setModalMessage("El proyecto debe tener una compañia asociada")
           openModal()
         }
         else if(imagesToShow.length===0){
@@ -170,43 +225,42 @@ const ListProjects:FC = (props: any) => {
           setModalMessage("El proyecto debe tener al menos un extra")
           openModal()
         }
-        else if(form['pre_sale_date'].$d.toString()==='Invalid Date'){
+        else if(preSaleDate.$d.toString()==='Invalid Date'){
           setModalMessage("Lo sentimos, debes seleccionar la fecha de preventa")
           openModal()
         }
-        else if(form['premises_delivery_date'].$d.toString()==='Invalid Date'){
+        else if(premisesDeliveryDate.$d.toString()==='Invalid Date'){
           setModalMessage("Lo sentimos, debes seleccionar la fecha de entrega")
           openModal()
         }
         else{
-          form['pre_sale_date'] = form['pre_sale_date'].toISOString()
-          form['premises_delivery_date'] = form['premises_delivery_date'].toISOString()
-          form['images'] = imagesToShow
-          form['details'] = detailsToShow
-          form['extras'] = extraToShow
-          let newProject = await apiCall(createProject, form, authToken)
-          if(newProject.status===201){
-            cleanParams()
-            handleShow("list")
+          let request = {
+            name, model, description,
+            pre_sale_price: preSalePrice,
+            pre_sale_date: preSaleDate.toISOString(),
+            premises_delivery_date: premisesDeliveryDate.toISOString(),
+            rent_price_approximate: rentPriceApproximate,
+            resale_price_approximate: resalePriceApproximate,
+            images: imagesToShow,
+            details: detailsToShow,
+            extras: extraToShow,
+            commission: idComission,
+            company_related: idCompany
+          }
+          if(idProjectSelected !== null && idProjectSelected !== undefined){
+            let updateResponse = await apiCall(updateProject, request, authToken, idProjectSelected + "/")
+            console.log("updateResponse : ", updateResponse.status)
+            if(updateResponse.status===200){
+              cancelForm()
+            }
+          }else{
+            let newResponse = await apiCall(createProject, request, authToken)
+            if(newResponse.status===201){
+              cancelForm()
+            }
           }
         }
       }
-    }
-  }
-
-  const updateParam = () => {
-    let projectIn = userInfo.projects.find((project: Project)=>{
-      if(idProjectSelected === project.id){
-        return project
-      }
-    })
-    if( inputRef.current != null){
-      const { updateParameters } = inputRef.current
-      updateParameters(projectIn)
-    }
-  }
-  if(idProjectSelected !== ""){
-    updateParam()
   }
 
   return (
@@ -243,7 +297,7 @@ const ListProjects:FC = (props: any) => {
               }}
               variant="contained"
               color="success"
-              onClick={()=>{handleShow("list")}}>
+              onClick={()=>{cancelForm()}}>
                 Cancelar
             </Button>
          </div>
@@ -255,7 +309,32 @@ const ListProjects:FC = (props: any) => {
             justifyContent: "space-between",
             alignItems: "center",
           }}>
-            <Inputs ref={inputRef} checkForm={checkForm} companies={companies} commissions={commissions}/>
+            <Inputs
+              ref={inputRef}
+              name={name}
+              setName={setName}
+              model={model}
+              setModel={setModel}
+              preSalePrice={preSalePrice}
+              setPreSalePrice={setPreSalePrice}
+              rentPriceApproximate={rentPriceApproximate}
+              setRentPriceApproximate={setRentPriceApproximate}
+              resalePriceApproximate={resalePriceApproximate}
+              setResalePriceApproximate={setResalePriceApproximate}
+              preSaleDate={preSaleDate}
+              setPreSaleDate={setPreSaleDate}
+              premisesDeliveryDate={premisesDeliveryDate}
+              setPremisesDeliveryDate={setPremisesDeliveryDate}
+              description={description}
+              setDescription={setDescription}
+              checkForm={checkForm}
+              idComission={idComission}
+              setIdCommission={setIdCommission}
+              idCompany={idCompany}
+              setIdCompany={setIdCompany}
+              companies={companies}
+              commissions={commissions}
+            />
             <div style={{
                     marginTop: 70,
               }} >
@@ -271,7 +350,7 @@ const ListProjects:FC = (props: any) => {
                       variant="contained" 
                       color="success"
                       onClick={() => {
-                        if(newImage!=="") setImagesToShow((images)=> [...images, { title: "extra", url: newImage }])
+                        if(newImage!=="") setImagesToShow((images)=> [...images, { title: "extra", url: newImage, id:"" }])
                       }}
                     >Nueva Imagen</Button>
                   </div>

@@ -1,5 +1,5 @@
-export const apiCall = async (fun, request, token) => {
-    const response = await fun(request, token)
+export const apiCall = async (fun, request, token, id) => {
+    const response = await fun(request, token, id)
     let res = {
         status: response.status,
         body: response.body
@@ -9,6 +9,7 @@ export const apiCall = async (fun, request, token) => {
             res["token"] = response.data.token
         }else{
             res = response.data
+            res['status'] = response.status
         }
     }else if([ 201 ].includes(res.status)){
         res['data'] = response.data.data

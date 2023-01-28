@@ -60,3 +60,15 @@ export function createProject(request, token){
         data: request
     })
 }
+
+export function updateProject(request, token, id){
+    return call({
+        method: 'put',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`
+        },
+        url: `${url_base}/api/company/projects/${id}`,
+        data: request
+    })
+}

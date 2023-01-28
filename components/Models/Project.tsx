@@ -17,12 +17,15 @@ export interface Project {
 export interface Image {
     id: string,
     url: string,
+    title: string,
 }
 export interface Detail {
+    id: string,
     key: string,
     info: string,
 }
 export interface Extra {
+    id: string,
     key: string,
     info: string,
 }
