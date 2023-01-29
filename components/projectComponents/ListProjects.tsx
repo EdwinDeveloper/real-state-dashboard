@@ -193,6 +193,10 @@ const ListProjects:FC = (props: any) => {
           setModalMessage("El proyecto debe tener una descripción")
           openModal()
         }
+        else if(description.length>255){
+          setModalMessage("La descripción debe tener maximo 255 caracteres")
+          openModal()
+        }
         else if(preSalePrice===""){
           setModalMessage("El proyecto debe tener un precio de preventa")
           openModal()
@@ -249,7 +253,7 @@ const ListProjects:FC = (props: any) => {
           }
           if(idProjectSelected !== null && idProjectSelected !== undefined){
             let updateResponse = await apiCall(updateProject, request, authToken, idProjectSelected + "/")
-            console.log("updateResponse : ", updateResponse.status)
+            console.log("updateResponse : ", updateResponse)
             if(updateResponse.status===200){
               cancelForm()
             }

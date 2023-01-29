@@ -6,7 +6,6 @@ import Image from 'next/image'
 import { setState } from "../redux/index"
 import { useDispatch } from "react-redux"
 import {
-  ArticleIcon,
   CollapsIcon,
   HomeIcon,
   LogoutIcon,
@@ -16,7 +15,7 @@ import {
 import Logo from '../assets/loadingLogo.png'
 
 const menuItems = [
-  { id: 1, label: "Comisiones", icon: ArticleIcon, link: "/" },
+  // { id: 1, label: "Comisiones", icon: ArticleIcon, link: "/" },
   { id: 2, label: "Proyectos", icon: HomeIcon, link: "/projects" },
   { id: 3, label: "Usuarios", icon: UsersIcon, link: "/users" },
   { id: 4, label: "Otros", icon: VideosIcon, link: "/tutorials" },

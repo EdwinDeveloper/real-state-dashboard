@@ -5,9 +5,9 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { ProjectCard } from '../Models/PropsComponents/PorjectCard';
-import { setIdProjectSelected } from '../../redux/index'
-import { useSelector as UseSelector, useDispatch } from "react-redux"
+import { ProjectCard } from '../../Models/PropsComponents/ProjectCard';
+import { setIdProjectSelected } from '../../../redux/index'
+import { useDispatch } from "react-redux"
 
 const CardProject:FC<ProjectCard>  = (props) => {
 
@@ -37,16 +37,19 @@ const CardProject:FC<ProjectCard>  = (props) => {
         component="img"
         alt="green iguana"
         style={{
-          height: "26vh"
+          height: "23vh"
         }}
         image={props.images[0].url}
       />
       <CardContent key={props.id}>
         <Typography gutterBottom variant="h5" component="div">
+          {props.model}
+        </Typography>
+        <Typography gutterBottom variant="h7" component="div">
           {props.name}
         </Typography>
         <Typography style={{
-          height: "15vh"
+          height: "14vh"
         }} variant="body2" color="text.secondary">
           {props.description}
         </Typography>

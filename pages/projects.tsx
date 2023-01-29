@@ -3,15 +3,19 @@ import Layout from "../components/Layout"
 import ListProjects from '../components/projectComponents/ListProjects'
 import Button from '@mui/material/Button'
 import Box from '@material-ui/core/Box'
-import CardProject from '../components/projectComponents/CardProject'
+import CardProject from '../components/projectComponents/Cards/CardProject'
 import { SelectAppState } from '../redux/index'
 import { useSelector as UseSelector } from "react-redux"
 import { Project } from '../components/Models/Project'
+import { setIdProjectSelected } from '../redux/index'
+import { useDispatch } from "react-redux"
 
 const projects:FC = (props) => {
 
   const AppState = UseSelector(SelectAppState)
   const { userInfo } = AppState
+
+  const dispatch = useDispatch()
 
   const [show, setShow] = UseState<String | null>('list')
 
@@ -23,11 +27,17 @@ const projects:FC = (props) => {
     setShow(screen)
   }
 
+  const cancelForm = () => {
+    handleShow("list")
+    dispatch(setIdProjectSelected(""))
+  }
+
   const renderCards = () => {
     return userInfo.projects !== undefined ? userInfo.projects.map((project: Project) => {
       return <CardProject
         id={project.id} 
         name={project.name}
+        model={project.model}
         images={project.images}
         description={project.description}
         stateForm={handleShow}
@@ -92,7 +102,7 @@ const projects:FC = (props) => {
             }}
             variant="contained"
             color="success"
-            onClick={()=>{handleShow("list")}}
+            onClick={()=>{cancelForm()}}
           >
             Lista de proyectos
           </Button>
