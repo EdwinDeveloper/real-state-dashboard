@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { FC, useState } from "react"
 import Layout from "../components/Layout"
 import Box from '@material-ui/core/Box'
 import { SelectAppState } from '../redux/index'
@@ -10,6 +10,8 @@ interface CardUserProps {
   name: string,
   last_name: string,
   email: string,
+  country_code: string,
+  phone_number: string,
   investments: Investment[],
   referrals: Referral[],
 }
@@ -31,6 +33,13 @@ const Users:FC = () => {
 
   const AppState = UseSelector(SelectAppState)
   const { userInfo } = AppState
+  const [userState, setUserState] = useState('main')
+  const [userSelected, setUserSelected] = useState('')
+
+  const userSelect = (id: string) => {
+    setUserSelected(id)
+    setUserState('action')
+  }
 
   const renderUsers = () => {
     return userInfo.projects !== undefined ? userInfo.users.map((singleUser: CardUserProps) => {
@@ -39,24 +48,31 @@ const Users:FC = () => {
         name={singleUser.name}
         last_name={singleUser.last_name}
         email={singleUser.email}
+        country_code={singleUser.country_code}
+        phone_number={singleUser.phone_number}
+        userSelect={userSelect}
       />
     }) : null
   }
 
   return (
     <Layout>
-      <Box style={{
-        width: "90%",
-        height: "90vh",
-        display: "flex",
-        flexWrap: "wrap",
-        flexDirection: "row",
-        justifyContent: "space-evenly",
-        alignItems: "stretch",
-        backgroundColor: '#FFFFFF',
-      }}>
-        {renderUsers()}
-      </Box>
+      { userState === 'main' &&
+        <Box style={{
+          width: "94%",
+          height: "90vh",
+          display: "flex",
+          flexWrap: "wrap",
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          alignItems: "stretch",
+        }}>
+          {renderUsers()}
+        </Box>
+      }
+      { userState === '' &&
+        "Hola"
+      }
     </Layout>
   )
 }

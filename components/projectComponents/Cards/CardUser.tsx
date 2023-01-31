@@ -1,67 +1,109 @@
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import Card from '@mui/material/Card'
-import CardActions from '@mui/material/CardActions'
+import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
-import CardMedia from '@mui/material/CardMedia'
-import Button from '@mui/material/Button'
+import Avatar from '@mui/material/Avatar'
+import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
-import { setIdProjectSelected } from '../../../redux/index'
-import { useDispatch } from "react-redux"
+import { red } from '@mui/material/colors'
+import Button from '@mui/material/Button'
+import Box from '@material-ui/core/Box'
+import Collapse from '@mui/material/Collapse'
+import { styled } from '@mui/material/styles'
+import { IconButtonProps } from '@mui/material/IconButton'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 interface CardUserProps {
     id: string,
     name: string,
     last_name: string,
     email: string,
+    country_code: string,
+    phone_number: string,
+    userSelect: (id: string) => void,
 }
 
-const CardUser:FC<CardUserProps>  = (props) => {
+interface ExpandMoreProps extends IconButtonProps {
+  expand: boolean
+}
 
-    const userSelected = (idUser: string) => {
-        console.log(idUser)
+const ExpandMore = styled((props: ExpandMoreProps) => {
+  const { expand, ...other } = props
+  return <IconButton {...other} />
+})(({ theme, expand }) => ({
+  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+  marginLeft: 'auto',
+  transition: theme.transitions.create('transform', {
+    duration: theme.transitions.duration.shortest,
+  }),
+}))
+
+const CardUser:FC<CardUserProps> = (props) => {
+
+  const [expanded, setExpanded] = useState(false)
+  const [action, setAction] = useState('')
+
+  const handleExpandClick = (actionIn: string) => {
+    if(actionIn === action){
+      setExpanded(!expanded)
+    }else{
+      setExpanded(true)
     }
-  
+    setAction(actionIn)
+  }
   return (
-    <Card key={props.id} style={{
-        width: "90%",
-        height: 150,
-        backgroundColor: "#fff",
-        borderRadius: 12,
-        borderColor: "#FFFFFF",
-        borderBottomColor: "#DADADA",
-        borderWidth: 0.2,
-        marginTop: 10,
-        flexDirection: 'row',
-        flexWrap: "wrap",
-        justifyContent: "space-evenly",
-        cursor: "pointer"
-      }}
-      sx={{ maxWidth: 300 }}
-      onClick={()=>userSelected(props.id)}
-    >
-      <CardContent key={props.id}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Typography gutterBottom variant="h5" component="div">
-          {props.name}
+    <Card style={{
+        width: 340,
+        height: 220,
+        marginBottom: 20,
+        borderRadius: 10,
+    }} sx={{ maxWidth: 345 }}>
+      <CardHeader
+        avatar={
+          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+            {props.name.substring(0, 1)}
+          </Avatar>
+        }
+        action={
+          <IconButton aria-label="settings">
+          </IconButton>
+        }
+        title={`${props.name} ${props.last_name}`}
+        subheader={`${props.email}`}
+      />
+      <CardContent>
+        <Typography variant="body2" color="text.secondary">
+        {`Teléfono +${props.country_code} ${props.phone_number}`}
         </Typography>
-        <Typography gutterBottom variant="h7" component="div">
-          {props.last_name}
-        </Typography>
-        <Typography style={{
-          height: "14vh"
-        }} variant="body2" color="text.secondary">
-          {props.email}
-        </Typography>
+        <Box style={{
+          display: 'flex',
+          justifyContent: 'space-evenly',
+          marginTop: 20,
+        }}>
+          <Button onClick={()=>handleExpandClick('investments')} size='small'>Inversiones</Button>
+          <Button onClick={()=>handleExpandClick('payments')} size='small'>Pagos</Button>
+          <Button onClick={()=>handleExpandClick('information')} size="small">Información</Button>
+        </Box>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent style={{
+            display: 'flex',
+            justifyContent: 'space-evenly',
+          }}>
+            { action === 'investments' &&
+              <Box>
+                <Button size='small'>Nueva Inversión</Button>
+                <Button size="small">Ver Inversiones</Button>
+            </Box>
+            }
+            { action === 'payments' &&
+              <Box>
+                <Button size='small'>Realizar pago</Button>
+                <Button size="small">Listar pagos</Button>
+            </Box>
+            }
+          </CardContent>
+      </Collapse>
       </CardContent>
-      <CardActions key={props.id}>
-        <Button onClick={()=>userSelected(props.id)} size="small">Editar</Button>
-      </CardActions>
     </Card>
   )
 }
