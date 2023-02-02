@@ -16,7 +16,7 @@ import { logIn, meInfo } from '../redux/fetch/services'
 import { apiCall } from '../redux/fetch/management'
 import { setAuthState, setAuthToken, setState, setUserInfo } from "../redux/index"
 import { useDispatch } from "react-redux"
-import ModalPer from '../components/projectComponents/ModalPer'
+import ModalPer from '../components/projectComponents/Modals/ModalPer'
 import { AuthTokenResponse } from '../components/Models/AuthTokenResponse'
 import { UserInfo } from '../components/Models/UserInfo'
 
@@ -58,6 +58,7 @@ export default function SignIn() {
         let rli: AuthTokenResponse = await apiCall(logIn, loginRequest)
         if(rli.status===200){
           let responseGetData: UserInfo = await apiCall(meInfo, null, rli.token)
+          console.log("response : ", responseGetData)
           if(responseGetData.is_staff){
             setTimeout(() => {
               dispatch(setAuthToken(rli.token))
@@ -71,7 +72,7 @@ export default function SignIn() {
             openModal()
           }
         }else {
-          setMessage(messages[0].value)
+          setMessage(responseGetData[0].value)
           openModal()
         }
     } 

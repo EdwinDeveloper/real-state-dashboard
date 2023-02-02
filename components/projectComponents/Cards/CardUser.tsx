@@ -9,9 +9,6 @@ import { red } from '@mui/material/colors'
 import Button from '@mui/material/Button'
 import Box from '@material-ui/core/Box'
 import Collapse from '@mui/material/Collapse'
-import { styled } from '@mui/material/styles'
-import { IconButtonProps } from '@mui/material/IconButton'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 interface CardUserProps {
     id: string,
@@ -20,23 +17,13 @@ interface CardUserProps {
     email: string,
     country_code: string,
     phone_number: string,
-    userSelect: (id: string) => void,
+    investments: Investment[], 
+    userSelect: (id: string, action: string, investments: Investment[]) => void,
 }
 
-interface ExpandMoreProps extends IconButtonProps {
-  expand: boolean
+interface Investment {
+  id: string,
 }
-
-const ExpandMore = styled((props: ExpandMoreProps) => {
-  const { expand, ...other } = props
-  return <IconButton {...other} />
-})(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest,
-  }),
-}))
 
 const CardUser:FC<CardUserProps> = (props) => {
 
@@ -51,6 +38,7 @@ const CardUser:FC<CardUserProps> = (props) => {
     }
     setAction(actionIn)
   }
+
   return (
     <Card style={{
         width: 340,
@@ -82,7 +70,7 @@ const CardUser:FC<CardUserProps> = (props) => {
         }}>
           <Button onClick={()=>handleExpandClick('investments')} size='small'>Inversiones</Button>
           <Button onClick={()=>handleExpandClick('payments')} size='small'>Pagos</Button>
-          <Button onClick={()=>handleExpandClick('information')} size="small">Información</Button>
+          <Button onClick={()=>handleExpandClick('referrals')} size="small">Feferidos</Button>
         </Box>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent style={{
@@ -91,8 +79,8 @@ const CardUser:FC<CardUserProps> = (props) => {
           }}>
             { action === 'investments' &&
               <Box>
-                <Button size='small'>Nueva Inversión</Button>
-                <Button size="small">Ver Inversiones</Button>
+                <Button onClick={()=>props.userSelect(props.id, "newInvestment", props.investments)} size='small'>Nueva Inversión</Button>
+                <Button onClick={()=>props.userSelect(props.id, "investments", props.investments)} size="small">Ver Inversiones</Button>
             </Box>
             }
             { action === 'payments' &&

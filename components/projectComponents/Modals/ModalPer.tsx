@@ -2,7 +2,7 @@ import React, { FC, useState, forwardRef, useImperativeHandle } from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Modal from '@mui/material/Modal'
-import { ModalData } from '../Models/ModalData'
+import { ModalData } from '../../Models/ModalData'
 
 const style = {
   position: 'absolute' as 'absolute',

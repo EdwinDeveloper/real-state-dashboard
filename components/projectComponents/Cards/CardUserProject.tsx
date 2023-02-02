@@ -1,21 +1,28 @@
-import React, { FC } from 'react'
+import React, { FC, useRef } from 'react'
 import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-import { ProjectCard } from '../../Models/PropsComponents/ProjectCard'
-import { setIdProjectSelected } from '../../../redux/index'
-import { useDispatch } from "react-redux"
+import { Image } from '../../Models/Project'
+import ModalConfirmation from '../Modals/ModalConfirmation'
 
-const CardProject:FC<ProjectCard>  = (props) => {
+interface CardUserProjectProps {
+    id: string,
+    name: string,
+    model: string,
+    action: string,
+    images: Image[],
+    description: string,
+}
 
-  const dispatch = useDispatch()
+const CardUserProject:FC<CardUserProjectProps>  = (props) => {
 
-  const selectProject = (id: string) => {
-    dispatch(setIdProjectSelected(id))
-    props.stateForm('form')
+  const ModalConf = useRef(null)
+
+  const createInvestment = () => {
+
   }
   
   return (
@@ -32,6 +39,12 @@ const CardProject:FC<ProjectCard>  = (props) => {
         flexWrap: "wrap",
         justifyContent: "space-evenly",
     }} sx={{ maxWidth: 345 }}>
+      <ModalConfirmation 
+        ref={ModalConf}
+        id={props.id}
+        message={"Crear inversión ? "}
+        function={createInvestment}
+      />
       <CardMedia
         key={props.id}
         component="img"
@@ -54,11 +67,21 @@ const CardProject:FC<ProjectCard>  = (props) => {
           {props.description}
         </Typography>
       </CardContent>
-      <CardActions key={props.id}>
-        <Button onClick={()=>selectProject(props.id)} size="small">Editar</Button>
+      <CardActions style={{
+        display: 'flex',
+        justifyContent: 'space-evenly',
+      }} key={props.id}>
+        { props.action === 'investments'
+
+        }
+        { props.action === 'newInvestment' &&
+            <Button onClick={()=>{
+              if(ModalConf.current !== undefined && ModalConf.current !== null) ModalConf.current.openModal()              
+            }} size='small'>Seleccionar Inversión</Button>
+        }
       </CardActions>
     </Card>
   )
 }
 
-export default CardProject
+export default CardUserProject

@@ -8,7 +8,7 @@ import Inputs  from '../projectComponents/Inputs'
 import ImageList from '@mui/material/ImageList'
 import ImageListItem from '@mui/material/ImageListItem'
 import DetailsReviewCard from '../Objects/DetailsReviewCard'
-import ModalPer from '../projectComponents/ModalPer'
+import ModalPer from './Modals/ModalPer'
 import { DetailComponent } from '../Models/DetailComponent'
 import { SelectAppState } from '../../redux/index'
 import { useSelector as UseSelector, useDispatch } from "react-redux"
