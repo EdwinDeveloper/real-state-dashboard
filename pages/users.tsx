@@ -86,7 +86,8 @@ const Users:FC = () => {
   const renderCards = () => {
     return filterUserProjects !== undefined ? filterUserProjects.map((project: Project) => {
       return <CardUserProject
-        id={project.id} 
+        id={project.id}
+        userId={userSelected}
         name={project.name}
         model={project.model}
         images={project.images}
@@ -100,6 +101,7 @@ const Users:FC = () => {
     return allProjects !== undefined ? allProjects.map((project: Project) => {
       return <CardUserProject
         id={project.id} 
+        userId={userSelected}
         name={project.name}
         model={project.model}
         images={project.images}
@@ -130,6 +132,8 @@ const Users:FC = () => {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
+          width: "90%",
+          marginTop: 30,
         }}>
           <Box>
               <Button
@@ -145,7 +149,16 @@ const Users:FC = () => {
                 Volver
               </Button>
           </Box>
-          <Box>
+          <Box style={{
+            width: "100%",
+            height: "90vh",
+            display: "flex",
+            flexWrap: "wrap",
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            alignItems: "stretch",
+            backgroundColor: '#FFFFFF',
+          }}>
             {renderCards()}
           </Box>
         </Box>

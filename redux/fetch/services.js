@@ -72,3 +72,15 @@ export function updateProject(request, token, id){
         data: request
     })
 }
+
+export function createInvestment(request, token, id_user){
+    return call({
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`
+        },
+        url: `${url_base}/api/user/set/${id_user}/set-investment/`,
+        data: request
+    })
+}

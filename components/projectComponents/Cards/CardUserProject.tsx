@@ -10,6 +10,7 @@ import ModalConfirmation from '../Modals/ModalConfirmation'
 
 interface CardUserProjectProps {
     id: string,
+    userId: string,
     name: string,
     model: string,
     action: string,
@@ -42,6 +43,7 @@ const CardUserProject:FC<CardUserProjectProps>  = (props) => {
       <ModalConfirmation 
         ref={ModalConf}
         id={props.id}
+        userId={props.userId}
         message={"Crear inversión ? "}
         function={createInvestment}
       />

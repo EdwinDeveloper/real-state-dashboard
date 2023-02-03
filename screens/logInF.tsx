@@ -58,7 +58,6 @@ export default function SignIn() {
         let rli: AuthTokenResponse = await apiCall(logIn, loginRequest)
         if(rli.status===200){
           let responseGetData: UserInfo = await apiCall(meInfo, null, rli.token)
-          console.log("response : ", responseGetData)
           if(responseGetData.is_staff){
             setTimeout(() => {
               dispatch(setAuthToken(rli.token))
