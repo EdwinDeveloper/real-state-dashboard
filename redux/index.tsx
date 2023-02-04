@@ -1,8 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { apiCall } from '../redux/fetch/management'
-import { meInfo } from '../redux/fetch/services'
-import { useSelector as UseSelector } from "react-redux"
-import { useDispatch } from "react-redux"
 
 // Type for our state
 export interface AppState {
@@ -58,10 +54,3 @@ export const {
 export const SelectAppState = (state: AppState) => state.AppState
 
 export default authSlice.reducer
-
-// export const refreshGlobalInfo = async() => {
-//   const dispatch = useDispatch()
-//   const AppState = UseSelector(SelectAppState)
-//   let response = await apiCall(meInfo, null, AppState.authToken)
-//   dispatch(setUserInfo(response))
-// }

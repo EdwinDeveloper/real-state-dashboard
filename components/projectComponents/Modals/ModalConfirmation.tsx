@@ -6,8 +6,11 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography'
 import { createInvestment } from '../../../redux/fetch/services'
 import { apiCall } from '../../../redux/fetch/management'
+import { meInfo } from '../../../redux/fetch/services'
 import { useSelector as UseSelector } from "react-redux"
-import { SelectAppState, refreshGlobalInfo } from '../../../redux/index'
+import { SelectAppState } from '../../../redux/index'
+import { useDispatch } from "react-redux"
+import { setUserInfo } from "../../../redux/index"
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -39,6 +42,8 @@ const ModalConfirmation:FC<ModalConfirmationProps> = forwardRef((props,  ref: an
         }
     ), [])
 
+  const dispatch = useDispatch()
+
   const AppState = UseSelector(SelectAppState)
 
   const [open, setOpen] = useState(false)
@@ -58,7 +63,9 @@ const ModalConfirmation:FC<ModalConfirmationProps> = forwardRef((props,  ref: an
       let response = await apiCall(createInvestment, request, AppState.authToken, user_id)
       if(response.message === "Investment created"){
         handleClose()
-        // refreshGlobalInfo()
+        let refreshInfo = await apiCall(meInfo, null, AppState.authToken)
+        console.log("refresh info : ", refreshInfo)
+        dispatch(setUserInfo(refreshInfo))
       }
     }, 1000);
   }

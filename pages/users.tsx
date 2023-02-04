@@ -42,6 +42,8 @@ const Users:FC = () => {
   const [filterUserProjects, setFilterUserProjects] = useState<Project[]>()
   const [allProjects, setAllProjects] = useState<Project[]>(userInfo.projects)
 
+  const [referrals, setReferrals] = useState<Referral[]>()
+
   const userSelect = (id: string, action: string, investments: Investment[]) => {
     setUserSelected(id)
     setUserState(action)
@@ -132,7 +134,7 @@ const Users:FC = () => {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          width: "90%",
+          width: "95%",
           marginTop: 30,
         }}>
           <Box>

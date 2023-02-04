@@ -23,16 +23,6 @@ const CardCommission:FC<CommissionCard>  = (props) => {
         justifyContent: "space-evenly",
     }} sx={{ maxWidth: 345 }}>
       Si we si
-      {/* <CardContent key={""}>
-        <Typography style={{
-          height: "14vh"
-        }} variant="body2" color="text.secondary">
-          Hola
-        </Typography>
-      </CardContent>
-      <CardActions key={""}>
-        <Button onClick={()=>{}} size="small">Editar</Button>
-      </CardActions> */}
     </Card>
   )
 }
