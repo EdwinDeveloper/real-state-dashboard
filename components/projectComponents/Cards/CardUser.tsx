@@ -9,6 +9,7 @@ import { red } from '@mui/material/colors'
 import Button from '@mui/material/Button'
 import Box from '@material-ui/core/Box'
 import Collapse from '@mui/material/Collapse'
+import { Referral } from '../../../pages/users'
 
 interface CardUserProps {
     id: string,
@@ -17,8 +18,10 @@ interface CardUserProps {
     email: string,
     country_code: string,
     phone_number: string,
-    investments: Investment[], 
+    investments: Investment[],
+    referrals: Referral[],
     userSelect: (id: string, action: string, investments: Investment[]) => void,
+    userReferrals: (idUser: string, action: string, referrals: Referral[]) => void,
 }
 
 interface Investment {
@@ -70,7 +73,7 @@ const CardUser:FC<CardUserProps> = (props) => {
         }}>
           <Button onClick={()=>handleExpandClick('investments')} size='small'>Inversiones</Button>
           <Button onClick={()=>handleExpandClick('payments')} size='small'>Pagos</Button>
-          <Button onClick={()=>handleExpandClick('referrals')} size="small">Feferidos</Button>
+          <Button onClick={()=>props.userReferrals(props.id, "referrals", props.referrals)} size="small">Feferidos</Button>
         </Box>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent style={{

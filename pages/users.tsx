@@ -8,6 +8,7 @@ import { Project } from "../components/Models/Project"
 import CardUserProject from '../components/projectComponents/Cards/CardUserProject'
 import Button from '@mui/material/Button'
 import { ValidationTextField } from '../public/ValidationTextField'
+import CardUserReferrals from '../components/projectComponents/Cards/CardReferral'
 
 interface CardUserProps {
   id: string,
@@ -22,8 +23,9 @@ interface CardUserProps {
 interface Investment {
   id: string,
 }
-interface Referral {
+export interface Referral {
   id: string,
+  country_code: string,
   phone_number: string,
   gender: string,
   name: string,
@@ -48,6 +50,11 @@ const Users:FC = () => {
     setUserSelected(id)
     setUserState(action)
     userProjects(id, investments)
+  }
+
+  const referralsUser = (idUser: string, action: string, referrals: Referral[]) => {
+    setUserState(action)
+    setReferrals(referrals)
   }
 
   const userProjects = (id: string, investments: Investment[]) => {
@@ -80,7 +87,9 @@ const Users:FC = () => {
         country_code={singleUser.country_code}
         phone_number={singleUser.phone_number}
         investments={singleUser.investments}
+        referrals={singleUser.referrals}
         userSelect={userSelect}
+        userReferrals={referralsUser}
       />
     }) : null
   }
@@ -95,6 +104,22 @@ const Users:FC = () => {
         images={project.images}
         description={project.description}
         action={userState}
+      />
+    }) : null
+  }
+
+  const renderAllReferrals = () => {
+    return referrals !== undefined ? referrals.map((referral: Referral) => {
+      return <CardUserReferrals
+        id_referral={referral.id}
+        country_code={referral.country_code}
+        phone_number={referral.phone_number}
+        gender={referral.gender}
+        name={referral.name}
+        last_name={referral.last_name}
+        project={referral.project}
+        commission={referral.commission}
+        status={referral.status}
       />
     }) : null
   }
@@ -214,6 +239,38 @@ const Users:FC = () => {
               {renderAllProjects()}
             </Box>
         </Box>
+      }
+      { userState === 'referrals' &&
+      <Box style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: "95%",
+        marginTop: 30,
+      }}>
+        <Button
+                style={{
+                  backgroundColor: "#159988",
+                  width: 300,
+                  marginBottom: 50,
+                }}
+                onClick={()=>setUserState('main')}
+                variant="contained"
+                color="success"
+              >
+                Volver
+              </Button>
+        <Box style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: 100,
+        }}>
+          {renderAllReferrals()}
+        </Box>
+      </Box>
       }
     </Layout>
   )
