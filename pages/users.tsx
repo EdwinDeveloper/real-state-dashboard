@@ -111,15 +111,8 @@ const Users:FC = () => {
   const renderAllReferrals = () => {
     return referrals !== undefined ? referrals.map((referral: Referral) => {
       return <CardUserReferrals
-        id_referral={referral.id}
-        country_code={referral.country_code}
-        phone_number={referral.phone_number}
-        gender={referral.gender}
-        name={referral.name}
-        last_name={referral.last_name}
-        project={referral.project}
-        commission={referral.commission}
-        status={referral.status}
+        referral={referral}
+        setUserState={setUserState}
       />
     }) : null
   }
@@ -247,7 +240,7 @@ const Users:FC = () => {
         justifyContent: 'center',
         alignItems: 'center',
         width: "95%",
-        marginTop: 30,
+        marginTop: 100,
       }}>
         <Button
                 style={{
@@ -262,11 +255,14 @@ const Users:FC = () => {
                 Volver
               </Button>
         <Box style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginTop: 100,
+          width: "100%",
+          height: "90vh",
+          display: "flex",
+          flexWrap: "wrap",
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          alignItems: "stretch",
+          backgroundColor: '#FFFFFF',
         }}>
           {renderAllReferrals()}
         </Box>

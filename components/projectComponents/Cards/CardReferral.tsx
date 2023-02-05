@@ -1,46 +1,55 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useState, useRef } from 'react'
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import Avatar from '@mui/material/Avatar'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
-import { red } from '@mui/material/colors'
 import Button from '@mui/material/Button'
 import Box from '@material-ui/core/Box'
-import Collapse from '@mui/material/Collapse'
-import { green } from '@material-ui/core/colors'
+import { REFERRAL_STATUS, COLORS } from '../../../utils/const'
+import ModalReferral from '../Modals/ModalReferral'
 
 export interface ReferralProps {
-    id_referral: string,
-    country_code: string,
-    phone_number: string,
-    gender: string,
-    name: string,
-    last_name: string,
-    project: string,
-    commission: string, 
-    status: string,
+  referral: Referral,
+  setUserState: (action: string) => void,
+}
+
+export interface Referral {
+  id: string,
+  country_code: string,
+  phone_number: string,
+  gender: string,
+  name: string,
+  last_name: string,
+  project: string,
+  commission: string,
+  status: string,
 }
 
 const CardUserReferrals:FC<ReferralProps> = (props) => {
 
-  const [expanded, setExpanded] = useState(false)
-  const [action, setAction] = useState('')
+  const ModalRef = useRef(null)
+
+  const [modalMessage, setModalMessage] = useState('')
+
+  const { name, status, last_name, commission, country_code, phone_number } = props.referral
 
   let statusIcon = ''
   let statusBackgound = ''
   let message = ''
 
-  if(props.status === 'waiting'){
-    statusIcon = '#f4d859'
-    statusBackgound = '#fcf4ce'
-  }else if (props.status === 'approved'){
-    statusIcon = '#114039'
-    statusBackgound = '#a6b6b4'
-  }else if (props.status === 'rejected'){
-    statusIcon = '#D82A43'
-    statusBackgound = '#FFA9B5'
+  if(status === REFERRAL_STATUS.WAITING){
+    statusIcon = COLORS.REFERRAL_ICON_WAITING
+    statusBackgound = COLORS.REFERRAL_BACKGROUND_WAITING
+    message = 'Inversión en revisión'
+  }else if (status === REFERRAL_STATUS.APPROVED){
+    statusIcon = COLORS.REFERRAL_ICON_APPROVED
+    statusBackgound = COLORS.REFERRAL_BACKGROUND_APPROVED
+    message = 'Inversión completa'
+  }else if (status === REFERRAL_STATUS.REJECTED){
+    statusIcon = COLORS.REFERRAL_ICON_REJECTED
+    statusBackgound = COLORS.REFERRAL_BACKGROUND_REJECTED
     message = 'Inversión rechazada'
   }
 
@@ -52,18 +61,19 @@ const CardUserReferrals:FC<ReferralProps> = (props) => {
         borderRadius: 10,
         backgroundColor: statusBackgound,
     }} sx={{ maxWidth: 345 }}>
+      <ModalReferral ref={ModalRef} message={modalMessage} setUserState={props.setUserState} referral={props.referral}/>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: statusIcon }} aria-label="recipe">
-            {props.name.substring(0, 1)}
+            {name.substring(0, 1)}
           </Avatar>
         }
         action={
           <IconButton aria-label="settings">
           </IconButton>
         }
-        title={`${props.name} ${props.last_name}`}
-        subheader={`+${props.country_code} ${props.phone_number}`}
+        title={`${name} ${last_name}`}
+        subheader={`+${country_code} ${phone_number}`}
       />
       <CardContent>
         
@@ -78,17 +88,40 @@ const CardUserReferrals:FC<ReferralProps> = (props) => {
             {`${message}`}
           </Typography>
           <Typography>
-            {`$ ${props.commission.split('.')[0]}`}
+            {`$ ${commission.split('.')[0]}`}
           </Typography>
         </Box>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <Box style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          width: '100%',
+          marginTop: 20,
+        }}>
+          { status === REFERRAL_STATUS.APPROVED &&
+              <Button onClick={()=>{}} size='small'>Inversiones</Button>
+          }
+          { status === REFERRAL_STATUS.WAITING &&
+              <Button onClick={()=>{
+                setModalMessage('Acción a realizar ?')
+                if(ModalRef.current !== undefined && ModalRef.current !== null) ModalRef.current.openModal()              
+              }} size='small'>Revisar referido</Button>
+          }
+          { status === REFERRAL_STATUS.REJECTED &&
+            <Box>
+              <Button onClick={()=>{}} size='small'>Aceptar referido</Button>
+            </Box>
+          }
+        </Box>
+        {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent style={{
             display: 'flex',
             justifyContent: 'space-evenly',
           }}>
-           
+            <Button size='small'>Inversiones</Button>
+            <Button size='small'>Pagos</Button>
           </CardContent>
-      </Collapse>
+      </Collapse> */}
       </CardContent>
     </Card>
   )

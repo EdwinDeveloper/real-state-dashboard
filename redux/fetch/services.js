@@ -84,3 +84,15 @@ export function createInvestment(request, token, id_user){
         data: request
     })
 }
+
+export function updateReferral(request, token, id_referral){
+    return call({
+        method: 'patch',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`
+        },
+        url: `${url_base}/api/company/referral/${id_referral}/`,
+        data: request
+    })
+}
