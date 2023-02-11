@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useState, useRef } from 'react'
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
@@ -8,17 +8,19 @@ import Typography from '@mui/material/Typography'
 import { red } from '@mui/material/colors'
 import Button from '@mui/material/Button'
 import Box from '@material-ui/core/Box'
-import Collapse from '@mui/material/Collapse'
 import { Commission } from '../../../pages/commissions'
 
 interface CommissionProps {
     commission: Commission,
     activateForm: (screen: string) => void,
+    updateCommission: (commission: Commission) => void,
 }
 
 const CardCommissions:FC<CommissionProps> = (props) => {
 
-    const { commission, activateForm } = props
+    const { commission, activateForm, updateCommission } = props
+
+    const Modal = useRef(null)
 
     return (
         <Card key={commission.id} style={{
@@ -47,7 +49,7 @@ const CardCommissions:FC<CommissionProps> = (props) => {
                 alignItems: "center",
                 }}>
                 <Box>
-                    <Button onClick={()=>activateForm("form")} size='small'>Modificar</Button>
+                    <Button onClick={()=>updateCommission(commission)} size='small'>Modificar</Button>
                 </Box>
             </CardContent>
         </Card>

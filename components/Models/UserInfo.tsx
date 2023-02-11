@@ -1,3 +1,4 @@
+import { Commission } from "./Commission";
 import { Project } from "./Project";
 
 export interface UserInfo {
@@ -13,6 +14,8 @@ export interface UserInfo {
     is_staff: boolean,
     projects: Project[],
     videos: Object,
+
+    commissions: Commission
 
     status?: number,
     body?: Object,

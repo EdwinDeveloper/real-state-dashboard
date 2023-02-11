@@ -97,3 +97,38 @@ export function updateReferral(request, token, id_referral){
         data: request
     })
 }
+
+export function getCommissions(request, token) {
+    return call({
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`
+        },
+        url: `${url_base}/api/company/commission/`
+    })
+}
+
+export function createCommission(request, token) {
+    return call({
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`
+        },
+        url: `${url_base}/api/company/commission/`,
+        data: request
+    })
+}
+
+export function updateCommission(request, token, id_commission){
+    return call({
+        method: 'patch',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`
+        },
+        url: `${url_base}/api/company/commission/${id_commission}/`,
+        data: request
+    })
+}

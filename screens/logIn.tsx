@@ -1,6 +1,4 @@
 import React, { FC } from 'react'
-import Image from 'next/image'
-import logo from '../assets/loadingLogo.png'
 
 const LogIn:FC = () => {
     return (

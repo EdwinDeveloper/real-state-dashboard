@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { Commission } from "../components/Models/Commission"
 
 // Type for our state
 export interface AppState {
@@ -7,6 +8,7 @@ export interface AppState {
   authToken: string,
   userInfo: {},
   idProjectSelected: string,
+  commissionsList: Commission[]
 }
 
 // Initial state
@@ -16,6 +18,7 @@ const initialState: AppState = {
   authToken: "",
   userInfo: {},
   idProjectSelected: "",
+  commissionsList: []
 }
 
 // Actual Slice
@@ -40,6 +43,9 @@ export const authSlice = createSlice({
     setIdProjectSelected(state, action) {
       state.idProjectSelected = action.payload
     },
+    setCommissionsList(state, action) {
+      state.commissionsList = action.payload
+    }
   },
 })
 
@@ -49,6 +55,7 @@ export const {
   setAuthToken,
   setUserInfo,
   setIdProjectSelected,
+  setCommissionsList,
 } = authSlice.actions
 
 export const SelectAppState = (state: AppState) => state.AppState

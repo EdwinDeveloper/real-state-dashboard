@@ -14,7 +14,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import logo from '../assets/loadingLogo.png'
 import { logIn, meInfo } from '../redux/fetch/services'
 import { apiCall } from '../redux/fetch/management'
-import { setAuthState, setAuthToken, setState, setUserInfo } from "../redux/index"
+import { setAuthState, setAuthToken, setState, setUserInfo, setCommissionsList } from "../redux/index"
 import { useDispatch } from "react-redux"
 import ModalPer from '../components/projectComponents/Modals/ModalPer'
 import { AuthTokenResponse } from '../components/Models/AuthTokenResponse'
@@ -63,6 +63,7 @@ export default function SignIn() {
             setTimeout(() => {
               dispatch(setAuthToken(rli.token))
               dispatch(setUserInfo(responseGetData))
+              dispatch(setCommissionsList(responseGetData.commissions))
               dispatch(setState(2))
             }, 500)
             setMessage('Bienvenido')

@@ -108,7 +108,7 @@ const ListProjects:FC = (props: any) => {
 
   const AppState = UseSelector(SelectAppState)
   const dispatch = useDispatch()
-  const { userInfo, authToken, idProjectSelected } = AppState
+  const { userInfo, authToken, idProjectSelected, commissionsList } = AppState
 
   const [showExtras, setShowExtras] = useState(false)
   const [extraToShow, setExtraToShow] = useState<any[]>([])
@@ -117,7 +117,7 @@ const ListProjects:FC = (props: any) => {
 
   const [modalMessage, setModalMessage] = useState('')
 
-  const commissions: Commission[] = userInfo.commissions
+  const commissions: Commission[] = commissionsList
 
   const companies: Companie[] = userInfo.companies
 

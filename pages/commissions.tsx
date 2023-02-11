@@ -1,11 +1,15 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useState, useRef } from 'react'
 import Layout from '../components/Layout'
 import Box from '@material-ui/core/Box'
 import CardCommissions from '../components/projectComponents/Cards/CardCommission'
-import { SelectAppState } from '../redux/index'
+import { SelectAppState, setCommissionsList } from '../redux/index'
 import { useSelector as UseSelector } from "react-redux"
 import Button from '@mui/material/Button'
 import { ValidationTextField } from '../public/ValidationTextField'
+import ModalPer from '../components/projectComponents/Modals/ModalPer'
+import { createCommission as CreateCommission, updateCommission as UpdateCommission, getCommissions } from '../redux/fetch/services'
+import { apiCall } from '../redux/fetch/management'
+import { useDispatch } from "react-redux"
 
 export interface Commission {
     id: string,
@@ -15,34 +19,101 @@ export interface Commission {
 
 const Commissions:FC = ()=>{
 
-    const AppState = UseSelector(SelectAppState)
-    const { userInfo } = AppState
-    const [comState, setComState] = useState("main")
+    const dispatch = useDispatch()
 
+    const AppState = UseSelector(SelectAppState)
+    const { userInfo, commissionsList } = AppState
+    const [comState, setComState] = useState("main")
+    const [action, setAction] = useState("new")
+
+    const [idCommissionSelected, setIdCommissionSelected] = useState('')
     const [newPercentage, setNewPercentage] = useState(0.0)
     const [newDescription, setNewDescription] = useState('')
+
+    const [modalMessage, setModalMessage] = useState('')
+
+    const Modal = useRef(null)
 
     const screen = (screen: string) => {
         setComState(screen)
     }
 
     const commissions = () => {
-        return userInfo.commissions.map((commission: Commission)=>{
+        return commissionsList.map((commission: Commission)=>{
             return (
-                <CardCommissions commission={commission} activateForm={screen}/>
+                <CardCommissions
+                    commission={commission}
+                    activateForm={screen}
+                    updateCommission={updateCommission}
+                />
             )
         })
     }
 
     const createCommission = () => {
-        let commission = {
-            percentage: newPercentage,
-            description: newDescription
+        setAction("new")
+        setComState("form")
+        setIdCommissionSelected("")
+        setNewDescription("")
+        setNewPercentage(0.0)
+    }
+    const createCommissionAction = async() => {
+        if(newDescription === ""){
+            setModalMessage("Añade un nombre de comisión")
+            Modal.current.openModal()
         }
-        if(newPercentage ===0.0 && newDescription === ''){
-            alert("we no mames")
-        }else {
-            console.log("request : ", commission)
+        if(newPercentage === 0.0){
+            setModalMessage("Añade un porcentage de comisión")
+            Modal.current.openModal()
+        }
+        if(newDescription !== "" && newPercentage !== 0.0){
+            let request = {
+                description: newDescription,
+                percentage: newPercentage.toString()
+            }
+            let response = await apiCall(CreateCommission, request, AppState.authToken)
+            if(response.status ===201){
+                updateCommissionsList("Comisión creada")
+            }
+        }
+    }
+
+    const updateCommissionsList = (message: string) => {
+        Modal.current.openModal()
+        setModalMessage(message)
+        setTimeout(async() => {
+            setComState("main")
+            Modal.current.closeModal()
+            let commissions = await apiCall(getCommissions, null, AppState.authToken)
+            dispatch(setCommissionsList(commissions))
+        }, 500);
+    }
+
+    const updateCommission = (commission: Commission) => {
+        setAction("update")
+        setComState("form")
+        setIdCommissionSelected(commission.id)
+        setNewDescription(commission.description)
+        setNewPercentage(parseFloat(commission.percentage))
+    }
+    const updateCommissionAction = async() => {
+        if(newDescription === ""){
+            setModalMessage("Añade un nombre de comisión")
+            Modal.current.openModal()
+        }
+        if(newPercentage === 0.0){
+            setModalMessage("Añade un porcentage de comisión")
+            Modal.current.openModal()
+        }
+        if(newDescription !== "" && newPercentage !== 0.0){
+            let request = {
+                description: newDescription,
+                percentage: newPercentage.toString()
+            }
+            let response = await apiCall(UpdateCommission, request, AppState.authToken, idCommissionSelected)
+            if(response.status === 200){
+                updateCommissionsList("Comisión actualidada")
+            }
         }
     }
 
@@ -57,6 +128,8 @@ const Commissions:FC = ()=>{
                 alignItems: "center",
                 marginTop: 25,
             }}>
+
+                <ModalPer ref={Modal} title={""} message={modalMessage}/>
                 { comState === "main" &&
                     <Box style={{
                         display: "flex",
@@ -70,7 +143,7 @@ const Commissions:FC = ()=>{
                             width: 300,
                             marginBottom: 50,
                             }}
-                            onClick={()=>setComState("form")}
+                            onClick={()=>createCommission()}
                             variant="contained"
                             color="success"
                         >
@@ -141,18 +214,34 @@ const Commissions:FC = ()=>{
                                 value={newDescription}
                                 onChange={(description)=>setNewDescription(description.target.value)}
                                 />
-                                <Button
+                                {   action === "new" &&
+                                    <Button
                                         style={{
                                             backgroundColor: "#159988",
                                             width: 150,
                                             height: 50,
                                         }}
-                                        onClick={()=>createCommission()}
+                                        onClick={()=>createCommissionAction()}
                                         variant="contained"
                                         color="success"
                                     >
                                         Crear
-                                </Button>
+                                    </Button>
+                                }
+                                {   action === "update" &&
+                                    <Button
+                                        style={{
+                                            backgroundColor: "#159988",
+                                            width: 150,
+                                            height: 50,
+                                        }}
+                                        onClick={()=>updateCommissionAction()}
+                                        variant="contained"
+                                        color="success"
+                                    >
+                                        Actualizar
+                                    </Button>
+                                }
                             </Box>
                     </Box>
                 }
