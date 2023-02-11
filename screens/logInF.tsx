@@ -56,6 +56,7 @@ export default function SignIn() {
       }else{
         let loginRequest = { email: data.get('email'), password: data.get('password') }
         let rli: AuthTokenResponse = await apiCall(logIn, loginRequest)
+        console.log("response : ", rli)
         if(rli.status===200){
           let responseGetData: UserInfo = await apiCall(meInfo, null, rli.token)
           if(responseGetData.is_staff){
@@ -71,7 +72,7 @@ export default function SignIn() {
             openModal()
           }
         }else {
-          setMessage(responseGetData[0].value)
+          setMessage(rli.messages[0].value)
           openModal()
         }
     } 

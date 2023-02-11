@@ -2,6 +2,7 @@ import { FetchConfig } from '../../components/Models/FetchConfig'
 import call from './call'
 
 const url_base = "http://127.0.0.1:8000"
+//const url_base = "http://ec2-3-145-15-251.us-east-2.compute.amazonaws.com"
 
 export function setup(request, token){
     return call({

@@ -25,7 +25,7 @@ interface Snippet {
   title: string,
 }
 
-const Tutorials:FC = () => {
+const Videos:FC = () => {
 
   const AppState = UseSelector(SelectAppState)
   const { userInfo } = AppState
@@ -56,4 +56,4 @@ const Tutorials:FC = () => {
   )
 }
 
-export default Tutorials
+export default Videos

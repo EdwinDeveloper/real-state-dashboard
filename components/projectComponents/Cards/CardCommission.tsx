@@ -1,30 +1,57 @@
-import React, { FC } from 'react';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import { CommissionCard } from '../../Models/PropsComponents/CommissionCard'
+import React, { FC, useState } from 'react'
+import Card from '@mui/material/Card'
+import CardHeader from '@mui/material/CardHeader'
+import CardContent from '@mui/material/CardContent'
+import Avatar from '@mui/material/Avatar'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+import { red } from '@mui/material/colors'
+import Button from '@mui/material/Button'
+import Box from '@material-ui/core/Box'
+import Collapse from '@mui/material/Collapse'
+import { Commission } from '../../../pages/commissions'
 
-const CardCommission:FC<CommissionCard>  = (props) => {
-  
-  return (
-    <Card key={""} style={{
-        width: "90%",
-        height: 450,
-        backgroundColor: "#fff",
-        borderRadius: 12,
-        borderColor: "#FFFFFF",
-        borderBottomColor: "#DADADA",
-        borderWidth: 0.2,
-        marginTop: 20,
-        flexDirection: 'row',
-        flexWrap: "wrap",
-        justifyContent: "space-evenly",
-    }} sx={{ maxWidth: 345 }}>
-      Si we si
-    </Card>
-  )
+interface CommissionProps {
+    commission: Commission,
+    activateForm: (screen: string) => void,
 }
 
-export default CardCommission
+const CardCommissions:FC<CommissionProps> = (props) => {
+
+    const { commission, activateForm } = props
+
+    return (
+        <Card key={commission.id} style={{
+            width: 250,
+            height: 120,
+            marginBottom: 20,
+            borderRadius: 10,
+        }}>
+            <CardHeader
+                avatar={
+                <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                    {commission.description.substring(0, 1)}
+                </Avatar>
+                }
+                action={
+                    <IconButton aria-label="settings">
+                    </IconButton>
+                }
+                title={`${commission.percentage}`}
+                subheader={`${commission.description}`}
+            />
+            <CardContent style={{
+                display: "flex",
+                flexDirection: 'column',
+                justifyContent: "center",
+                alignItems: "center",
+                }}>
+                <Box>
+                    <Button onClick={()=>activateForm("form")} size='small'>Modificar</Button>
+                </Box>
+            </CardContent>
+        </Card>
+    )
+}
+
+export default CardCommissions
