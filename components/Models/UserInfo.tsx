@@ -1,4 +1,5 @@
 import { Commission } from "./Commission";
+import { Companie } from "./Companie";
 import { Project } from "./Project";
 
 export interface UserInfo {
@@ -15,7 +16,8 @@ export interface UserInfo {
     projects: Project[],
     videos: Object,
 
-    commissions: Commission
+    commissions: Commission[],
+    companies: Companie[],
 
     status?: number,
     body?: Object,

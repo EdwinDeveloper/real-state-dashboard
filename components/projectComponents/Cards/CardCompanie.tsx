@@ -7,7 +7,8 @@ import Box from '@material-ui/core/Box'
 import Button from '@mui/material/Button'
 
 interface CompanieProps {
-  companie: Companie
+  companie: Companie,
+  updateCompany: (company: Companie) => void,
 }
 
 const CardCompanie:FC<CompanieProps>  = (props) => {
@@ -16,7 +17,7 @@ const CardCompanie:FC<CompanieProps>  = (props) => {
   
   return (
     <Card key={companie.id} style={{
-        width: "90%",
+        width: 400,
         height: 200,
         backgroundColor: "#fff",
         borderRadius: 12,
@@ -50,7 +51,7 @@ const CardCompanie:FC<CompanieProps>  = (props) => {
             {companie.name}
           </Box>
           <Box>
-            <Button size='small'>Modificar</Button>
+            <Button onClick={()=>props.updateCompany(props.companie)} size='small'>Modificar</Button>
           </Box>
         </CardContent>
     </Card>

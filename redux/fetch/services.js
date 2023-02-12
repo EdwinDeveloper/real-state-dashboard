@@ -121,7 +121,7 @@ export function createCommission(request, token) {
     })
 }
 
-export function updateCommission(request, token, id_commission){
+export function updateCommission(request, token, id_commission) {
     return call({
         method: 'patch',
         headers: {
@@ -129,6 +129,41 @@ export function updateCommission(request, token, id_commission){
             'Authorization': `Token ${token}`
         },
         url: `${url_base}/api/company/commission/${id_commission}/`,
+        data: request
+    })
+}
+
+export function getCompanies(request, token) {
+    return call({
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`
+        },
+        url: `${url_base}/api/company/companies/`
+    })
+}
+
+export function createCompany(request, token) {
+    return call({
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`
+        },
+        url: `${url_base}/api/company/companies/`,
+        data: request
+    })
+}
+
+export function updateCompany(request, token, id_company) {
+    return call({
+        method: 'patch',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`
+        },
+        url: `${url_base}/api/company/companies/${id_company}/`,
         data: request
     })
 }

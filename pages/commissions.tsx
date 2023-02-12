@@ -139,9 +139,9 @@ const Commissions:FC = ()=>{
                     }}>
                         <Button
                             style={{
-                            backgroundColor: "#159988",
-                            width: 300,
-                            marginBottom: 50,
+                                backgroundColor: "#159988",
+                                width: 300,
+                                marginBottom: 50,
                             }}
                             onClick={()=>createCommission()}
                             variant="contained"

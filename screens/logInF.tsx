@@ -14,7 +14,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import logo from '../assets/loadingLogo.png'
 import { logIn, meInfo } from '../redux/fetch/services'
 import { apiCall } from '../redux/fetch/management'
-import { setAuthState, setAuthToken, setState, setUserInfo, setCommissionsList } from "../redux/index"
+import { setAuthState, setAuthToken, setState, setUserInfo, setCommissionsList, setCompaniesList } from "../redux/index"
 import { useDispatch } from "react-redux"
 import ModalPer from '../components/projectComponents/Modals/ModalPer'
 import { AuthTokenResponse } from '../components/Models/AuthTokenResponse'
@@ -56,7 +56,6 @@ export default function SignIn() {
       }else{
         let loginRequest = { email: data.get('email'), password: data.get('password') }
         let rli: AuthTokenResponse = await apiCall(logIn, loginRequest)
-        console.log("response : ", rli)
         if(rli.status===200){
           let responseGetData: UserInfo = await apiCall(meInfo, null, rli.token)
           if(responseGetData.is_staff){
@@ -64,6 +63,7 @@ export default function SignIn() {
               dispatch(setAuthToken(rli.token))
               dispatch(setUserInfo(responseGetData))
               dispatch(setCommissionsList(responseGetData.commissions))
+              dispatch(setCompaniesList(responseGetData.companies))
               dispatch(setState(2))
             }, 500)
             setMessage('Bienvenido')
