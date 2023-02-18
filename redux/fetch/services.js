@@ -1,15 +1,15 @@
 import { FetchConfig } from '../../components/Models/FetchConfig'
 import call from './call'
 
-const url_base = "http://127.0.0.1:8000"
+//const url_base = "http://localhost:8000"
 //const url_base = "http://ec2-3-145-15-251.us-east-2.compute.amazonaws.com"
+const url_base = "http://143.198.63.104:8000"
 
 export function setup(request, token){
     return call({
         method: 'post',
         headers: {
-            'Content-Type': 'application/json',
-            'access-control-allow-origin':  '*'
+            'Content-Type': 'application/json'
         },
         url: `${url_base}/api/user/create/`,
         data: request

@@ -49,7 +49,7 @@ const CardProject:FC<ProjectCard>  = (props) => {
           {props.name}
         </Typography>
         <Typography style={{
-          height: "14vh"
+          height: 80
         }} variant="body2" color="text.secondary">
           {props.description}
         </Typography>

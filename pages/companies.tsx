@@ -56,17 +56,19 @@ const Companies:FC = ()=>{
     }
 
     const createCompany = () => {
+        setName("")
+        setIcon("")
         setComState("form")
         setAction("new")
         setIdCompanySelected("")
     }
     const createCompanyAction = async() => {
         if(name === ""){
-            setModalMessage("Añade un nombre de comisión")
+            setModalMessage("Añade un nombre de compañia")
             Modal.current.openModal()
         }
         if(icon === ""){
-            setModalMessage("Añade un porcentage de comisión")
+            setModalMessage("Añade un icono de compañia")
             Modal.current.openModal()
         }
         if(name !== "" && icon !== ""){
