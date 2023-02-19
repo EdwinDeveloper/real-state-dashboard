@@ -10,6 +10,7 @@ import { getCompanies, createCompany as CreateCompany, updateCompany as UpdateCo
 import { apiCall } from '../redux/fetch/management'
 import ModalPer from '../components/projectComponents/Modals/ModalPer'
 import { useDispatch } from "react-redux"
+import Image from 'next/image'
 
 export interface Companie {
     id: string,
@@ -38,7 +39,7 @@ const Companies:FC = ()=>{
     const companies = () => {
         return companiesList.map((companie: Companie)=>{
             return (
-                <CardCompanie companie={companie} updateCompany={updateCompany}/>
+                <CardCompanie key={companie.id} companie={companie} updateCompany={updateCompany}/>
             )
         })
     }
@@ -249,7 +250,7 @@ const Companies:FC = ()=>{
                                 width: 200,
                                 height: 500,
                             }}>
-                                <img
+                                <Image
                                     src={`${icon}?w=200&h=100&fit=crop&auto=format`}
                                     srcSet={`${icon}?w=200&h=100&fit=crop&auto=format&dpr=2 1x`}
                                     alt={"Logo Ejemplo"}

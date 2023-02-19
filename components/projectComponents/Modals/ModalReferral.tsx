@@ -30,6 +30,7 @@ const style = {
 }
 
 interface ModalReferralProps {
+  ref: any,
     message: string,
     referral: Referral,
     setUserState: (action: string) => void,
@@ -135,5 +136,7 @@ const ModalReferral:FC<ModalReferralProps> = forwardRef((props,  ref: any) => {
     </Box>
   )
 })
+
+ModalReferral.displayName="ModalReferral"
 
 export default ModalReferral

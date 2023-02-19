@@ -8,14 +8,14 @@ import { SelectAppState } from '../redux/index'
 import { useSelector as UseSelector } from "react-redux"
 import { Project } from '../components/Models/Project'
 import { setIdProjectSelected } from '../redux/index'
-import { useDispatch } from "react-redux"
+import { useDispatch as UseDispatch } from "react-redux"
 
 const projects:FC = (props) => {
 
   const AppState = UseSelector(SelectAppState)
   const { userInfo } = AppState
 
-  const dispatch = useDispatch()
+  const dispatch = UseDispatch()
 
   const [show, setShow] = UseState<String | null>('list')
 
@@ -34,7 +34,7 @@ const projects:FC = (props) => {
 
   const renderCards = () => {
     return userInfo.projects !== undefined ? userInfo.projects.map((project: Project) => {
-      return <CardProject
+      return <CardProject key={project.id}
         id={project.id} 
         name={project.name}
         model={project.model}

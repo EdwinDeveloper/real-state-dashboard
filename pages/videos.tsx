@@ -33,6 +33,7 @@ const Videos:FC = () => {
   const renderCards = () => {
     return userInfo.projects !== undefined ? userInfo.videos.items.map((singleVideo: SingleVideo) => {
       return <YoutubeCard
+        key={singleVideo.id.videoId}
         videoId={singleVideo.id.videoId}
       />
     }) : null

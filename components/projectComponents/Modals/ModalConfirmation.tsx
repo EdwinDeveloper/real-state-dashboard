@@ -28,6 +28,7 @@ const style = {
 }
 
 interface ModalConfirmationProps {
+  ref: any,
     id: string,
     userId: string,
     message: string,
@@ -128,5 +129,7 @@ const ModalConfirmation:FC<ModalConfirmationProps> = forwardRef((props,  ref: an
     </Box>
   )
 })
+
+ModalConfirmation.displayName="ModalConfirmation"
 
 export default ModalConfirmation

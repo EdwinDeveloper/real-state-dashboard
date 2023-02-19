@@ -29,7 +29,7 @@ export interface Referral {
 
 const CardUserReferrals:FC<ReferralProps> = (props) => {
 
-  const ModalRef = useRef(null)
+  const ModalRef = useRef<any>(null)
 
   const [modalMessage, setModalMessage] = useState('')
 

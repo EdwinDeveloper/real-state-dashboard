@@ -121,8 +121,8 @@ const ListProjects:FC = (props: any) => {
 
   const companies: Companie[] = companiesList
 
-  const ModalRef = useRef(null)
-  const inputRef = useRef(null)
+  const ModalRef = useRef<any>(null)
+  const inputRef = useRef<any>(null)
 
   const cancelForm = () => {
     dispatch(setIdProjectSelected(""))
@@ -229,11 +229,11 @@ const ListProjects:FC = (props: any) => {
           setModalMessage("El proyecto debe tener al menos un extra")
           openModal()
         }
-        else if(preSaleDate.$d.toString()==='Invalid Date'){
+        else if( preSaleDate !== null && preSaleDate.$d.toString()==='Invalid Date'){
           setModalMessage("Lo sentimos, debes seleccionar la fecha de preventa")
           openModal()
         }
-        else if(premisesDeliveryDate.$d.toString()==='Invalid Date'){
+        else if(premisesDeliveryDate !== null && premisesDeliveryDate.$d.toString()==='Invalid Date'){
           setModalMessage("Lo sentimos, debes seleccionar la fecha de entrega")
           openModal()
         }
@@ -456,6 +456,7 @@ const ListProjects:FC = (props: any) => {
                 det.deleteDetailInfo=deleteDetailInfo
                 det.updateDetailInfo=updateDetailInfo
                 return  <DetailsReviewCard
+                    key={Math.random().toString()}
                     detail={det}
                   />
               })
@@ -508,7 +509,7 @@ const ListProjects:FC = (props: any) => {
               { extraToShow.map((ex: DetailComponent)=>{
                 ex.deleteDetailInfo=deleteExtraInfo
                 ex.updateDetailInfo=updateExtraInfo
-                return <DetailsReviewCard
+                return <DetailsReviewCard key={Math.random().toString()}
                   detail={ex}
                 />
                 })

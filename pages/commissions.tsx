@@ -42,6 +42,7 @@ const Commissions:FC = ()=>{
         return commissionsList.map((commission: Commission)=>{
             return (
                 <CardCommissions
+                key={commission.id}
                     commission={commission}
                     activateForm={screen}
                     updateCommission={updateCommission}

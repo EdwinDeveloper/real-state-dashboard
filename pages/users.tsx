@@ -80,6 +80,7 @@ const Users:FC = () => {
   const renderUsers = () => {
     return userInfo.projects !== undefined ? userInfo.users.map((singleUser: CardUserProps) => {
       return <CardUser
+        key={singleUser.id}
         id={singleUser.id}
         name={singleUser.name}
         last_name={singleUser.last_name}
@@ -97,6 +98,7 @@ const Users:FC = () => {
   const renderCards = () => {
     return filterUserProjects !== undefined ? filterUserProjects.map((project: Project) => {
       return <CardUserProject
+      key={project.id}
         id={project.id}
         userId={userSelected}
         name={project.name}
@@ -110,7 +112,7 @@ const Users:FC = () => {
 
   const renderAllReferrals = () => {
     return referrals !== undefined ? referrals.map((referral: Referral) => {
-      return <CardUserReferrals
+      return <CardUserReferrals key={referral.id}
         referral={referral}
         setUserState={setUserState}
       />
@@ -119,7 +121,7 @@ const Users:FC = () => {
 
   const renderAllProjects = () => {
     return allProjects !== undefined ? allProjects.map((project: Project) => {
-      return <CardUserProject
+      return <CardUserProject key={project.id}
         id={project.id} 
         userId={userSelected}
         name={project.name}

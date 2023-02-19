@@ -20,7 +20,7 @@ interface CardUserProjectProps {
 
 const CardUserProject:FC<CardUserProjectProps>  = (props) => {
 
-  const ModalConf = useRef(null)
+  const ModalConf = useRef<any>(null)
 
   const createInvestment = () => {
 
@@ -60,11 +60,11 @@ const CardUserProject:FC<CardUserProjectProps>  = (props) => {
         <Typography gutterBottom variant="h5" component="div">
           {props.model}
         </Typography>
-        <Typography gutterBottom variant="h7" component="div">
+        <Typography gutterBottom variant="h6" component="div">
           {props.name}
         </Typography>
         <Typography style={{
-          height: "14vh"
+          height: "10vh"
         }} variant="body2" color="text.secondary">
           {props.description}
         </Typography>

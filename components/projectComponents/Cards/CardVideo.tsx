@@ -36,7 +36,7 @@ const CardVideo:FC<VideoCard>  = (props) => {
         <Typography gutterBottom variant="h5" component="div">
           {""}
         </Typography>
-        <Typography gutterBottom variant="h7" component="div">
+        <Typography gutterBottom variant="h6" component="div">
           {""}
         </Typography>
         <Typography style={{
