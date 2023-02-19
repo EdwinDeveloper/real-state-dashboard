@@ -201,7 +201,7 @@ const Companies:FC = ()=>{
                                 placeholder='Nombre de empresa'
                                 id="validation-outlined-input"
                                 value={name}
-                                onChange={(name)=>setName(name.target.value)}
+                                onChange={(name: any)=>setName(name.target.value)}
                                 />
                                 <ValidationTextField
                                 label="Url de imagen"
@@ -212,7 +212,7 @@ const Companies:FC = ()=>{
                                 placeholder='Url de imagen'
                                 id="validation-outlined-input"
                                 value={icon}
-                                onChange={(icon)=>setIcon(icon.target.value)}
+                                onChange={(icon: any)=>setIcon(icon.target.value)}
                                 />
                                 {   action === "new" &&
                                     <Button

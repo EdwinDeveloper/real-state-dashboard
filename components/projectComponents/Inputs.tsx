@@ -63,7 +63,7 @@ const Inputs:FC<InputProps> = forwardRef( (props, ref: any) => {
                   placeholder='Nombre del proyecto'
                   id="validation-outlined-input"
                   value={props.name}
-                  onChange={(name)=>{props.setName(name.target.value)}}
+                  onChange={(name: any)=>{props.setName(name.target.value)}}
                 />
                 <ValidationTextField
                   label="Nombre del modelo"
@@ -74,7 +74,7 @@ const Inputs:FC<InputProps> = forwardRef( (props, ref: any) => {
                   placeholder='Nombre del modelo'
                   id="validation-outlined-input"
                   value={props.model}
-                  onChange={(model)=>{props.setModel(model.target.value)}}
+                  onChange={(model: any)=>{props.setModel(model.target.value)}}
                 />
                 <ValidationTextField
                   label="Precio de preventa"
@@ -86,7 +86,7 @@ const Inputs:FC<InputProps> = forwardRef( (props, ref: any) => {
                   placeholder='Precio de preventa'
                   id="validation-outlined-input"
                   value={props.preSalePrice}
-                  onChange={(preSalePrice)=>{props.setPreSalePrice(parseFloat(preSalePrice.target.value).toFixed(2))}}
+                  onChange={(preSalePrice: any)=>{props.setPreSalePrice(parseFloat(preSalePrice.target.value).toFixed(2))}}
                 />
                 <ValidationTextField
                   label="Renta aproximada"
@@ -98,7 +98,7 @@ const Inputs:FC<InputProps> = forwardRef( (props, ref: any) => {
                   placeholder='Renta aproximada'
                   id="validation-outlined-input"
                   value={props.rentPriceApproximate}
-                  onChange={(rentPriceApproximate)=>{props.setRentPriceApproximate(parseFloat(rentPriceApproximate.target.value).toFixed(2))}}
+                  onChange={(rentPriceApproximate: any)=>{props.setRentPriceApproximate(parseFloat(rentPriceApproximate.target.value).toFixed(2))}}
                 />
                 <ValidationTextField
                   label="Reventa aproximada"
@@ -110,7 +110,7 @@ const Inputs:FC<InputProps> = forwardRef( (props, ref: any) => {
                   placeholder='Reventa aproximada'
                   id="validation-outlined-input"
                   value={props.resalePriceApproximate}
-                  onChange={(newResalePriceApproximate)=>{props.setResalePriceApproximate(parseFloat(newResalePriceApproximate.target.value).toFixed(2))}}
+                  onChange={(newResalePriceApproximate: any)=>{props.setResalePriceApproximate(parseFloat(newResalePriceApproximate.target.value).toFixed(2))}}
                 />
                 <TextField
                   id="outlined-basic"

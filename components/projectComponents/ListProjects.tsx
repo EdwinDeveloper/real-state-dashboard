@@ -382,7 +382,7 @@ const ListProjects:FC<ListProps> = (props) => {
                           defaultValue=""
                           placeholder='url de la imagen'
                           id="validation-outlined-input"
-                          onChange={(newValue)=>{setNewImage(newValue.target.value)}}
+                          onChange={(newValue: any)=>{setNewImage(newValue.target.value)}}
                         />
                         </Box>
                   </div>

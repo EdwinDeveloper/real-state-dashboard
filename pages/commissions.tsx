@@ -202,7 +202,7 @@ const Commissions:FC = ()=>{
                                 placeholder='Porcentaje comisión'
                                 id="validation-outlined-input"
                                 value={newPercentage}
-                                onChange={(percentage)=>setNewPercentage(parseFloat(percentage.target.value))}
+                                onChange={(percentage: any)=>setNewPercentage(parseFloat(percentage.target.value))}
                                 />
                                 <ValidationTextField
                                 label="Nombre de comisión"
@@ -213,7 +213,7 @@ const Commissions:FC = ()=>{
                                 placeholder='Nombre de comisión'
                                 id="validation-outlined-input"
                                 value={newDescription}
-                                onChange={(description)=>setNewDescription(description.target.value)}
+                                onChange={(description: any)=>setNewDescription(description.target.value)}
                                 />
                                 {   action === "new" &&
                                     <Button

@@ -196,7 +196,7 @@ const Users:FC = () => {
                     defaultValue=""
                     placeholder='Nombre del proyecto'
                     id="validation-outlined-input"
-                    onChange={(model)=>{filterProjects(model.target.value)}}
+                    onChange={(model: any)=>{filterProjects(model.target.value)}}
                   />
             </Box>
             <Box style={{
