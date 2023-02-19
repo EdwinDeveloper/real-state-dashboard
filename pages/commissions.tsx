@@ -72,7 +72,7 @@ const Commissions:FC = ()=>{
                 description: newDescription,
                 percentage: newPercentage.toString()
             }
-            let response = await apiCall(CreateCommission, request, AppState.authToken)
+            let response = await apiCall(CreateCommission, request, AppState.authToken, "")
             if(response.status ===201){
                 updateCommissionsList("Comisión creada")
             }
@@ -85,7 +85,7 @@ const Commissions:FC = ()=>{
         setTimeout(async() => {
             setComState("main")
             Modal.current.closeModal()
-            let commissions = await apiCall(getCommissions, null, AppState.authToken)
+            let commissions = await apiCall(getCommissions, null, AppState.authToken, "")
             dispatch(setCommissionsList(commissions))
         }, 500);
     }

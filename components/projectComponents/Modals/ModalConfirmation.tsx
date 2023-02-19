@@ -64,7 +64,7 @@ const ModalConfirmation:FC<ModalConfirmationProps> = forwardRef((props,  ref: an
       let response = await apiCall(createInvestment, request, AppState.authToken, user_id)
       if(response.message === "Investment created"){
         handleClose()
-        let refreshInfo = await apiCall(meInfo, null, AppState.authToken)
+        let refreshInfo = await apiCall(meInfo, null, AppState.authToken, "")
         console.log("refresh info : ", refreshInfo)
         dispatch(setUserInfo(refreshInfo))
       }

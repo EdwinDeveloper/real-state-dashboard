@@ -40,7 +40,7 @@ export default function SignIn() {
 
   const dispatch = useDispatch()
 
-  const ModalRef = useRef()
+  const ModalRef = useRef<any>()
 
   const handleSubmit = async(event: any) => {
     event.preventDefault()
@@ -55,9 +55,9 @@ export default function SignIn() {
         openModal()
       }else{
         let loginRequest = { email: data.get('email'), password: data.get('password') }
-        let rli: AuthTokenResponse = await apiCall(logIn, loginRequest)
+        let rli = await apiCall(logIn, loginRequest, "", "")
         if(rli.status===200){
-          let responseGetData: UserInfo = await apiCall(meInfo, null, rli.token)
+          let responseGetData = await apiCall(meInfo, null, rli.token, "")
           if(responseGetData.is_staff){
             setTimeout(() => {
               dispatch(setAuthToken(rli.token))

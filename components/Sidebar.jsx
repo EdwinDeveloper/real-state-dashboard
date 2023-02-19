@@ -1,7 +1,7 @@
 import classNames from "classnames"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import React, { useState, useMemo } from "react"
+import React, { useState } from "react"
 import Image from 'next/image'
 import { setState } from "../redux/index"
 import { useDispatch } from "react-redux"
@@ -33,13 +33,6 @@ const Sidebar = () => {
 
   const dispatch = useDispatch()
 
-  const activeMenu = useMemo(
-    () => menuItems.find((menu) => {
-      return menu.link === router.pathname
-    }),
-    [router.pathname]
-  )
-
   const collapseIconClasses = classNames(
     "p-4 rounded bg-light-lighter absolute right-0",
     {
@@ -49,10 +42,7 @@ const Sidebar = () => {
 
   const getNavItemClasses = (menu) => {
     return classNames(
-      "flex items-center cursor-pointer rounded w-full overflow-hidden whitespace-nowrap", //hover:bg-light-lighter",
-      // {
-      //   ["bg-light-lighter"]: activeMenu.id === menu.id,
-      // }
+      "flex items-center cursor-pointer rounded w-full overflow-hidden whitespace-nowrap",
     )
   }
 

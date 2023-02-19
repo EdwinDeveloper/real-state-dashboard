@@ -49,7 +49,7 @@ const Companies:FC = ()=>{
         setModalMessage(message)
         setTimeout(async() => {
             Modal.current.closeModal()
-            let companies = await apiCall(getCompanies, null, AppState.authToken)
+            let companies = await apiCall(getCompanies, null, AppState.authToken, "")
             console.log("companiesss : ", companies)
             dispatch(setCompaniesList(companies))
             setComState("list")
@@ -76,7 +76,7 @@ const Companies:FC = ()=>{
             let request = {
                 name: name, icon: icon
            }
-           let response = await apiCall(CreateCompany, request, AppState.authToken)
+           let response = await apiCall(CreateCompany, request, AppState.authToken, "")
            if(response.status === 200){
                 updateCompaniesList("Compañia guardada correctamente")
            }

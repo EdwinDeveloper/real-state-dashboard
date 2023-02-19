@@ -62,7 +62,7 @@ const ModalReferral:FC<ModalReferralProps> = forwardRef((props,  ref: any) => {
     let request = { status: status }
     let responseReferral = await apiCall(updateReferral, request, AppState.authToken, referral.id)
     if(responseReferral.status === 200 ){
-        let refresh = await apiCall(meInfo, null, AppState.authToken, null)
+        let refresh = await apiCall(meInfo, null, AppState.authToken, "")
         dispatch(setUserInfo(refresh))
         handleClose()
         props.setUserState('main')

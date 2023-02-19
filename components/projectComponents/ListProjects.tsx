@@ -265,7 +265,7 @@ const ListProjects:FC<ListProps> = (props) => {
               cancelForm()
             }
           }else{
-            let newResponse = await apiCall(createProject, request, authToken)
+            let newResponse = await apiCall(createProject, request, authToken, "")
             if(newResponse.status===201){
               cancelForm()
             }
