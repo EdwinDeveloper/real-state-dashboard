@@ -3,7 +3,14 @@ import Button from '@mui/material/Button';
 import { ValidationTextField } from '../../public/ValidationTextField'
 import uuid from 'react-uuid';
 
-const AddDetail:FC = (props:any) => {
+interface DetailsProps {
+  upd: any,
+  add: ({})=> void,
+  update: ({})=> void,
+  cancel: (action: string) => void,
+}
+
+const AddDetail:FC<DetailsProps> = (props) => {
     const [keyIn, setKeyIn] = React.useState('')
     const [infoIn, setInfoIn] = React.useState('')
     const { upd } = props

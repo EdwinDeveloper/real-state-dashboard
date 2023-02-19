@@ -4,6 +4,7 @@ import { Companie } from "../Companie"
 import dayjs, { Dayjs } from 'dayjs'
 
 export interface InputProps {
+    ref: any,
     name: string,
     setName: (name: string) => void,
     model: string,
@@ -14,10 +15,10 @@ export interface InputProps {
     setRentPriceApproximate: (rentPriceApproximate: string) => void,
     resalePriceApproximate: string,
     setResalePriceApproximate: (resalePriceApproximate: string) => void,
-    preSaleDate: Dayjs | null,
-    setPreSaleDate: (preSaleDate: Dayjs | null) => void,
-    premisesDeliveryDate: Dayjs | null,
-    setPremisesDeliveryDate: (premisesDeliveryDate: Dayjs | null) => void,
+    preSaleDate: string,
+    setPreSaleDate: (preSaleDate: string) => void,
+    premisesDeliveryDate: string,
+    setPremisesDeliveryDate: (premisesDeliveryDate: string) => void,
     description: string,
     setDescription: (description: string) => void,
     idCommission: string,

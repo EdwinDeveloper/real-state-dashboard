@@ -32,7 +32,7 @@ const Commissions:FC = ()=>{
 
     const [modalMessage, setModalMessage] = useState('')
 
-    const Modal = useRef(null)
+    const Modal = useRef<any>(null)
 
     const screen = (screen: string) => {
         setComState(screen)

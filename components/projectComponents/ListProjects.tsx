@@ -20,15 +20,19 @@ import { Commission } from '../Models/Commission'
 import dayjs, { Dayjs } from 'dayjs'
 import { setIdProjectSelected } from '../../redux/index'
 
-const ListProjects:FC = (props: any) => {
+interface ListProps {
+  handleShow: (screen: String) => void,
+}
+
+const ListProjects:FC<ListProps> = (props) => {
 
   const [name, setName] = useState('')
   const [model, setModel] = useState('')
   const [preSalePrice, setPreSalePrice] = useState('')
   const [rentPriceApproximate, setRentPriceApproximate] = useState('')
   const [resalePriceApproximate, setResalePriceApproximate] = useState('')
-  const [preSaleDate, setPreSaleDate] = useState<Dayjs | null>(dayjs(''))
-  const [premisesDeliveryDate, setPremisesDeliveryDate] = useState<Dayjs | null>(dayjs(''))
+  const [preSaleDate, setPreSaleDate] = useState('')
+  const [premisesDeliveryDate, setPremisesDeliveryDate] = useState('')
   const [description, setDescription] = useState('')
   const [idComission, setIdCommission] = useState('')
   const [idCompany, setIdCompany] = useState('')
@@ -68,33 +72,34 @@ const ListProjects:FC = (props: any) => {
 
   useEffect(()=>{
     const { userInfo, idProjectSelected } = AppState
-    let projectIn: Project = userInfo.projects.find((project: Project)=>{
+    let projectIn: Project[] = []
+    userInfo.projects.find((project: Project)=>{
       if(idProjectSelected === project.id){
-        return project
+        projectIn.push(project)
       }
     })
-    if(projectIn !== null && projectIn !== undefined ){
-      setName(projectIn.name)
-      setModel(projectIn.model)
-      setPreSalePrice(projectIn.pre_sale_price.toString())
-      setRentPriceApproximate(projectIn.rent_price_approximate.toString())
-      setResalePriceApproximate(projectIn.resale_price_approximate.toString())
-      setPreSaleDate(dayjs(projectIn.pre_sale_date))
-      setPremisesDeliveryDate(dayjs(projectIn.premises_delivery_date))
-      setDescription(projectIn.description)
-      setIdCommission(projectIn.commission)
-      setIdCompany(projectIn.company_related)
-      projectIn.images.forEach((imag)=>setImagesToShow((images)=> [...images, { title: imag.title, url: imag.url, id: imag.id }]))
-      projectIn.details.forEach((d: Detail)=>addDetailInfo({key: d.key, info: d.info, id: d.id}))
-      projectIn.extras.forEach((e: Extra)=>addExtraInfo({key: e.key, info: e.info, id: e.id}))
+    if(projectIn.length > 0 ){
+      setName(projectIn[0].name)
+      setModel(projectIn[0].model)
+      setPreSalePrice(projectIn[0].pre_sale_price.toString())
+      setRentPriceApproximate(projectIn[0].rent_price_approximate.toString())
+      setResalePriceApproximate(projectIn[0].resale_price_approximate.toString())
+      setPreSaleDate(projectIn[0].pre_sale_date)
+      setPremisesDeliveryDate(projectIn[0].premises_delivery_date)
+      setDescription(projectIn[0].description)
+      setIdCommission(projectIn[0].commission)
+      setIdCompany(projectIn[0].company_related)
+      projectIn[0].images.forEach((imag)=>setImagesToShow((images)=> [...images, { title: imag.title, url: imag.url, id: imag.id }]))
+      projectIn[0].details.forEach((d: Detail)=>addDetailInfo({key: d.key, info: d.info, id: d.id}))
+      projectIn[0].extras.forEach((e: Extra)=>addExtraInfo({key: e.key, info: e.info, id: e.id}))
     }else{
       setName('')
       setModel('')
       setPreSalePrice('')
       setRentPriceApproximate('')
       setResalePriceApproximate('')
-      setPreSaleDate(dayjs(''))
-      setPremisesDeliveryDate(dayjs(''))
+      setPreSaleDate('')
+      setPremisesDeliveryDate('')
       setDescription('')
       setIdCommission('')
       setIdCompany('')
@@ -181,6 +186,8 @@ const ListProjects:FC = (props: any) => {
       if(ModalRef.current!==undefined && ModalRef.current!==null){
         const { openModal } = ModalRef.current
 
+        console.log("the state :", preSaleDate)
+
         if(name===''){
           setModalMessage("El proyecto debe tener un nombre")
           openModal()
@@ -229,11 +236,11 @@ const ListProjects:FC = (props: any) => {
           setModalMessage("El proyecto debe tener al menos un extra")
           openModal()
         }
-        else if( preSaleDate !== null && preSaleDate.$d.toString()==='Invalid Date'){
+        else if( preSaleDate===''){
           setModalMessage("Lo sentimos, debes seleccionar la fecha de preventa")
           openModal()
         }
-        else if(premisesDeliveryDate !== null && premisesDeliveryDate.$d.toString()==='Invalid Date'){
+        else if( premisesDeliveryDate !== ''){
           setModalMessage("Lo sentimos, debes seleccionar la fecha de entrega")
           openModal()
         }
@@ -241,8 +248,8 @@ const ListProjects:FC = (props: any) => {
           let request = {
             name, model, description,
             pre_sale_price: preSalePrice,
-            pre_sale_date: preSaleDate.toISOString(),
-            premises_delivery_date: premisesDeliveryDate.toISOString(),
+            pre_sale_date: preSaleDate,
+            premises_delivery_date: premisesDeliveryDate,
             rent_price_approximate: rentPriceApproximate,
             resale_price_approximate: resalePriceApproximate,
             images: imagesToShow,
@@ -331,8 +338,7 @@ const ListProjects:FC = (props: any) => {
               setPremisesDeliveryDate={setPremisesDeliveryDate}
               description={description}
               setDescription={setDescription}
-              checkForm={checkForm}
-              idComission={idComission}
+              idCommission={idComission}
               setIdCommission={setIdCommission}
               idCompany={idCompany}
               setIdCompany={setIdCompany}

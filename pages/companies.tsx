@@ -34,7 +34,7 @@ const Companies:FC = ()=>{
 
     const [modalMessage, setModalMessage] = useState('')
 
-    const Modal = useRef(null)
+    const Modal = useRef<any>(null)
 
     const companies = () => {
         return companiesList.map((companie: Companie)=>{
@@ -252,7 +252,6 @@ const Companies:FC = ()=>{
                             }}>
                                 <Image
                                     src={`${icon}?w=200&h=100&fit=crop&auto=format`}
-                                    srcSet={`${icon}?w=200&h=100&fit=crop&auto=format&dpr=2 1x`}
                                     alt={"Logo Ejemplo"}
                                     style={{
                                         width: 200,

@@ -9,31 +9,9 @@ import CardUserProject from '../components/projectComponents/Cards/CardUserProje
 import Button from '@mui/material/Button'
 import { ValidationTextField } from '../public/ValidationTextField'
 import CardUserReferrals from '../components/projectComponents/Cards/CardReferral'
-
-interface CardUserProps {
-  id: string,
-  name: string,
-  last_name: string,
-  email: string,
-  country_code: string,
-  phone_number: string,
-  investments: Investment[],
-  referrals: Referral[],
-}
-interface Investment {
-  id: string,
-}
-export interface Referral {
-  id: string,
-  country_code: string,
-  phone_number: string,
-  gender: string,
-  name: string,
-  last_name: string,
-  project: string,
-  commission: string,
-  status: string,
-}
+import { User } from '../components/Models/User'
+import { Referral } from '../components/Models/Referral'
+import { Investment } from "../components/Models/Investment"
 
 const Users:FC = () => {
 
@@ -78,7 +56,7 @@ const Users:FC = () => {
   }
 
   const renderUsers = () => {
-    return userInfo.projects !== undefined ? userInfo.users.map((singleUser: CardUserProps) => {
+    return userInfo.projects !== undefined ? userInfo.users.map((singleUser: User) => {
       return <CardUser
         key={singleUser.id}
         id={singleUser.id}

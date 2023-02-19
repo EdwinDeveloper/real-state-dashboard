@@ -4,34 +4,14 @@ import { YoutubeCard } from '../components/projectComponents/Cards/YoutubeCard'
 import { SelectAppState } from '../redux/index'
 import { useSelector as UseSelector } from "react-redux"
 import Box from '@material-ui/core/Box'
-
-interface SingleVideo {
-  etag: string,
-  id: Id,
-  kind: string,
-  snippet: Snippet,
-}
-interface Id {
-  kind: string,
-  videoId: string,
-}
-interface Snippet {
-  channelId: string,
-  channelTitle: string,
-  description: string,
-  liveBroadcastContent: string,
-  publishTime: string,
-  publishedAt: string,
-  title: string,
-}
-
+import { Item } from '../components/Models/video'
 const Videos:FC = () => {
 
   const AppState = UseSelector(SelectAppState)
   const { userInfo } = AppState
 
   const renderCards = () => {
-    return userInfo.projects !== undefined ? userInfo.videos.items.map((singleVideo: SingleVideo) => {
+    return userInfo.projects !== undefined ? userInfo.videos.items.map((singleVideo: Item) => {
       return <YoutubeCard
         key={singleVideo.id.videoId}
         videoId={singleVideo.id.videoId}

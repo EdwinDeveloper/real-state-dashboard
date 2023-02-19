@@ -12,6 +12,7 @@ import MenuItem from '@mui/material/MenuItem'
 import FormHelperText from '@mui/material/FormHelperText'
 import Textarea from '@mui/joy/Textarea'
 import { InputProps } from '../Models/PropsComponents/InputProps'
+import TextField from '@mui/material/TextField';
 
 const Inputs:FC<InputProps> = forwardRef( (props, ref: any) => {
 
@@ -111,42 +112,22 @@ const Inputs:FC<InputProps> = forwardRef( (props, ref: any) => {
                   value={props.resalePriceApproximate}
                   onChange={(newResalePriceApproximate)=>{props.setResalePriceApproximate(parseFloat(newResalePriceApproximate.target.value).toFixed(2))}}
                 />
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <Stack spacing={3}>
-                    <DatePicker
-                      label="Fecha de preventa"
-                      views={['year', 'month', 'day']}
-                      value={props.preSaleDate}
-                      onChange={(preSaleDate) => {
-                        props.setPreSaleDate(preSaleDate)
-                      }}
-                      renderInput={(params) =>(
-                        <ValidationTextField
-                          helperText="Fecha de preventa"
-                          {...params}
-                        />
-                      )}
-                    />
-                  </Stack>
-                </LocalizationProvider>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <Stack spacing={3}>
-                    <DatePicker
-                      label="Fecha de entrega"
-                      views={['year', 'month', 'day']}
-                      value={props.premisesDeliveryDate}
-                      onChange={(premisesDeliveryDate) => {
-                        props.setPremisesDeliveryDate(premisesDeliveryDate)
-                      }}
-                      renderInput={(params) =>(
-                          <ValidationTextField
-                            helperText="Fecha de entrega"
-                            {...params}
-                          />
-                      )}
-                    />
-                  </Stack>
-                </LocalizationProvider>
+                <TextField
+                  id="outlined-basic"
+                  type="date"
+                  helperText="Reventa aproximada"
+                  variant="outlined"
+                  value={props.preSaleDate}
+                  onChange={(preSaleDate)=>{props.setPreSaleDate(preSaleDate.target.value)}}
+                />
+                <TextField
+                  id="outlined-basic"
+                  type="date"
+                  helperText="Fecha de entrega"
+                  variant="outlined"
+                  value={props.premisesDeliveryDate}
+                  onChange={(premisesDeliveryDate)=>{props.setPremisesDeliveryDate(premisesDeliveryDate.target.value)}}
+                />
                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                   <InputLabel id="demo-simple-select-helper-label">Commissión</InputLabel>
                   <Select

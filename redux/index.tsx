@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { Commission } from "../components/Models/Commission"
 import { Companie } from "../components/Models/Companie"
+import { UserInfo } from "../components/Models/UserInfo"
 
 // Type for our state
 export interface AppState {
@@ -10,7 +11,16 @@ export interface AppState {
   userInfo: {},
   idProjectSelected: string,
   commissionsList: Commission[],
-  companiesList: Companie[]
+  companiesList: Companie[],
+  AppState: {
+      authState: boolean,
+      state: number,
+      authToken: string,
+      userInfo: UserInfo,
+      idProjectSelected: string,
+      commissionsList: Commission[],
+      companiesList: Companie[],
+  },
 }
 
 // Initial state
@@ -21,7 +31,8 @@ const initialState: AppState = {
   userInfo: {},
   idProjectSelected: "",
   commissionsList: [],
-  companiesList: []
+  companiesList: [],
+  AppState: {},
 }
 
 // Actual Slice

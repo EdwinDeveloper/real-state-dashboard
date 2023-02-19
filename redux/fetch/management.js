@@ -2,7 +2,8 @@ export const apiCall = async (fun, request, token, id) => {
     const response = await fun(request, token, id)
     let res = {
         status: response.status,
-        body: response.body
+        body: response.body,
+        message: ""
     }
     if([ 200 ].includes(res.status)){
         if('token' in response.data){

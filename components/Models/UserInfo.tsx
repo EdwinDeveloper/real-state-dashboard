@@ -1,6 +1,8 @@
 import { Commission } from "./Commission";
 import { Companie } from "./Companie";
 import { Project } from "./Project";
+import { User } from './User'
+import { Video } from './video'
 
 export interface UserInfo {
     id: string,
@@ -14,10 +16,11 @@ export interface UserInfo {
     is_active: boolean,
     is_staff: boolean,
     projects: Project[],
-    videos: Object,
+    videos: Video,
 
     commissions: Commission[],
     companies: Companie[],
+    users: User[],
 
     status?: number,
     body?: Object,
