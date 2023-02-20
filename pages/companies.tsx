@@ -18,7 +18,7 @@ export interface Companie {
     icon: string,
 }
 
-const Companies:FC = ()=>{
+const Companies:FC = (props)=>{
 
     const dispatch = useDispatch()
 
@@ -37,11 +37,12 @@ const Companies:FC = ()=>{
     const Modal = useRef<any>(null)
 
     const companies = () => {
-        return companiesList.map((companie: Companie)=>{
+        return companiesList.length > 0 ? companiesList.map((companie: Companie)=>{
             return (
                 <CardCompanie key={companie.id} companie={companie} updateCompany={updateCompany}/>
             )
         })
+        : null
     }
 
     const updateCompaniesList = (message: string) => {
@@ -93,7 +94,6 @@ const Companies:FC = ()=>{
     }
 
     const updateCompanyAction = async() => {
-        console.log("si lo da")
         if(name === ""){
             setModalMessage("Añade un nombre de comisión")
             Modal.current.openModal()

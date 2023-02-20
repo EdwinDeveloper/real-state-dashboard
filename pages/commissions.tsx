@@ -17,7 +17,7 @@ export interface Commission {
     description: string,
 }
 
-const Commissions:FC = ()=>{
+const Commissions:FC = (props)=>{
 
     const dispatch = useDispatch()
 

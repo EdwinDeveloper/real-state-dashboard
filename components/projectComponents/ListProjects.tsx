@@ -17,7 +17,7 @@ import { apiCall } from '../../redux/fetch/management'
 import { Detail, Extra, Image, Project } from '../Models/Project'
 import { Companie } from '../Models/Companie'
 import { Commission } from '../Models/Commission'
-import dayjs, { Dayjs } from 'dayjs'
+import MUIImage from 'next/image'
 import { setIdProjectSelected } from '../../redux/index'
 
 interface ListProps {
@@ -393,12 +393,11 @@ const ListProjects:FC<ListProps> = (props) => {
                     imagesToShow.map((item: any, index: number) => (
                       
                         <ImageListItem key={index}>
-                          <img
+                          <MUIImage
                             src={`${item.url}?w=164&h=164&fit=crop&auto=format`}
-                            srcSet={`${item.url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                             alt={item.title}
                             loading="lazy"
-                            onClick={(event)=>onCheckImage(event, index)}
+                            onClick={(event: any)=>onCheckImage(event, index)}
                           />
                         </ImageListItem>
                       )

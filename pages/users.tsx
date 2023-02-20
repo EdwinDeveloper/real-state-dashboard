@@ -13,16 +13,16 @@ import { User } from '../components/Models/User'
 import { Referral } from '../components/Models/Referral'
 import { Investment } from "../components/Models/Investment"
 
-const Users:FC = () => {
+const Users:FC = (props) => {
 
   const AppState = UseSelector(SelectAppState)
   const { userInfo } = AppState
   const [userState, setUserState] = useState('main')
   const [userSelected, setUserSelected] = useState('')
-  const [filterUserProjects, setFilterUserProjects] = useState<Project[]>()
+  const [filterUserProjects, setFilterUserProjects] = useState<Project[]>([])
   const [allProjects, setAllProjects] = useState<Project[]>(userInfo.projects)
 
-  const [referrals, setReferrals] = useState<Referral[]>()
+  const [referrals, setReferrals] = useState<Referral[]>([])
 
   const userSelect = (id: string, action: string, investments: Investment[]) => {
     setUserSelected(id)
@@ -56,7 +56,7 @@ const Users:FC = () => {
   }
 
   const renderUsers = () => {
-    return userInfo.projects !== undefined ? userInfo.users.map((singleUser: User) => {
+    return userInfo.projects !== undefined && userInfo.projects !== null ? userInfo.users.map((singleUser: User) => {
       return <CardUser
         key={singleUser.id}
         id={singleUser.id}
@@ -74,7 +74,7 @@ const Users:FC = () => {
   }
 
   const renderCards = () => {
-    return filterUserProjects !== undefined ? filterUserProjects.map((project: Project) => {
+    return filterUserProjects.length > 0 ? filterUserProjects.map((project: Project) => {
       return <CardUserProject
       key={project.id}
         id={project.id}
@@ -89,7 +89,7 @@ const Users:FC = () => {
   }
 
   const renderAllReferrals = () => {
-    return referrals !== undefined ? referrals.map((referral: Referral) => {
+    return referrals.length > 0 ? referrals.map((referral: Referral) => {
       return <CardUserReferrals key={referral.id}
         referral={referral}
         setUserState={setUserState}
@@ -98,7 +98,7 @@ const Users:FC = () => {
   }
 
   const renderAllProjects = () => {
-    return allProjects !== undefined ? allProjects.map((project: Project) => {
+    return allProjects !== undefined && allProjects !== null ? allProjects.map((project: Project) => {
       return <CardUserProject key={project.id}
         id={project.id} 
         userId={userSelected}

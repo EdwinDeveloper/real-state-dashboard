@@ -4,7 +4,7 @@ import LogInF from '../screens/logInF'
 import { SelectAppState } from '../redux/index'
 import { useSelector } from "react-redux"
 
-const Home:FC = () => {
+const Home:FC = (props) => {
 
   const AppState = useSelector(SelectAppState);
   const { state } = AppState

@@ -1,6 +1,5 @@
 import classNames from "classnames"
 import Link from "next/link"
-import { useRouter } from "next/router"
 import React, { useState } from "react"
 import Image from 'next/image'
 import { setState } from "../redux/index"
@@ -28,8 +27,6 @@ const menuItems = [
 const Sidebar = () => {
   const [toggleCollapse, setToggleCollapse] = useState(false)
   const [isCollapsible, setIsCollapsible] = useState(false)
-
-  const router = useRouter()
 
   const dispatch = useDispatch()
 
