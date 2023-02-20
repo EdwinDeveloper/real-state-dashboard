@@ -21,7 +21,7 @@ import MUIImage from 'next/image'
 import { setIdProjectSelected } from '../../redux/index'
 
 interface ListProps {
-  handleShow: (screen: String) => void,
+  handleShow: (screen: string) => void,
 }
 
 const ListProjects:FC<ListProps> = (props) => {

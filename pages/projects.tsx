@@ -17,19 +17,19 @@ const projects:FC = (props) => {
 
   const dispatch = UseDispatch()
 
-  const [show, setShow] = UseState<String | null>('list')
+  const [show, setShow] = UseState('list')
 
   UseEffect(()=>{
 
   }, [])
 
-  const handleShow = (screen: String) => {
+  const handleShow = (screen: string) => {
     setShow(screen)
   }
 
   const cancelForm = () => {
     handleShow("list")
-    dispatch(setIdProjectSelected(""))
+    dispatch(setIdProjectSelected(''))
   }
 
   const renderCards = () => {
