@@ -14,4 +14,4 @@ const MyApp:FC<AppProps> = ({ Component, ...rest }) => {
   )
 }
 
-export default wrapper.useWrappedStore(MyApp);
+export default wrapper.withRedux(MyApp);
