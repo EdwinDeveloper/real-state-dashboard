@@ -395,6 +395,8 @@ const ListProjects:FC<ListProps> = (props) => {
                         <ImageListItem key={index}>
                           <MUIImage
                             src={`${item.url}?w=164&h=164&fit=crop&auto=format`}
+                            width={200}
+                            height={200}
                             alt={item.title}
                             loading="lazy"
                             onClick={(event: any)=>onCheckImage(event, index)}
