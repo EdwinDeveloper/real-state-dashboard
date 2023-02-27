@@ -14,11 +14,18 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import logo from '../assets/loadingLogo.png'
 import { logIn, meInfo } from '../redux/fetch/services'
 import { apiCall } from '../redux/fetch/management'
-import { setAuthState, setAuthToken, setState, setUserInfo, setCommissionsList, setCompaniesList } from "../redux/index"
-import { useDispatch } from "react-redux"
+import { setState } from '../redux/slices/state'
+import { setAuthState, setUserInfo, setCommissionsList } from "../redux/slices/UserInfo/index"
+import { setCompanies } from '../redux/slices/companies'
+import { setAuthToken } from '../redux/slices/state'
+import { setProjects } from '../redux/slices/projects'
+import { setCommissions } from '../redux/slices/commissions'
+import { useAppDispatch } from '../redux/hooks'
 import ModalPer from '../components/projectComponents/Modals/ModalPer'
 import { AuthTokenResponse } from '../components/Models/AuthTokenResponse'
 import { UserInfo } from '../components/Models/UserInfo'
+import { setUsers } from '../redux/slices/users'
+import { setVideos } from '../redux/slices/videos'
 
 function Copyright(props: any) {
   return (
@@ -38,7 +45,7 @@ export default function SignIn() {
   const [email, setEmail] = React.useState<string>('')
   const [password, setPassword] = React.useState('')
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const ModalRef = useRef<any>()
 
@@ -60,10 +67,14 @@ export default function SignIn() {
           let responseGetData = await apiCall(meInfo, null, rli.token, "")
           if(responseGetData.is_staff){
             setTimeout(() => {
+              console.log("llegando")
               dispatch(setAuthToken(rli.token))
               dispatch(setUserInfo(responseGetData))
-              dispatch(setCommissionsList(responseGetData.commissions))
-              dispatch(setCompaniesList(responseGetData.companies))
+              dispatch(setCommissions(responseGetData.commissions))
+              dispatch(setCompanies(responseGetData.companies))
+              dispatch(setProjects(responseGetData.projects))
+              dispatch(setUsers(responseGetData.users))
+              dispatch(setVideos(responseGetData.videos))
               dispatch(setState(2))
             }, 500)
             setMessage('Bienvenido')

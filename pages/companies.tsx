@@ -1,8 +1,8 @@
 import React, { FC, useState, useRef } from 'react'
 import Layout from '../components/Layout'
 import Box from '@material-ui/core/Box'
-import { SelectAppState, setCompaniesList } from '../redux/index'
-import { useSelector as UseSelector } from "react-redux"
+import { SelectAppState, setCompaniesList } from '../redux/slices/UserInfo/index'
+import { useAppSelector } from '../redux/hooks'
 import CardCompanie from '../components/projectComponents/Cards/CardCompanie'
 import Button from '@mui/material/Button'
 import { ValidationTextField } from '../public/ValidationTextField'
@@ -22,8 +22,9 @@ const Companies:FC = (props)=>{
 
     const dispatch = useDispatch()
 
-    const AppState = UseSelector(SelectAppState)
-    const { userInfo, companiesList } = AppState
+    const companiesList = useAppSelector((state)=> state.companies.companies)
+    const authToken = useAppSelector((state)=> state.State.authToken)
+    console.log("companies : ", companiesList)
 
     const [comState, setComState] = useState('list')
     const [action, setAction] = useState("new")
@@ -50,7 +51,7 @@ const Companies:FC = (props)=>{
         setModalMessage(message)
         setTimeout(async() => {
             Modal.current.closeModal()
-            let companies = await apiCall(getCompanies, null, AppState.authToken, "")
+            let companies = await apiCall(getCompanies, null, authToken, "")
             console.log("companiesss : ", companies)
             dispatch(setCompaniesList(companies))
             setComState("list")
@@ -77,7 +78,7 @@ const Companies:FC = (props)=>{
             let request = {
                 name: name, icon: icon
            }
-           let response = await apiCall(CreateCompany, request, AppState.authToken, "")
+           let response = await apiCall(CreateCompany, request, authToken, "")
            if(response.status === 200){
                 updateCompaniesList("Compañia guardada correctamente")
            }
@@ -106,7 +107,7 @@ const Companies:FC = (props)=>{
             let request = {
                 name: name, icon: icon
            }
-           let response = await apiCall(UpdateCompany, request, AppState.authToken, idCompanySelected)
+           let response = await apiCall(UpdateCompany, request, authToken, idCompanySelected)
            if(response.status === 200){
                 updateCompaniesList("Compañia actualizada correctamente")
            }

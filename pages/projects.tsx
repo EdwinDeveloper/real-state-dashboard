@@ -4,16 +4,15 @@ import ListProjects from '../components/projectComponents/ListProjects'
 import Button from '@mui/material/Button'
 import Box from '@material-ui/core/Box'
 import CardProject from '../components/projectComponents/Cards/CardProject'
-import { SelectAppState } from '../redux/index'
-import { useSelector as UseSelector } from "react-redux"
+import { SelectAppState } from '../redux/slices/UserInfo/index'
+import { useAppSelector } from '../redux/hooks'
 import { Project } from '../components/Models/Project'
-import { setIdProjectSelected } from '../redux/index'
+import { setIdProjectSelected } from '../redux/slices/projects'
 import { useDispatch as UseDispatch } from "react-redux"
 
 const projects:FC = (props) => {
 
-  const AppState = UseSelector(SelectAppState)
-  const { userInfo } = AppState
+  const projects = useAppSelector((state)=> state.projects.projects)
 
   const dispatch = UseDispatch()
 
@@ -33,7 +32,7 @@ const projects:FC = (props) => {
   }
 
   const renderCards = () => {
-    return userInfo.projects !== undefined ? userInfo.projects.map((project: Project) => {
+    return projects !== undefined ? projects.map((project: Project) => {
       return <CardProject key={project.id}
         id={project.id} 
         name={project.name}

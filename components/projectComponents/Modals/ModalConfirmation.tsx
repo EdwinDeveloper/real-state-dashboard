@@ -8,9 +8,9 @@ import { createInvestment } from '../../../redux/fetch/services'
 import { apiCall } from '../../../redux/fetch/management'
 import { meInfo } from '../../../redux/fetch/services'
 import { useSelector as UseSelector } from "react-redux"
-import { SelectAppState } from '../../../redux/index'
-import { useDispatch } from "react-redux"
-import { setUserInfo } from "../../../redux/index"
+import { SelectAppState } from '../../../redux/slices/UserInfo/index'
+import { setUserInfo } from "../../../redux/slices/UserInfo/index"
+import { useAppSelector, useAppDispatch } from '../../../redux/hooks';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -43,9 +43,9 @@ const ModalConfirmation:FC<ModalConfirmationProps> = forwardRef((props,  ref: an
         }
     ), [])
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
-  const AppState = UseSelector(SelectAppState)
+  const authToken = useAppSelector((state)=> state.State.authToken)
 
   const [open, setOpen] = useState(false)
   const [message, setMessage] = useState(props.message)
@@ -61,10 +61,10 @@ const ModalConfirmation:FC<ModalConfirmationProps> = forwardRef((props,  ref: an
       user_id, investment_id: project_id
     }
     setTimeout(async() => {
-      let response = await apiCall(createInvestment, request, AppState.authToken, user_id)
+      let response = await apiCall(createInvestment, request, authToken, user_id)
       if(response.message === "Investment created"){
         handleClose()
-        let refreshInfo = await apiCall(meInfo, null, AppState.authToken, "")
+        let refreshInfo = await apiCall(meInfo, null, authToken, "")
         console.log("refresh info : ", refreshInfo)
         dispatch(setUserInfo(refreshInfo))
       }

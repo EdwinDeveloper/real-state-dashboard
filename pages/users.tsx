@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect } from "react"
 import Layout from "../components/Layout"
 import Box from '@material-ui/core/Box'
-import { SelectAppState } from '../redux/index'
+import { SelectAppState } from '../redux/slices/UserInfo/index'
 import { useSelector as UseSelector } from "react-redux"
 import CardUser from "../components/projectComponents/Cards/CardUser"
 import { Project } from "../components/Models/Project"
@@ -12,15 +12,17 @@ import CardUserReferrals from '../components/projectComponents/Cards/CardReferra
 import { User } from '../components/Models/User'
 import { Referral } from '../components/Models/Referral'
 import { Investment } from "../components/Models/Investment"
+import { useAppSelector } from "../redux/hooks"
 
 const Users:FC = (props) => {
 
-  const AppState = UseSelector(SelectAppState)
-  const { userInfo } = AppState
+  const users = useAppSelector( (state)=> state.users.users )
+  const projects = useAppSelector( (state)=> state.projects.projects )
+
   const [userState, setUserState] = useState('main')
   const [userSelected, setUserSelected] = useState('')
   const [filterUserProjects, setFilterUserProjects] = useState<Project[]>([])
-  const [allProjects, setAllProjects] = useState<Project[]>(userInfo.projects)
+  const [allProjects, setAllProjects] = useState<Project[]>(projects !== undefined ? projects : [])
 
   const [referrals, setReferrals] = useState<Referral[]>([])
 
@@ -36,13 +38,13 @@ const Users:FC = (props) => {
   }
 
   const userProjects = (id: string, investments: Investment[]) => {
-    let projects: Project[] = []
-    userInfo.projects.map((project: Project)=>{
+    let projectsIn: Project[] = []
+    projects.map((project: Project)=>{
       investments.map((investment)=>{
-        investment.id === project.id && projects.push(project)
+        investment.id === project.id && projectsIn.push(project)
       })
     })
-    setFilterUserProjects(projects)
+    setFilterUserProjects(projectsIn)
   }
 
   const filterProjects = (value: string)=>{
@@ -51,12 +53,12 @@ const Users:FC = (props) => {
         allProjects.filter((project: Project)=>{ if(project.model.includes(value)) listCheck.push(project) })
         setAllProjects(listCheck)
     } else {
-      setAllProjects(userInfo.projects)
+      setAllProjects(projects)
     }
   }
 
   const renderUsers = () => {
-    return userInfo.projects !== undefined && userInfo.projects !== null ? userInfo.users.map((singleUser: User) => {
+    return projects !== undefined && projects !== null ? users.map((singleUser: User) => {
       return <CardUser
         key={singleUser.id}
         id={singleUser.id}

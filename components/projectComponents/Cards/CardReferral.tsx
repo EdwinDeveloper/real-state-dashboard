@@ -113,15 +113,6 @@ const CardUserReferrals:FC<ReferralProps> = (props) => {
             </Box>
           }
         </Box>
-        {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <CardContent style={{
-            display: 'flex',
-            justifyContent: 'space-evenly',
-          }}>
-            <Button size='small'>Inversiones</Button>
-            <Button size='small'>Pagos</Button>
-          </CardContent>
-      </Collapse> */}
       </CardContent>
     </Card>
   )

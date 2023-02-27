@@ -11,7 +11,16 @@ export const apiCall = async (fun: any, request: any, token: string, id: string)
         }],
         is_staff: "",
         commissions: [],
-        companies: []
+        companies: [],
+        projects: [],
+        users: [],
+        videos: {
+            kind: '',
+            etag: '',
+            nextPageToken: '',
+            regionCode: '',
+            items: []
+        }
     }
     if([ 200 ].includes(res.status)){
         if('token' in response.data){

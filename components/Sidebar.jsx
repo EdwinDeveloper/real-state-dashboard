@@ -2,8 +2,8 @@ import classNames from "classnames"
 import Link from "next/link"
 import React, { useState } from "react"
 import Image from 'next/image'
-import { setState } from "../redux/index"
-import { useDispatch } from "react-redux"
+import { setState } from "../redux/slices/state"
+import { useAppDispatch } from "../redux/hooks"
 import {
   CollapsIcon,
   HomeIcon,
@@ -28,7 +28,7 @@ const Sidebar = () => {
   const [toggleCollapse, setToggleCollapse] = useState(false)
   const [isCollapsible, setIsCollapsible] = useState(false)
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const collapseIconClasses = classNames(
     "p-4 rounded bg-light-lighter absolute right-0",
@@ -148,9 +148,7 @@ const Sidebar = () => {
           <LogoutIcon />
         </div>
         {!toggleCollapse && (
-          <span onClick={()=>{
-            finishSesión()
-          }} style={{color: "white"}}>
+          <span onClick={()=> finishSesión() } style={{color: "white"}}>
             Cerrar Sesión
           </span>
         )}

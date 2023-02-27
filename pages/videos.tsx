@@ -1,17 +1,15 @@
 import React, { FC } from 'react'
 import Layout from '../components/Layout'
 import { YoutubeCard } from '../components/projectComponents/Cards/YoutubeCard'
-import { SelectAppState } from '../redux/index'
-import { useSelector as UseSelector } from "react-redux"
 import Box from '@material-ui/core/Box'
 import { Item } from '../components/Models/video'
+import { useAppSelector } from '../redux/hooks'
 const Videos:FC = (props) => {
 
-  const AppState = UseSelector(SelectAppState)
-  const { userInfo } = AppState
+  const videos = useAppSelector((state)=> state.videos.videos)
 
   const renderCards = () => {
-    return userInfo.videos.items.length > 0 ? userInfo.videos.items.map((singleVideo: Item) => {
+    return videos.items !== undefined && videos.items.length > 0 ? videos.items.map((singleVideo: Item) => {
       return <YoutubeCard
         key={singleVideo.id.videoId}
         videoId={singleVideo.id.videoId}

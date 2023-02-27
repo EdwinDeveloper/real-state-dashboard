@@ -10,15 +10,14 @@ import ImageListItem from '@mui/material/ImageListItem'
 import DetailsReviewCard from '../Objects/DetailsReviewCard'
 import ModalPer from './Modals/ModalPer'
 import { DetailComponent } from '../Models/DetailComponent'
-import { SelectAppState } from '../../redux/index'
-import { useSelector as UseSelector, useDispatch } from "react-redux"
 import { createProject, updateProject } from '../../redux/fetch/services'
 import { apiCall } from '../../redux/fetch/management'
 import { Detail, Extra, Image, Project } from '../Models/Project'
 import { Companie } from '../Models/Companie'
 import { Commission } from '../Models/Commission'
 import MUIImage from 'next/image'
-import { setIdProjectSelected } from '../../redux/index'
+import { setIdProjectSelected } from '../../redux/slices/projects'
+import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 
 interface ListProps {
   handleShow: (screen: string) => void,
@@ -70,14 +69,21 @@ const ListProjects:FC<ListProps> = (props) => {
     setShowDetails(true)
   }
 
+  const commissionsList = useAppSelector((state)=>state.commissions.commissions)
+  const idProjectSelected = useAppSelector((state)=>state.projects.idProjectSelected)
+  const companiesList = useAppSelector((state)=>state.companies.companies)
+  const authToken = useAppSelector((state)=>state.State.authToken)
+  const projects = useAppSelector((state)=>state.projects.projects)
+  const dispatch = useAppDispatch()
+
   useEffect(()=>{
-    const { userInfo, idProjectSelected } = AppState
     let projectIn: Project[] = []
-    userInfo.projects.find((project: Project)=>{
+    projects !== undefined ? projects.find((project: Project)=>{
       if(idProjectSelected === project.id){
         projectIn.push(project)
       }
-    })
+    }): []
+
     if(projectIn.length > 0 ){
       setName(projectIn[0].name)
       setModel(projectIn[0].model)
@@ -110,10 +116,6 @@ const ListProjects:FC<ListProps> = (props) => {
   }, [])
 
   const { handleShow } = props
-
-  const AppState = UseSelector(SelectAppState)
-  const dispatch = useDispatch()
-  const { userInfo, authToken, idProjectSelected, commissionsList, companiesList } = AppState
 
   const [showExtras, setShowExtras] = useState(false)
   const [extraToShow, setExtraToShow] = useState<any[]>([])

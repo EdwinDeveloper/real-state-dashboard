@@ -2,14 +2,14 @@ import React, { FC, useState, useRef } from 'react'
 import Layout from '../components/Layout'
 import Box from '@material-ui/core/Box'
 import CardCommissions from '../components/projectComponents/Cards/CardCommission'
-import { SelectAppState, setCommissionsList } from '../redux/index'
-import { useSelector as UseSelector } from "react-redux"
+import { setCommissions } from '../redux/slices/commissions'
+import { useAppSelector } from '../redux/hooks'
 import Button from '@mui/material/Button'
 import { ValidationTextField } from '../public/ValidationTextField'
 import ModalPer from '../components/projectComponents/Modals/ModalPer'
 import { createCommission as CreateCommission, updateCommission as UpdateCommission, getCommissions } from '../redux/fetch/services'
 import { apiCall } from '../redux/fetch/management'
-import { useDispatch } from "react-redux"
+import { useAppDispatch } from '../redux/hooks'
 
 export interface Commission {
     id: string,
@@ -19,10 +19,11 @@ export interface Commission {
 
 const Commissions:FC = (props)=>{
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
-    const AppState = UseSelector(SelectAppState)
-    const { userInfo, commissionsList } = AppState
+    const commissionsList = useAppSelector((state)=> state.commissions.commissions)
+    console.log("commissionsList : ", commissionsList)
+    const authToken = useAppSelector((state)=> state.State.authToken)
     const [comState, setComState] = useState("main")
     const [action, setAction] = useState("new")
 
@@ -39,7 +40,7 @@ const Commissions:FC = (props)=>{
     }
 
     const commissions = () => {
-        return commissionsList.map((commission: Commission)=>{
+        return commissionsList !== undefined && commissionsList !== null ? commissionsList.map((commission: Commission)=>{
             return (
                 <CardCommissions
                 key={commission.id}
@@ -48,7 +49,9 @@ const Commissions:FC = (props)=>{
                     updateCommission={updateCommission}
                 />
             )
-        })
+        }) 
+        :
+        null
     }
 
     const createCommission = () => {
@@ -72,7 +75,8 @@ const Commissions:FC = (props)=>{
                 description: newDescription,
                 percentage: newPercentage.toString()
             }
-            let response = await apiCall(CreateCommission, request, AppState.authToken, "")
+            console.log("request : ", request)
+            let response = await apiCall(CreateCommission, request, authToken, "")
             if(response.status ===201){
                 updateCommissionsList("Comisión creada")
             }
@@ -85,8 +89,9 @@ const Commissions:FC = (props)=>{
         setTimeout(async() => {
             setComState("main")
             Modal.current.closeModal()
-            let commissions = await apiCall(getCommissions, null, AppState.authToken, "")
-            dispatch(setCommissionsList(commissions))
+            let response = await apiCall(getCommissions, null, authToken, "")
+            console.log("response : ", response)
+            dispatch(setCommissions(response.commissions))
         }, 500);
     }
 
@@ -111,7 +116,7 @@ const Commissions:FC = (props)=>{
                 description: newDescription,
                 percentage: newPercentage.toString()
             }
-            let response = await apiCall(UpdateCommission, request, AppState.authToken, idCommissionSelected)
+            let response = await apiCall(UpdateCommission, request, authToken, idCommissionSelected)
             if(response.status === 200){
                 updateCommissionsList("Comisión actualidada")
             }

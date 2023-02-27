@@ -23,14 +23,14 @@ const Inputs:FC<InputProps> = forwardRef( (props, ref: any) => {
 
   const { companies, commissions } = props
 
-  const commissionSelect = commissions.map((com: any, index: any)=>{
+  const commissionSelect = commissions !== undefined ? commissions.map((com: any, index: any)=>{
     let percentage = parseFloat(com.percentage)
     return <MenuItem key={index} value={com.id}>{percentage}% {com.description}</MenuItem>
-  })
+  }) : []
 
-  const companiesSelect = companies.map((compa: any, index: any)=>{
+  const companiesSelect = companies !== undefined ? companies.map((compa: any, index: any)=>{
     return <MenuItem key={index} value={compa.id}>{compa.name}</MenuItem>
-  })
+  }) : []
 
     const selectCommission = (event: SelectChangeEvent) => {
       props.setIdCommission(event.target.value)

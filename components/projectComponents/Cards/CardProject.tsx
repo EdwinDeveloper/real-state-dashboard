@@ -6,7 +6,7 @@ import CardMedia from '@mui/material/CardMedia'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { ProjectCard } from '../../Models/PropsComponents/ProjectCard'
-import { setIdProjectSelected } from '../../../redux/index'
+import { setIdProjectSelected } from '../../../redux/slices/projects'
 import { useDispatch } from "react-redux"
 
 const CardProject:FC<ProjectCard>  = (props) => {

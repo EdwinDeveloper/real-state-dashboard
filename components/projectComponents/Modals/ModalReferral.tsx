@@ -2,15 +2,13 @@ import React, { FC,useState, forwardRef, useImperativeHandle } from 'react'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import Button from '@mui/material/Button'
-import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography'
-import { createInvestment } from '../../../redux/fetch/services'
 import { apiCall } from '../../../redux/fetch/management'
 import { meInfo, updateReferral } from '../../../redux/fetch/services'
-import { useSelector as UseSelector } from "react-redux"
-import { SelectAppState } from '../../../redux/index'
+import { useAppSelector } from '../../../redux/hooks'
+import { SelectAppState } from '../../../redux/slices/UserInfo/index'
 import { useDispatch } from "react-redux"
-import { setUserInfo } from "../../../redux/index"
+import { setUserInfo } from "../../../redux/slices/UserInfo/index"
 import { REFERRAL_STATUS } from '../../../utils/const'
 import { Referral } from '../Cards/CardReferral'
 
@@ -48,7 +46,7 @@ const ModalReferral:FC<ModalReferralProps> = forwardRef((props,  ref: any) => {
 
   const dispatch = useDispatch()
 
-  const AppState = UseSelector(SelectAppState)
+  const authToken = useAppSelector((state) => state.State.authToken)
 
   const [open, setOpen] = useState(false)
   const handleOpen = () => {
@@ -60,9 +58,9 @@ const ModalReferral:FC<ModalReferralProps> = forwardRef((props,  ref: any) => {
 
   const reject_referral = async(referral: Referral, status: string) => {
     let request = { status: status }
-    let responseReferral = await apiCall(updateReferral, request, AppState.authToken, referral.id)
+    let responseReferral = await apiCall(updateReferral, request, authToken, referral.id)
     if(responseReferral.status === 200 ){
-        let refresh = await apiCall(meInfo, null, AppState.authToken, "")
+        let refresh = await apiCall(meInfo, null, authToken, "")
         dispatch(setUserInfo(refresh))
         handleClose()
         props.setUserState('main')
