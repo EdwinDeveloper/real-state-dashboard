@@ -20,7 +20,7 @@ const CardProject:FC<ProjectCard>  = (props) => {
   
   return (
     <Card key={props.id} style={{
-        width: "90%",
+        width: "95%",
         height: 450,
         backgroundColor: "#fff",
         borderRadius: 12,
@@ -37,7 +37,7 @@ const CardProject:FC<ProjectCard>  = (props) => {
         component="img"
         alt="green iguana"
         style={{
-          height: "23vh"
+          height: "20vh"
         }}
         image={props.images[0].url}
       />

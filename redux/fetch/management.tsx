@@ -1,5 +1,19 @@
+interface Response {
+    status: any,
+    body: any,
+    message: string,
+    token: string,
+    data: any,
+    messages: any,
+    is_staff: string,
+    commissions: any,
+    companies: any,
+    projects: any,
+    videos: any
+}
+
 export const apiCall = async (fun: any, request: any, token: string, id: string) => {
-    const response = await fun(request, token, id)
+    const response: Response = await fun(request, token, id)
     let res = {
         status: response.status,
         body: response.body,

@@ -21,8 +21,9 @@ const Commissions:FC = (props)=>{
 
     const dispatch = useAppDispatch()
 
-    const commissionsList = useAppSelector((state)=> state.commissions.commissions)
-    console.log("commissionsList : ", commissionsList)
+    const commissionss = useAppSelector((state)=> state.commissions.commissions)
+
+    const [commissionsList, setCommissionsList] = useState<Commission[]>(commissionss.length > 0 ? commissionss : [])
     const authToken = useAppSelector((state)=> state.State.authToken)
     const [comState, setComState] = useState("main")
     const [action, setAction] = useState("new")
@@ -75,7 +76,6 @@ const Commissions:FC = (props)=>{
                 description: newDescription,
                 percentage: newPercentage.toString()
             }
-            console.log("request : ", request)
             let response = await apiCall(CreateCommission, request, authToken, "")
             if(response.status ===201){
                 updateCommissionsList("Comisión creada")
@@ -90,8 +90,8 @@ const Commissions:FC = (props)=>{
             setComState("main")
             Modal.current.closeModal()
             let response = await apiCall(getCommissions, null, authToken, "")
-            console.log("response : ", response)
-            dispatch(setCommissions(response.commissions))
+            setCommissionsList(response)
+            dispatch(setCommissions(response))
         }, 500);
     }
 

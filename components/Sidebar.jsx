@@ -148,9 +148,19 @@ const Sidebar = () => {
           <LogoutIcon />
         </div>
         {!toggleCollapse && (
-          <span onClick={()=> finishSesión() } style={{color: "white"}}>
-            Cerrar Sesión
-          </span>
+          <Link key={"pop"} legacyBehavior href={'/'}>
+          <a style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            width: "100%",
+            height: 60
+          }}>
+              <span onClick={()=> finishSesión()} style={{color: "white"}}>
+                Cerrar Sesión
+              </span>
+          </a>
+        </Link>
         )}
       </div>
     </div>

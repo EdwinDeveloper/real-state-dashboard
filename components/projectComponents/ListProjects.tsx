@@ -10,13 +10,13 @@ import ImageListItem from '@mui/material/ImageListItem'
 import DetailsReviewCard from '../Objects/DetailsReviewCard'
 import ModalPer from './Modals/ModalPer'
 import { DetailComponent } from '../Models/DetailComponent'
-import { createProject, updateProject } from '../../redux/fetch/services'
+import { getProjects, createProject, updateProject } from '../../redux/fetch/services'
 import { apiCall } from '../../redux/fetch/management'
 import { Detail, Extra, Image, Project } from '../Models/Project'
 import { Companie } from '../Models/Companie'
 import { Commission } from '../Models/Commission'
 import MUIImage from 'next/image'
-import { setIdProjectSelected } from '../../redux/slices/projects'
+import { setIdProjectSelected, setProjects } from '../../redux/slices/projects'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 
 interface ListProps {
@@ -74,6 +74,7 @@ const ListProjects:FC<ListProps> = (props) => {
   const companiesList = useAppSelector((state)=>state.companies.companies)
   const authToken = useAppSelector((state)=>state.State.authToken)
   const projects = useAppSelector((state)=>state.projects.projects)
+  const [projectList, setProjectsList] = useState<Project[]>([])
   const dispatch = useAppDispatch()
 
   useEffect(()=>{
@@ -91,6 +92,7 @@ const ListProjects:FC<ListProps> = (props) => {
       setRentPriceApproximate(projectIn[0].rent_price_approximate.toString())
       setResalePriceApproximate(projectIn[0].resale_price_approximate.toString())
       setPreSaleDate(projectIn[0].pre_sale_date)
+      console.log("premises_delivery_date : ", projectIn[0].premises_delivery_date)
       setPremisesDeliveryDate(projectIn[0].premises_delivery_date)
       setDescription(projectIn[0].description)
       setIdCommission(projectIn[0].commission)
@@ -131,7 +133,13 @@ const ListProjects:FC<ListProps> = (props) => {
   const ModalRef = useRef<any>(null)
   const inputRef = useRef<any>(null)
 
-  const cancelForm = () => {
+  const cancelForm = async() => {
+    const projectList = await apiCall(getProjects, "", authToken, "")
+    console.log("project : ", projectList)
+    if(projectList.status === 200){
+      setProjectsList(projectList)
+      dispatch(setProjects(projectList))
+    }
     dispatch(setIdProjectSelected(""))
     handleShow("list")
   }
@@ -188,7 +196,9 @@ const ListProjects:FC<ListProps> = (props) => {
       if(ModalRef.current!==undefined && ModalRef.current!==null){
         const { openModal } = ModalRef.current
 
-        console.log("the state :", preSaleDate)
+        console.log("preSaleDate :", preSaleDate)
+        console.log("premisesDeliveryDate : ", premisesDeliveryDate);
+        
 
         if(name===''){
           setModalMessage("El proyecto debe tener un nombre")
@@ -242,7 +252,7 @@ const ListProjects:FC<ListProps> = (props) => {
           setModalMessage("Lo sentimos, debes seleccionar la fecha de preventa")
           openModal()
         }
-        else if( premisesDeliveryDate !== ''){
+        else if( premisesDeliveryDate === ''){
           setModalMessage("Lo sentimos, debes seleccionar la fecha de entrega")
           openModal()
         }
@@ -262,7 +272,6 @@ const ListProjects:FC<ListProps> = (props) => {
           }
           if(idProjectSelected !== null && idProjectSelected !== undefined){
             let updateResponse = await apiCall(updateProject, request, authToken, idProjectSelected + "/")
-            console.log("updateResponse : ", updateResponse)
             if(updateResponse.status===200){
               cancelForm()
             }

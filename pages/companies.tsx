@@ -1,12 +1,12 @@
 import React, { FC, useState, useRef } from 'react'
 import Layout from '../components/Layout'
 import Box from '@material-ui/core/Box'
-import { SelectAppState, setCompaniesList } from '../redux/slices/UserInfo/index'
 import { useAppSelector } from '../redux/hooks'
 import CardCompanie from '../components/projectComponents/Cards/CardCompanie'
 import Button from '@mui/material/Button'
 import { ValidationTextField } from '../public/ValidationTextField'
 import { getCompanies, createCompany as CreateCompany, updateCompany as UpdateCompany } from '../redux/fetch/services'
+import { setCompanies } from '../redux/slices/companies'
 import { apiCall } from '../redux/fetch/management'
 import ModalPer from '../components/projectComponents/Modals/ModalPer'
 import { useDispatch } from "react-redux"
@@ -22,9 +22,8 @@ const Companies:FC = (props)=>{
 
     const dispatch = useDispatch()
 
-    const companiesList = useAppSelector((state)=> state.companies.companies)
+    const companiess = useAppSelector((state)=> state.companies.companies)
     const authToken = useAppSelector((state)=> state.State.authToken)
-    console.log("companies : ", companiesList)
 
     const [comState, setComState] = useState('list')
     const [action, setAction] = useState("new")
@@ -35,10 +34,12 @@ const Companies:FC = (props)=>{
 
     const [modalMessage, setModalMessage] = useState('')
 
+    const [companiesList, setCompaniesList] = useState<Companie[]>( companiess !== undefined && companiess.length > 0 ? companiess : [] )
+
     const Modal = useRef<any>(null)
 
     const companies = () => {
-        return companiesList.length > 0 ? companiesList.map((companie: Companie)=>{
+        return companiesList !== undefined && companiesList.length > 0 ? companiesList.map((companie: Companie)=>{
             return (
                 <CardCompanie key={companie.id} companie={companie} updateCompany={updateCompany}/>
             )
@@ -51,9 +52,9 @@ const Companies:FC = (props)=>{
         setModalMessage(message)
         setTimeout(async() => {
             Modal.current.closeModal()
-            let companies = await apiCall(getCompanies, null, authToken, "")
-            console.log("companiesss : ", companies)
-            dispatch(setCompaniesList(companies))
+            let response = await apiCall(getCompanies, null, authToken, "")
+            setCompaniesList(response)
+            dispatch(setCompanies(response))
             setComState("list")
         }, 500);
     }
@@ -86,7 +87,6 @@ const Companies:FC = (props)=>{
     }
 
     const updateCompany = (company: Companie) => {
-        console.log("selector : ", company)
         setComState("form")
         setAction("update")
         setIdCompanySelected(company.id)
@@ -243,9 +243,6 @@ const Companies:FC = (props)=>{
                                         Actualizar
                                     </Button>
                                 }
-                                {/* <Box>
-                                
-                            </Box> */}
                             </Box>
                             <Box style={{
                                 width: 200,
@@ -254,9 +251,9 @@ const Companies:FC = (props)=>{
                                 <Image
                                     src={`${icon}?w=200&h=100&fit=crop&auto=format`}
                                     alt={"Logo Ejemplo"}
+                                    width={200}
+                                    height={100}
                                     style={{
-                                        width: 200,
-                                        height: 100,
                                         borderRadius: 8,
                                     }}
                                     loading="lazy"
