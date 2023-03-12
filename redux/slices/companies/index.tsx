@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { Companie } from "../../../pages/companies"
+import { Companie } from "../../../redux/fetch/responses"
 
 type InitialState = {
     companies: Companie[]
