@@ -1,4 +1,6 @@
-export interface Project {
+import Default from "./Default";
+
+export interface Project extends Default{
     id: string,
     name: string,
     model: string,

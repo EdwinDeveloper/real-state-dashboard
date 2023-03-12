@@ -15,7 +15,7 @@ import logo from '../assets/loadingLogo.png'
 import { logIn, meInfo } from '../redux/fetch/services'
 import { apiCall } from '../redux/fetch/management'
 import { setState } from '../redux/slices/state'
-import { setAuthState, setUserInfo, setCommissionsList } from "../redux/slices/UserInfo/index"
+import { setUserInfo } from "../redux/slices/UserInfo/index"
 import { setCompanies } from '../redux/slices/companies'
 import { setAuthToken } from '../redux/slices/state'
 import { setProjects } from '../redux/slices/projects'
@@ -24,8 +24,11 @@ import { useAppDispatch } from '../redux/hooks'
 import ModalPer from '../components/projectComponents/Modals/ModalPer'
 import { AuthTokenResponse } from '../components/Models/AuthTokenResponse'
 import { UserInfo } from '../components/Models/UserInfo'
+import { FetchCall } from '../redux/fetch/FetchCall'
 import { setUsers } from '../redux/slices/users'
 import { setVideos } from '../redux/slices/videos'
+import { LoginRequest } from '../redux/fetch/requests'
+import { LoginResponse } from '../redux/fetch/responses'
 
 function Copyright(props: any) {
   return (
@@ -49,26 +52,26 @@ export default function SignIn() {
 
   const ModalRef = useRef<any>()
 
-  const handleSubmit = async(event: any) => {
-    event.preventDefault()
-    const data = new FormData(event.currentTarget)
+  const handleSubmit = async() => {
+    console.log("hola")
     if(ModalRef.current !== undefined && ModalRef.current !== null){
       const { openModal } = ModalRef.current
-      if(data.get('email')===""){
+      if(email===""){
         setMessage('Debes colocar un correo electronico para iniciar sesión')
         openModal()
-      }else if(data.get('password')===""){
+      }else if(password===""){
         setMessage('Debes colocar tu contraseña de acceso')
         openModal()
       }else{
-        let loginRequest = { email: data.get('email'), password: data.get('password') }
-        let rli = await apiCall(logIn, loginRequest, "", "")
+        let lr: LoginRequest = { email: email, password: password }
+        let rli = await FetchCall<LoginResponse>(logIn(lr, ""))
+        console.log("responses : ", rli)
         if(rli.status===200){
-          let responseGetData = await apiCall(meInfo, null, rli.token, "")
+          let responseGetData = await apiCall(meInfo, null, rli.data.token, "")
           if(responseGetData.is_staff){
             setTimeout(() => {
               console.log("llegando")
-              dispatch(setAuthToken(rli.token))
+              dispatch(setAuthToken(rli.data.token))
               dispatch(setUserInfo(responseGetData))
               dispatch(setCommissions(responseGetData.commissions))
               dispatch(setCompanies(responseGetData.companies))
@@ -108,7 +111,7 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Iniciar Sesión
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -144,7 +147,7 @@ export default function SignIn() {
               color="secondary"
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              //onClick={()=>{buildRequestLogin()}}
+              onClick={handleSubmit}
             >
               Iniciar Sesión
             </Button>

@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { Settings } from '../../components/Models/Fetch/Settings'
+import { AxiosOptions } from '../../components/Models/Fetch/AxiosOptions'
 
-export default function call(config: Settings){
+export default function call(config: AxiosOptions){
     return axios(config).then((response)=>{
       return response
     }).catch(function (error) {

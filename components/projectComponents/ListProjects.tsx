@@ -12,6 +12,7 @@ import ModalPer from './Modals/ModalPer'
 import { DetailComponent } from '../Models/DetailComponent'
 import { getProjects, createProject, updateProject } from '../../redux/fetch/services'
 import { apiCall } from '../../redux/fetch/management'
+import { FetchCall, Response } from '../../redux/fetch/FetchCall'
 import { Detail, Extra, Image, Project } from '../Models/Project'
 import { Companie } from '../Models/Companie'
 import { Commission } from '../Models/Commission'
@@ -134,11 +135,11 @@ const ListProjects:FC<ListProps> = (props) => {
   const inputRef = useRef<any>(null)
 
   const cancelForm = async() => {
-    const projectList = await apiCall(getProjects, "", authToken, "")
+    const response: Response = await FetchCall(getProjects, "", authToken, "")
     console.log("project : ", projectList)
-    if(projectList.status === 200){
-      setProjectsList(projectList)
-      dispatch(setProjects(projectList))
+    if(response.status === 200){
+      setProjectsList(response)
+      dispatch(setProjects(response))
     }
     dispatch(setIdProjectSelected(""))
     handleShow("list")
