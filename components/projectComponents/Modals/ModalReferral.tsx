@@ -3,13 +3,15 @@ import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-import { apiCall } from '../../../redux/fetch/management'
 import { meInfo, updateReferral } from '../../../redux/fetch/services'
+import { UpdateReferralResponse, MeInfoResponse } from '../../../redux/fetch/responses'
+import { setUsers } from '../../../redux/slices/users'
+import { useAppDispatch } from '../../../redux/hooks'
 import { useAppSelector } from '../../../redux/hooks'
-import { useDispatch } from "react-redux"
 import { setUserInfo } from "../../../redux/slices/UserInfo/index"
 import { REFERRAL_STATUS } from '../../../utils/const'
 import { Referral } from '../Cards/CardReferral'
+import { FetchCall } from '../../../redux/fetch/FetchCall'
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -41,9 +43,9 @@ const ModalReferral:FC<ModalReferralProps> = forwardRef((props,  ref: any) => {
         }
     ), [])
 
-    const { status } = props.referral
+  const { status } = props.referral
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const authToken = useAppSelector((state) => state.State.authToken)
 
@@ -57,10 +59,10 @@ const ModalReferral:FC<ModalReferralProps> = forwardRef((props,  ref: any) => {
 
   const reject_referral = async(referral: Referral, status: string) => {
     let request = { status: status }
-    let responseReferral = await apiCall(updateReferral, request, authToken, referral.id)
+    let responseReferral = await FetchCall<UpdateReferralResponse>(updateReferral(request, authToken, referral.id))
     if(responseReferral.status === 200 ){
-        let refresh = await apiCall(meInfo, null, authToken, "")
-        dispatch(setUserInfo(refresh))
+        let meInfoResponse = await FetchCall<MeInfoResponse>(meInfo("", authToken))
+        dispatch(setUsers(meInfoResponse.data.users))
         handleClose()
         props.setUserState('main')
     }

@@ -38,6 +38,18 @@ export interface CreateInvestmentResponse extends DefaultResponse {
     data: Investment
 }
 
+export interface UpdateReferralResponse extends DefaultResponse {
+    data: Referral
+}
+
+export interface CreateProjectResponse extends DefaultResponse {
+    data: Project
+}
+
+export interface UpdateProjectResponse extends DefaultResponse {
+    data: Project
+}
+
 export interface UserInfo {
     id: string,
     country_code: string,

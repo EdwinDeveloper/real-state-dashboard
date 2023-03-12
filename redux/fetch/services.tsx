@@ -1,4 +1,3 @@
-import call from './call'
 import { AxiosOptions } from '../../components/Models/Fetch/AxiosOptions'
 import { LoginRequest } from './requests'
 
@@ -15,7 +14,7 @@ export function setup(request: any, token: string) {
         url: `${url_base}/api/user/create/`,
         data: request
     }
-    return call(options)
+    return options
 }
 
 export function logIn(request: LoginRequest, token: string): AxiosOptions{
@@ -53,7 +52,7 @@ export function createReferral(request: any, token: string){
         url: `${url_base}/api/company/referral/`,
         data: request
     }
-    return call(options)
+    return options
 }
 
 export function getProjects(request: any, token: string){
@@ -78,7 +77,7 @@ export function createProject(request: any, token: string){
         url: `${url_base}/api/company/projects/`,
         data: request
     }
-    return call(options)
+    return options
 }
 
 export function updateProject(request: any, token: string, id: string){
@@ -91,7 +90,7 @@ export function updateProject(request: any, token: string, id: string){
         url: `${url_base}/api/company/projects/${id}`,
         data: request
     }
-    return call(options)
+    return options
 }
 
 export function createInvestment(request: any, token: string, id_user: string){
@@ -117,7 +116,7 @@ export function updateReferral(request: any, token: string, id_referral: string)
         url: `${url_base}/api/company/referral/${id_referral}/`,
         data: request
     }
-    return call(options)
+    return options
 }
 
 export function getCommissions(request: any, token: string) {

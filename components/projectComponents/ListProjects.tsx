@@ -11,6 +11,7 @@ import DetailsReviewCard from '../Objects/DetailsReviewCard'
 import ModalPer from './Modals/ModalPer'
 import { DetailComponent } from '../Models/DetailComponent'
 import { getProjects, createProject, updateProject } from '../../redux/fetch/services'
+import { CreateProjectResponse, UpdateProjectResponse } from '../../redux/fetch/responses'
 import { apiCall } from '../../redux/fetch/management'
 import { FetchCall } from '../../redux/fetch/FetchCall'
 import { Detail, Extra, Image, Project } from '../../redux/fetch/responses'
@@ -270,12 +271,12 @@ const ListProjects:FC<ListProps> = (props) => {
             company_related: idCompany
           }
           if(idProjectSelected !== null && idProjectSelected !== undefined){
-            let updateResponse = await apiCall(updateProject, request, authToken, idProjectSelected + "/")
+            let updateResponse = await FetchCall<UpdateProjectResponse>(updateProject(request, authToken, idProjectSelected + "/"))
             if(updateResponse.status===200){
               cancelForm()
             }
           }else{
-            let newResponse = await apiCall(createProject, request, authToken, "")
+            let newResponse = await FetchCall<CreateProjectResponse>(createProject(request, authToken))
             if(newResponse.status===201){
               cancelForm()
             }
