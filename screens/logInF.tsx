@@ -1,4 +1,4 @@
-import React, { useEffect, useRef} from 'react'
+import React, { useRef} from 'react'
 import Image from 'next/image'
 import Button from '@mui/material/Button'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -13,7 +13,6 @@ import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import logo from '../assets/loadingLogo.png'
 import { logIn, meInfo } from '../redux/fetch/services'
-import { apiCall } from '../redux/fetch/management'
 import { setState } from '../redux/slices/state'
 import { setUserInfo } from "../redux/slices/UserInfo/index"
 import { setCompanies } from '../redux/slices/companies'
@@ -28,7 +27,7 @@ import { FetchCall } from '../redux/fetch/FetchCall'
 import { setUsers } from '../redux/slices/users'
 import { setVideos } from '../redux/slices/videos'
 import { LoginRequest } from '../redux/fetch/requests'
-import { LoginResponse } from '../redux/fetch/responses'
+import { LoginResponse, MeInfoResponse } from '../redux/fetch/responses'
 
 function Copyright(props: any) {
   return (
@@ -67,17 +66,16 @@ export default function SignIn() {
         let rli = await FetchCall<LoginResponse>(logIn(lr, ""))
         console.log("responses : ", rli)
         if(rli.status===200){
-          let responseGetData = await apiCall(meInfo, null, rli.data.token, "")
-          if(responseGetData.is_staff){
+          let responseMeInfo = await FetchCall<MeInfoResponse>(meInfo("", rli.data.token))
+          if(responseMeInfo.data.is_staff){
             setTimeout(() => {
-              console.log("llegando")
               dispatch(setAuthToken(rli.data.token))
-              dispatch(setUserInfo(responseGetData))
-              dispatch(setCommissions(responseGetData.commissions))
-              dispatch(setCompanies(responseGetData.companies))
-              dispatch(setProjects(responseGetData.projects))
-              dispatch(setUsers(responseGetData.users))
-              dispatch(setVideos(responseGetData.videos))
+              dispatch(setUserInfo(responseMeInfo))
+              dispatch(setCommissions(responseMeInfo.data.commissions))
+              dispatch(setCompanies(responseMeInfo.data.companies))
+              dispatch(setProjects(responseMeInfo.data.projects))
+              dispatch(setUsers(responseMeInfo.data.users))
+              dispatch(setVideos(responseMeInfo.data.videos))
               dispatch(setState(2))
             }, 500)
             setMessage('Bienvenido')

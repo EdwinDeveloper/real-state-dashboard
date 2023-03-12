@@ -7,18 +7,16 @@ import Button from '@mui/material/Button'
 import { ValidationTextField } from '../public/ValidationTextField'
 import { getCompanies, createCompany as CreateCompany, updateCompany as UpdateCompany } from '../redux/fetch/services'
 import { setCompanies } from '../redux/slices/companies'
-import { apiCall } from '../redux/fetch/management'
 import ModalPer from '../components/projectComponents/Modals/ModalPer'
 import { useDispatch } from "react-redux"
 import Image from 'next/image'
-
-export interface Companie {
-    id: string,
-    name: string,
-    icon: string,
-}
+import { FetchCall } from '../redux/fetch/FetchCall'
+import { Companie } from '../redux/fetch/responses'
+import { GetCompaniesResponse, CreateCompaniesResponse, UpdateCompaniesResponse } from '../redux/fetch/responses'
 
 const Companies:FC = (props)=>{
+
+    const host = ""
 
     const dispatch = useDispatch()
 
@@ -30,7 +28,7 @@ const Companies:FC = (props)=>{
 
     const [idCompanySelected, setIdCompanySelected] = useState('')
     const [name, setName] = useState('')
-    const [icon, setIcon] = useState('')
+    const [icon, setIcon] = useState(host)
 
     const [modalMessage, setModalMessage] = useState('')
 
@@ -52,16 +50,16 @@ const Companies:FC = (props)=>{
         setModalMessage(message)
         setTimeout(async() => {
             Modal.current.closeModal()
-            let response = await apiCall(getCompanies, null, authToken, "")
-            setCompaniesList(response)
-            dispatch(setCompanies(response))
+            let response = await FetchCall<GetCompaniesResponse>(getCompanies("", authToken))
+            setCompaniesList(response.data)
+            dispatch(setCompanies(response.data))
             setComState("list")
         }, 500);
     }
 
     const createCompany = () => {
         setName("")
-        setIcon("")
+        setIcon(host)
         setComState("form")
         setAction("new")
         setIdCompanySelected("")
@@ -79,8 +77,8 @@ const Companies:FC = (props)=>{
             let request = {
                 name: name, icon: icon
            }
-           let response = await apiCall(CreateCompany, request, authToken, "")
-           if(response.status === 200){
+           let response = await FetchCall<CreateCompaniesResponse>(CreateCompany(request, authToken))
+           if(response.status === 201){
                 updateCompaniesList("Compañia guardada correctamente")
            }
         }
@@ -107,7 +105,7 @@ const Companies:FC = (props)=>{
             let request = {
                 name: name, icon: icon
            }
-           let response = await apiCall(UpdateCompany, request, authToken, idCompanySelected)
+           let response = await FetchCall<UpdateCompaniesResponse>(UpdateCompany(request, authToken, idCompanySelected))
            if(response.status === 200){
                 updateCompaniesList("Compañia actualizada correctamente")
            }
@@ -249,7 +247,7 @@ const Companies:FC = (props)=>{
                                 height: 500,
                             }}>
                                 <Image
-                                    src={`${icon}?w=200&h=100&fit=crop&auto=format`}
+                                    src={`${icon}`}
                                     alt={"Logo Ejemplo"}
                                     width={200}
                                     height={100}

@@ -4,13 +4,11 @@ import Modal from '@mui/material/Modal'
 import Button from '@mui/material/Button'
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography'
-import { createInvestment } from '../../../redux/fetch/services'
-import { apiCall } from '../../../redux/fetch/management'
-import { meInfo } from '../../../redux/fetch/services'
-import { useSelector as UseSelector } from "react-redux"
-import { SelectAppState } from '../../../redux/slices/UserInfo/index'
+import { createInvestment, meInfo } from '../../../redux/fetch/services'
 import { setUserInfo } from "../../../redux/slices/UserInfo/index"
 import { useAppSelector, useAppDispatch } from '../../../redux/hooks';
+import { FetchCall } from '../../../redux/fetch/FetchCall';
+import { CreateInvestmentResponse, MeInfoResponse } from '../../../redux/fetch/responses';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -61,12 +59,11 @@ const ModalConfirmation:FC<ModalConfirmationProps> = forwardRef((props,  ref: an
       user_id, investment_id: project_id
     }
     setTimeout(async() => {
-      let response = await apiCall(createInvestment, request, authToken, user_id)
-      if(response.message === "Investment created"){
+      let response = await FetchCall<CreateInvestmentResponse>(createInvestment(request, authToken, user_id))
+      if(response.status === 200){
         handleClose()
-        let refreshInfo = await apiCall(meInfo, null, authToken, "")
-        console.log("refresh info : ", refreshInfo)
-        dispatch(setUserInfo(refreshInfo))
+        let responseMeInfo = await FetchCall<MeInfoResponse>(meInfo(null, authToken))
+        dispatch(setUserInfo(responseMeInfo.data))
       }
     }, 1000);
   }

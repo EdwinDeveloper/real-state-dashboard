@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import Layout from '../components/Layout'
 import { YoutubeCard } from '../components/projectComponents/Cards/YoutubeCard'
 import Box from '@material-ui/core/Box'
-import { Item } from '../components/Models/video'
+import { Item } from '../redux/fetch/responses'
 import { useAppSelector } from '../redux/hooks'
 const Videos:FC = (props) => {
 

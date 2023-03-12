@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { Video } from "../../../components/Models/video"
+import { Video } from "../../../redux/fetch/responses"
 
 type InitialState = {
     videos: Video

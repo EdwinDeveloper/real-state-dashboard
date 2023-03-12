@@ -31,7 +31,7 @@ export function logIn(request: LoginRequest, token: string): AxiosOptions{
 }
 
 export function meInfo(request: any, token: string){
-    let settings: AxiosOptions = {
+    let options: AxiosOptions = {
         method: 'get',
         headers: {
             'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ export function meInfo(request: any, token: string){
         url: `${url_base}/api/user/me/`,
         data: {}
     }
-    return call(settings)
+    return options
 }
 
 export function createReferral(request: any, token: string){
@@ -65,7 +65,7 @@ export function getProjects(request: any, token: string){
         },
         url: `${url_base}/api/company/projects/`
     }
-    return call(options)
+    return options
 }
 
 export function createProject(request: any, token: string){
@@ -104,7 +104,7 @@ export function createInvestment(request: any, token: string, id_user: string){
         url: `${url_base}/api/user/set/${id_user}/set-investment/`,
         data: request
     }
-    return call(options)
+    return options
 }
 
 export function updateReferral(request: any, token: string, id_referral: string){
@@ -130,7 +130,7 @@ export function getCommissions(request: any, token: string) {
         url: `${url_base}/api/company/commission/`,
         data: {}
     }
-    return call(options)
+    return options
 }
 
 export function createCommission(request: any, token: string) {
@@ -143,7 +143,7 @@ export function createCommission(request: any, token: string) {
         url: `${url_base}/api/company/commission/`,
         data: request
     }
-    return call(options)
+    return options
 }
 
 export function updateCommission(request: any, token: string, id_commission: string) {
@@ -156,7 +156,7 @@ export function updateCommission(request: any, token: string, id_commission: str
         url: `${url_base}/api/company/commission/${id_commission}/`,
         data: request
     }
-    return call(options)
+    return options
 }
 
 export function getCompanies(request: any, token: string) {
@@ -169,7 +169,7 @@ export function getCompanies(request: any, token: string) {
         url: `${url_base}/api/company/companies/`,
         data: {}
     }
-    return call(options)
+    return options
 }
 
 export function createCompany(request: any, token: string) {
@@ -182,7 +182,7 @@ export function createCompany(request: any, token: string) {
         url: `${url_base}/api/company/companies/`,
         data: request
     }
-    return call(options)
+    return options
 }
 
 export function updateCompany(request: any, token: string, id_company: string) {
@@ -195,5 +195,5 @@ export function updateCompany(request: any, token: string, id_company: string) {
         url: `${url_base}/api/company/companies/${id_company}/`,
         data: request
     }
-    return call(options)
+    return options
 }

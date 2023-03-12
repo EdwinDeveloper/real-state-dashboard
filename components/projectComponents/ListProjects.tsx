@@ -12,13 +12,13 @@ import ModalPer from './Modals/ModalPer'
 import { DetailComponent } from '../Models/DetailComponent'
 import { getProjects, createProject, updateProject } from '../../redux/fetch/services'
 import { apiCall } from '../../redux/fetch/management'
-import { FetchCall, Response } from '../../redux/fetch/FetchCall'
-import { Detail, Extra, Image, Project } from '../Models/Project'
-import { Companie } from '../Models/Companie'
-import { Commission } from '../Models/Commission'
+import { FetchCall } from '../../redux/fetch/FetchCall'
+import { Detail, Extra, Image, Project } from '../../redux/fetch/responses'
+import { Companie, Commission } from '../../redux/fetch/responses'
 import MUIImage from 'next/image'
 import { setIdProjectSelected, setProjects } from '../../redux/slices/projects'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
+import { GetProjectsResponse } from '../../redux/fetch/responses'
 
 interface ListProps {
   handleShow: (screen: string) => void,
@@ -75,12 +75,12 @@ const ListProjects:FC<ListProps> = (props) => {
   const companiesList = useAppSelector((state)=>state.companies.companies)
   const authToken = useAppSelector((state)=>state.State.authToken)
   const projects = useAppSelector((state)=>state.projects.projects)
-  const [projectList, setProjectsList] = useState<Project[]>([])
+  const [projectList, setProjectsList] = useState<Project[]>( projects !== undefined && projects.length > 0 ? projects: [] )
   const dispatch = useAppDispatch()
 
   useEffect(()=>{
     let projectIn: Project[] = []
-    projects !== undefined ? projects.find((project: Project)=>{
+    projectList !== undefined ? projectList.find((project: Project)=>{
       if(idProjectSelected === project.id){
         projectIn.push(project)
       }
@@ -93,7 +93,6 @@ const ListProjects:FC<ListProps> = (props) => {
       setRentPriceApproximate(projectIn[0].rent_price_approximate.toString())
       setResalePriceApproximate(projectIn[0].resale_price_approximate.toString())
       setPreSaleDate(projectIn[0].pre_sale_date)
-      console.log("premises_delivery_date : ", projectIn[0].premises_delivery_date)
       setPremisesDeliveryDate(projectIn[0].premises_delivery_date)
       setDescription(projectIn[0].description)
       setIdCommission(projectIn[0].commission)
@@ -135,11 +134,10 @@ const ListProjects:FC<ListProps> = (props) => {
   const inputRef = useRef<any>(null)
 
   const cancelForm = async() => {
-    const response: Response = await FetchCall(getProjects, "", authToken, "")
-    console.log("project : ", projectList)
-    if(response.status === 200){
-      setProjectsList(response)
-      dispatch(setProjects(response))
+    const responseProjects = await FetchCall<GetProjectsResponse>(getProjects("", authToken))
+    if(responseProjects.status === 200){
+      setProjectsList(responseProjects.data)
+      dispatch(setProjects(responseProjects.data))
     }
     dispatch(setIdProjectSelected(""))
     handleShow("list")

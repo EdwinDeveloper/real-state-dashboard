@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { Project } from "../../../components/Models/Project"
+import { Project } from "../../fetch/responses"
 
 type InitialState = {
     projects: Project[],

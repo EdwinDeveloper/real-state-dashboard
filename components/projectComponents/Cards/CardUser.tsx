@@ -9,7 +9,7 @@ import { red } from '@mui/material/colors'
 import Button from '@mui/material/Button'
 import Box from '@material-ui/core/Box'
 import Collapse from '@mui/material/Collapse'
-import { Referral } from '../../../components/Models/Referral'
+import { Referral } from '../../../redux/fetch/responses'
 
 interface CardUserProps {
     id: string,

@@ -1,4 +1,4 @@
-import { Image } from '../Project'
+import { Image } from '../../../redux/fetch/responses'
 
 export interface ProjectCard {
     id: string,

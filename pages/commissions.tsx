@@ -8,8 +8,10 @@ import Button from '@mui/material/Button'
 import { ValidationTextField } from '../public/ValidationTextField'
 import ModalPer from '../components/projectComponents/Modals/ModalPer'
 import { createCommission as CreateCommission, updateCommission as UpdateCommission, getCommissions } from '../redux/fetch/services'
+import { GetCommissionsResponse, UpdateCommissionResponse, CreateCommissionResponse } from '../redux/fetch/responses'
 import { apiCall } from '../redux/fetch/management'
 import { useAppDispatch } from '../redux/hooks'
+import { FetchCall } from '../redux/fetch/FetchCall'
 
 export interface Commission {
     id: string,
@@ -76,7 +78,7 @@ const Commissions:FC = (props)=>{
                 description: newDescription,
                 percentage: newPercentage.toString()
             }
-            let response = await apiCall(CreateCommission, request, authToken, "")
+            let response = await FetchCall<CreateCommissionResponse>(CreateCommission(request, authToken))
             if(response.status ===201){
                 updateCommissionsList("Comisión creada")
             }
@@ -89,9 +91,11 @@ const Commissions:FC = (props)=>{
         setTimeout(async() => {
             setComState("main")
             Modal.current.closeModal()
-            let response = await apiCall(getCommissions, null, authToken, "")
-            setCommissionsList(response)
-            dispatch(setCommissions(response))
+            let responseCommissions = await FetchCall<GetCommissionsResponse>(getCommissions(null, authToken))
+            if(responseCommissions.status == 200){
+                setCommissionsList(responseCommissions.data)
+                dispatch(setCommissions(responseCommissions.data))
+            }
         }, 500);
     }
 
@@ -116,7 +120,7 @@ const Commissions:FC = (props)=>{
                 description: newDescription,
                 percentage: newPercentage.toString()
             }
-            let response = await apiCall(UpdateCommission, request, authToken, idCommissionSelected)
+            let response = await FetchCall<UpdateCommissionResponse>(UpdateCommission(request, authToken, idCommissionSelected))
             if(response.status === 200){
                 updateCommissionsList("Comisión actualidada")
             }

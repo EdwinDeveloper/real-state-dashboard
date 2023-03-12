@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { Commission } from "../../../components/Models/Commission"
+import { Commission } from "../../../redux/fetch/responses"
 
 type InitialState = {
     commissions: Commission[]

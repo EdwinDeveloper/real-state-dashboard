@@ -1,4 +1,4 @@
-import { Extra } from "./Project";
+import { Extra } from "../../redux/fetch/responses";
 
 export interface ExtraComponent extends Extra {
     id: string,

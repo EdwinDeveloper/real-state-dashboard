@@ -1,4 +1,4 @@
-import { Detail } from '../Models/Project'
+import { Detail } from '../../redux/fetch/responses'
 
 export interface DetailComponent extends Detail{
     id: string,

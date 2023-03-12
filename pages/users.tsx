@@ -1,17 +1,12 @@
-import React, { FC, useState, useEffect } from "react"
+import React, { FC, useState } from "react"
 import Layout from "../components/Layout"
 import Box from '@material-ui/core/Box'
-import { SelectAppState } from '../redux/slices/UserInfo/index'
-import { useSelector as UseSelector } from "react-redux"
 import CardUser from "../components/projectComponents/Cards/CardUser"
-import { Project } from "../components/Models/Project"
 import CardUserProject from '../components/projectComponents/Cards/CardUserProject'
 import Button from '@mui/material/Button'
 import { ValidationTextField } from '../public/ValidationTextField'
 import CardUserReferrals from '../components/projectComponents/Cards/CardReferral'
-import { User } from '../components/Models/User'
-import { Referral } from '../components/Models/Referral'
-import { Investment } from "../components/Models/Investment"
+import { User, Investment, Referral, Project } from '../redux/fetch/responses'
 import { useAppSelector } from "../redux/hooks"
 
 const Users:FC = (props) => {

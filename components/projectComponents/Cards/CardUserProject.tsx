@@ -5,7 +5,7 @@ import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-import { Image } from '../../Models/Project'
+import { Image } from '../../../redux/fetch/responses'
 import ModalConfirmation from '../Modals/ModalConfirmation'
 
 interface CardUserProjectProps {

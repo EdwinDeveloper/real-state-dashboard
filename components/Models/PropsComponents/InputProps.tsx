@@ -1,7 +1,4 @@
-import { Project } from "../Project"
-import { Commission } from '../Commission'
-import { Companie } from "../Companie"
-import dayjs, { Dayjs } from 'dayjs'
+import { Commission, Companie } from "../../../redux/fetch/responses"
 
 export interface InputProps {
     ref: any,

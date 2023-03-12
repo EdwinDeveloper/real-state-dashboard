@@ -6,7 +6,6 @@ import Typography from '@mui/material/Typography'
 import { apiCall } from '../../../redux/fetch/management'
 import { meInfo, updateReferral } from '../../../redux/fetch/services'
 import { useAppSelector } from '../../../redux/hooks'
-import { SelectAppState } from '../../../redux/slices/UserInfo/index'
 import { useDispatch } from "react-redux"
 import { setUserInfo } from "../../../redux/slices/UserInfo/index"
 import { REFERRAL_STATUS } from '../../../utils/const'

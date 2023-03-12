@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { Commission } from "../../../components/Models/Commission"
-import { User } from "../../../components/Models/User"
+import { User } from "../../../redux/fetch/responses"
 
 type InitialState = {
     users: User[]
