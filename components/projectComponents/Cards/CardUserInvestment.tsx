@@ -7,18 +7,24 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { Image } from '../../../redux/fetch/responses'
 import ModalConfirmation from '../Modals/ModalConfirmation'
+import Box from '@material-ui/core/Box'
 
-interface CardUserProjectProps {
-    id: string,
+interface CardUserInvestmentProps {
+    projectId: string,
     userId: string,
     name: string,
     model: string,
     action: string,
     images: Image[],
     description: string,
+
+    pre_sale_price: number,
+
+    commission: string,
+    status: string,
 }
 
-const CardUserProject:FC<CardUserProjectProps>  = (props) => {
+const CardUserProject:FC<CardUserInvestmentProps>  = (props) => {
 
   const ModalConf = useRef<any>(null)
 
@@ -27,7 +33,7 @@ const CardUserProject:FC<CardUserProjectProps>  = (props) => {
   }
   
   return (
-    <Card key={props.id} style={{
+    <Card key={props.projectId} style={{
         width: "90%",
         height: 450,
         backgroundColor: "#fff",
@@ -42,13 +48,14 @@ const CardUserProject:FC<CardUserProjectProps>  = (props) => {
     }} sx={{ maxWidth: 345 }}>
       <ModalConfirmation 
         ref={ModalConf}
-        id={props.id}
+        projectId={props.projectId}
         userId={props.userId}
+        pre_sale_price={props.pre_sale_price}
         message={"Crear inversión ? "}
         function={createInvestment}
       />
       <CardMedia
-        key={props.id}
+        key={props.projectId}
         component="img"
         alt="green iguana"
         style={{
@@ -56,7 +63,7 @@ const CardUserProject:FC<CardUserProjectProps>  = (props) => {
         }}
         image={props.images[0].url}
       />
-      <CardContent key={props.id}>
+      <CardContent key={props.projectId}>
         <Typography gutterBottom variant="h5" component="div">
           {props.model}
         </Typography>
@@ -72,9 +79,16 @@ const CardUserProject:FC<CardUserProjectProps>  = (props) => {
       <CardActions style={{
         display: 'flex',
         justifyContent: 'space-evenly',
-      }} key={props.id}>
-        { props.action === 'investments'
-
+      }} key={props.projectId}>
+        { props.action === 'investments' &&
+          <Box>
+            <Box>
+              Comisión
+            </Box>
+            <Box>
+              {props.commission}
+            </Box>
+          </Box>
         }
         { props.action === 'newInvestment' &&
             <Button onClick={()=>{

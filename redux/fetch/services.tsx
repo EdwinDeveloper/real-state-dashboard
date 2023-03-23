@@ -1,9 +1,9 @@
 import { AxiosOptions } from '../../components/Models/Fetch/AxiosOptions'
-import { LoginRequest } from './requests'
+import { CreateInvestment, LoginRequest } from './requests'
 
-// const url_base = "http://localhost:8000"
+ const url_base = "http://localhost:8000"
 //const url_base = "http://ec2-3-145-15-251.us-east-2.compute.amazonaws.com"
-const url_base = "http://143.198.63.104:8000"
+//const url_base = "http://143.198.63.104:8000"
 
 export function setup(request: any, token: string) {
     let options: AxiosOptions = {
@@ -93,14 +93,14 @@ export function updateProject(request: any, token: string, id: string){
     return options
 }
 
-export function createInvestment(request: any, token: string, id_user: string){
+export function createInvestment(request: CreateInvestment, token: string){
     let options: AxiosOptions = {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Token ${token}`
         },
-        url: `${url_base}/api/user/set/${id_user}/set-investment/`,
+        url: `${url_base}/api/company/investment/`,
         data: request
     }
     return options

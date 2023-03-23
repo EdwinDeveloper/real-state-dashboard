@@ -9,7 +9,6 @@ import { ValidationTextField } from '../public/ValidationTextField'
 import ModalPer from '../components/projectComponents/Modals/ModalPer'
 import { createCommission as CreateCommission, updateCommission as UpdateCommission, getCommissions } from '../redux/fetch/services'
 import { GetCommissionsResponse, UpdateCommissionResponse, CreateCommissionResponse } from '../redux/fetch/responses'
-import { apiCall } from '../redux/fetch/management'
 import { useAppDispatch } from '../redux/hooks'
 import { FetchCall } from '../redux/fetch/FetchCall'
 

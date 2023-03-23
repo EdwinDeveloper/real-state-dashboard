@@ -169,7 +169,12 @@ export interface Referral {
 
 export interface Investment {
     id: string,
-  }
+    commission: string,
+    status: string,
+    user_id: string,
+    paid: boolean,
+    project: Project
+}
 
 export interface Login {
     token: string

@@ -5,10 +5,16 @@ import Button from '@mui/material/Button'
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography'
 import { createInvestment, meInfo } from '../../../redux/fetch/services'
-import { setUserInfo } from "../../../redux/slices/UserInfo/index"
 import { useAppSelector, useAppDispatch } from '../../../redux/hooks';
 import { FetchCall } from '../../../redux/fetch/FetchCall';
-import { CreateInvestmentResponse, MeInfoResponse } from '../../../redux/fetch/responses';
+import { CreateInvestmentResponse, MeInfoResponse, Commission } from '../../../redux/fetch/responses';
+import { CreateInvestment } from '../../../redux/fetch/requests';
+import FormControl from '@mui/material/FormControl'
+import InputLabel from '@mui/material/InputLabel'
+import Select, { SelectChangeEvent } from '@mui/material/Select'
+import FormHelperText from '@mui/material/FormHelperText'
+import MenuItem from '@mui/material/MenuItem'
+import { setUsers } from '../../../redux/slices/users';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -27,13 +33,29 @@ const style = {
 
 interface ModalConfirmationProps {
   ref: any,
-    id: string,
+    projectId: string,
     userId: string,
     message: string,
+    pre_sale_price: number,
     function: (id: string)=>void,
 }
 
 const ModalConfirmation:FC<ModalConfirmationProps> = forwardRef((props,  ref: any) => {
+
+  const commissionsList = useAppSelector((state)=>state.commissions.commissions)
+
+  const commissions: Commission[] = commissionsList
+
+  const commissionSelect = commissions !== undefined ? commissions.map((com: Commission, index: any)=>{
+    let percentage = parseFloat(com.percentage)
+    return <MenuItem key={index} value={com.percentage}>{percentage}% {com.description}</MenuItem>
+  }) : []
+
+  const [selectCommission, setSelectCommission] = useState('')
+
+  const selectCommissionSelected = (event: SelectChangeEvent) => {
+    setSelectCommission(event.target.value)
+  }
 
     useImperativeHandle(ref, ()=>({
             openModal: handleOpen,
@@ -53,19 +75,27 @@ const ModalConfirmation:FC<ModalConfirmationProps> = forwardRef((props,  ref: an
   const handleClose = () => {
     setOpen(false)
   }
-  const ci = async(project_id: string, user_id: string) => {
-    setMessage("Creando inversión")
-    let request = {
-      user_id, investment_id: project_id
-    }
-    setTimeout(async() => {
-      let response = await FetchCall<CreateInvestmentResponse>(createInvestment(request, authToken, user_id))
-      if(response.status === 200){
-        handleClose()
-        let responseMeInfo = await FetchCall<MeInfoResponse>(meInfo(null, authToken))
-        dispatch(setUserInfo(responseMeInfo.data))
+  const ci = async(projectId: string, user_id: string) => {
+    if(selectCommission == ''){
+      setMessage("Seleccione una comisión")
+    }else {
+      let commission_ = parseFloat(selectCommission) * props.pre_sale_price
+
+      let request: CreateInvestment = {
+        commission: commission_.toString(),
+        user_id,
+        project: projectId
       }
-    }, 1000);
+      setMessage("Creando inversión")
+      setTimeout(async() => {
+        let response = await FetchCall<CreateInvestmentResponse>(createInvestment(request, authToken))
+        if(response.status === 201){
+          handleClose()
+          let responseMeInfo = await FetchCall<MeInfoResponse>(meInfo(null, authToken))
+          dispatch(setUsers(responseMeInfo.data.users))
+        }
+      }, 1000);
+    }
   }
 
   return (
@@ -97,27 +127,44 @@ const ModalConfirmation:FC<ModalConfirmationProps> = forwardRef((props,  ref: an
                 }
                 { message !== 'Creando inversión' &&
                   <Box>
-                     <Button
+                    <Box>
+                    <FormControl sx={{ m: 1, minWidth: 120 }}>
+                      <InputLabel id="demo-simple-select-helper-label">Empresa</InputLabel>
+                      <Select
+                        labelId="demo-simple-select-helper-label"
+                        id="demo-simple-select-helper"
+                        value={selectCommission}
+                        label="Empresa"
+                        onChange={selectCommissionSelected}
+                      >
+                        {commissionSelect}
+                      </Select>
+                      <FormHelperText>Commissión por asignar</FormHelperText>
+                    </FormControl>
+                    </Box>
+                    <Box>
+                      <Button
                         style={{
                           backgroundColor: "#159988",
                           width: 130,
                           marginBottom: 50,
                         }}
-                          variant="contained"
+                        variant="contained"
                           color="success"
-                          onClick={()=>{ci(props.id, props.userId)}}
-                        >
-                          Aceptar
-                        </Button>
-                          <Button 
-                            style={{
-                              width: 130,
-                              marginBottom: 50,
-                            }} variant="outlined" color="error"
-                            onClick={()=>handleClose()}
-                          >
-                            Cancelar
-                          </Button>
+                          onClick={()=>{ci(props.projectId, props.userId)}}
+                      >
+                        Aceptar
+                      </Button>
+                      <Button 
+                        style={{
+                          width: 130,
+                          marginBottom: 50,
+                        }} variant="outlined" color="error"
+                          onClick={()=>handleClose()}
+                      >
+                        Cancelar
+                      </Button>
+                    </Box>
                   </Box>
                 }
             </Typography>

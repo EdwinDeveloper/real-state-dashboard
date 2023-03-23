@@ -62,9 +62,9 @@ export default function SignIn() {
       }else{
         let lr: LoginRequest = { email: email, password: password }
         let rli = await FetchCall<LoginResponse>(logIn(lr, ""))
-        console.log("responses : ", rli)
         if(rli.status===200){
           let responseMeInfo = await FetchCall<MeInfoResponse>(meInfo("", rli.data.token))
+          console.log("responseMeInfo : ", responseMeInfo)
           if(responseMeInfo.data.is_staff){
             setTimeout(() => {
               dispatch(setAuthToken(rli.data.token))

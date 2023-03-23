@@ -10,6 +10,7 @@ import Button from '@mui/material/Button'
 import Box from '@material-ui/core/Box'
 import Collapse from '@mui/material/Collapse'
 import { Referral } from '../../../redux/fetch/responses'
+import { Investment } from '../../../redux/fetch/responses'
 
 interface CardUserProps {
     id: string,
@@ -22,10 +23,6 @@ interface CardUserProps {
     referrals: Referral[],
     userSelect: (id: string, action: string, investments: Investment[]) => void,
     userReferrals: (idUser: string, action: string, referrals: Referral[]) => void,
-}
-
-interface Investment {
-  id: string,
 }
 
 const CardUser:FC<CardUserProps> = (props) => {

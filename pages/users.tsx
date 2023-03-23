@@ -2,7 +2,7 @@ import React, { FC, useState } from "react"
 import Layout from "../components/Layout"
 import Box from '@material-ui/core/Box'
 import CardUser from "../components/projectComponents/Cards/CardUser"
-import CardUserProject from '../components/projectComponents/Cards/CardUserProject'
+import CardUserProject from '../components/projectComponents/Cards/CardUserInvestment'
 import Button from '@mui/material/Button'
 import { ValidationTextField } from '../public/ValidationTextField'
 import CardUserReferrals from '../components/projectComponents/Cards/CardReferral'
@@ -16,7 +16,7 @@ const Users:FC = (props) => {
 
   const [userState, setUserState] = useState('main')
   const [userSelected, setUserSelected] = useState('')
-  const [filterUserProjects, setFilterUserProjects] = useState<Project[]>([])
+  const [userInvestment, setUserInvestment] = useState<Investment[]>([])
   const [allProjects, setAllProjects] = useState<Project[]>(projects !== undefined ? projects : [])
 
   const [referrals, setReferrals] = useState<Referral[]>([])
@@ -24,22 +24,12 @@ const Users:FC = (props) => {
   const userSelect = (id: string, action: string, investments: Investment[]) => {
     setUserSelected(id)
     setUserState(action)
-    userProjects(id, investments)
+    setUserInvestment(investments)
   }
 
   const referralsUser = (idUser: string, action: string, referrals: Referral[]) => {
     setUserState(action)
     setReferrals(referrals)
-  }
-
-  const userProjects = (id: string, investments: Investment[]) => {
-    let projectsIn: Project[] = []
-    projects.map((project: Project)=>{
-      investments.map((investment)=>{
-        investment.id === project.id && projectsIn.push(project)
-      })
-    })
-    setFilterUserProjects(projectsIn)
   }
 
   const filterProjects = (value: string)=>{
@@ -71,16 +61,21 @@ const Users:FC = (props) => {
   }
 
   const renderCards = () => {
-    return filterUserProjects.length > 0 ? filterUserProjects.map((project: Project) => {
+    return userInvestment.length > 0 ? userInvestment.map((investment: Investment) => {
       return <CardUserProject
-      key={project.id}
-        id={project.id}
+      key={investment.project.id}
+        projectId={investment.project.id}
         userId={userSelected}
-        name={project.name}
-        model={project.model}
-        images={project.images}
-        description={project.description}
+        name={investment.project.name}
+        model={investment.project.model}
+        images={investment.project.images}
+        description={investment.project.description}
         action={userState}
+
+        pre_sale_price={0.0}
+
+        status={investment.status}
+        commission={investment.commission}
       />
     }) : null
   }
@@ -97,13 +92,18 @@ const Users:FC = (props) => {
   const renderAllProjects = () => {
     return allProjects !== undefined && allProjects !== null ? allProjects.map((project: Project) => {
       return <CardUserProject key={project.id}
-        id={project.id} 
+        projectId={project.id}
         userId={userSelected}
         name={project.name}
         model={project.model}
         images={project.images}
         description={project.description}
         action={userState}
+
+        pre_sale_price={project.pre_sale_price}
+
+        status={""}
+        commission={""}
       />
     }) : null
   }

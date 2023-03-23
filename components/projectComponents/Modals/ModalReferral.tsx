@@ -8,7 +8,6 @@ import { UpdateReferralResponse, MeInfoResponse } from '../../../redux/fetch/res
 import { setUsers } from '../../../redux/slices/users'
 import { useAppDispatch } from '../../../redux/hooks'
 import { useAppSelector } from '../../../redux/hooks'
-import { setUserInfo } from "../../../redux/slices/UserInfo/index"
 import { REFERRAL_STATUS } from '../../../utils/const'
 import { Referral } from '../Cards/CardReferral'
 import { FetchCall } from '../../../redux/fetch/FetchCall'
