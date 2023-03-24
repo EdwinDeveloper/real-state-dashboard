@@ -8,7 +8,7 @@ import MenuItem from '@mui/material/MenuItem'
 import FormHelperText from '@mui/material/FormHelperText'
 import Textarea from '@mui/joy/Textarea'
 import { InputProps } from '../Models/PropsComponents/InputProps'
-import TextField from '@mui/material/TextField';
+import TextField from '@mui/material/TextField'
 
 const Inputs:FC<InputProps> = forwardRef( (props, ref: any) => {
 
@@ -37,8 +37,11 @@ const Inputs:FC<InputProps> = forwardRef( (props, ref: any) => {
 
     return (
         <div style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
             width: "50%",
-            height: 600,
+            height: 900,
             marginTop: 70,
           }}>
             <Box
@@ -154,6 +157,7 @@ const Inputs:FC<InputProps> = forwardRef( (props, ref: any) => {
                   color="neutral"
                   disabled={false}
                   minRows={2}
+                  maxRows={6}
                   placeholder="Descripción"
                   size="md"
                   variant="outlined"

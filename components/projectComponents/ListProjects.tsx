@@ -135,6 +135,7 @@ const ListProjects:FC<ListProps> = (props) => {
 
   const cancelForm = async() => {
     const responseProjects = await FetchCall<GetProjectsResponse>(getProjects("", authToken))
+    console.log("data : ", responseProjects.data)
     if(responseProjects.status === 200){
       setProjectsList(responseProjects.data)
       dispatch(setProjects(responseProjects.data))
@@ -193,11 +194,7 @@ const ListProjects:FC<ListProps> = (props) => {
   const checkForm = async() => {
       
       if(ModalRef.current!==undefined && ModalRef.current!==null){
-        const { openModal } = ModalRef.current
-
-        console.log("preSaleDate :", preSaleDate)
-        console.log("premisesDeliveryDate : ", premisesDeliveryDate);
-        
+        const { openModal } = ModalRef.current   
 
         if(name===''){
           setModalMessage("El proyecto debe tener un nombre")
@@ -285,9 +282,9 @@ const ListProjects:FC<ListProps> = (props) => {
   }
 
   return (
-      <div style={{
+      <Box style={{
         width: "100%",
-        height: 1900,
+        height: 2000,
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-start",
@@ -295,7 +292,7 @@ const ListProjects:FC<ListProps> = (props) => {
         overflow: "scroll",
       }}>
         <ModalPer ref={ModalRef} title={"Formulario"} message={modalMessage}/>
-         <div style={{
+         <Box style={{
           width: "70%",
           height: 100,
           display: "flex",
@@ -303,28 +300,28 @@ const ListProjects:FC<ListProps> = (props) => {
           justifyContent: "space-around",
           alignItems: "center",
          }}>
-            <Button style={{
-                backgroundColor: "#159988",
-                width: "40%"
-              }}
-              variant="contained"
-              color="success"
-              onClick={checkForm}>
-                Guardar
-            </Button>
-            <Button style={{
-                backgroundColor: "#dc5e5e",
-                width: "40%"
-              }}
-              variant="contained"
-              color="success"
-              onClick={()=>{cancelForm()}}>
-                Cancelar
-            </Button>
-         </div>
-          <div style={{
+              <Button style={{
+                  backgroundColor: "#159988",
+                  width: "40%"
+                }}
+                variant="contained"
+                color="success"
+                onClick={checkForm}>
+                  Guardar
+              </Button>
+              <Button style={{
+                  backgroundColor: "#dc5e5e",
+                  width: "40%"
+                }}
+                variant="contained"
+                color="success"
+                onClick={()=>{cancelForm()}}>
+                  Cancelar
+              </Button>
+         </Box>
+          <Box style={{
             width: "95%",
-            height: 580,
+            height: 600,
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
@@ -355,8 +352,8 @@ const ListProjects:FC<ListProps> = (props) => {
               companies={companies}
               commissions={commissions}
             />
-            <div style={{
-                    marginTop: 70,
+            <Box style={{
+                    marginTop: 10,
               }} >
                 <div style={{
                   marginBottom: 20,
@@ -417,14 +414,14 @@ const ListProjects:FC<ListProps> = (props) => {
                   }
                 </ImageList>
               </div>
-            </div>
-      </div>
-       <div style={{
+            </Box>
+      </Box>
+       <Box style={{
         width: "95%",
         height: 600,
         display: "flex",
         flexDirection: "row",
-        marginTop: 10,
+        marginTop: 50,
       }}>
      
         <div style={{
@@ -442,6 +439,7 @@ const ListProjects:FC<ListProps> = (props) => {
             width: "100%",
             justifyContent: "space-around",
             marginBottom: 20,
+            marginTop: 40
           }}>
             <div>
               <text style={{
@@ -534,8 +532,8 @@ const ListProjects:FC<ListProps> = (props) => {
             </div>
           }
         </div>
-      </div>
-      </div>
+      </Box>
+      </Box>
   )
 }
 

@@ -35,7 +35,7 @@ const CardUserProject:FC<CardUserInvestmentProps>  = (props) => {
   return (
     <Card key={props.projectId} style={{
         width: "90%",
-        height: 450,
+        height: 480,
         backgroundColor: "#fff",
         borderRadius: 12,
         borderColor: "#FFFFFF",
@@ -59,7 +59,7 @@ const CardUserProject:FC<CardUserInvestmentProps>  = (props) => {
         component="img"
         alt="green iguana"
         style={{
-          height: "23vh"
+          height: 230
         }}
         image={props.images[0].url}
       />
@@ -71,7 +71,7 @@ const CardUserProject:FC<CardUserInvestmentProps>  = (props) => {
           {props.name}
         </Typography>
         <Typography style={{
-          height: "10vh"
+          height: "8vh"
         }} variant="body2" color="text.secondary">
           {props.description}
         </Typography>
