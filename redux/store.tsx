@@ -4,7 +4,7 @@ import authSlice from "./slices/UserInfo/index";
 import stateSlice from './slices/state'
 import CompaniesSlice from './slices/companies'
 import ProjectsSlice from './slices/projects'
-import CommissionsSlice from './slices/commissions'
+import BonusesSlice from './slices/bonuses'
 import UsersSlice from './slices/users'
 import VideosSlice from './slices/videos'
 
@@ -16,7 +16,7 @@ import thunk from 'redux-thunk'
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['AppState', 'State', 'companies', 'projects', 'commissions', 'users', 'videos']
+  whitelist: ['AppState', 'State', 'companies', 'projects', 'bonuses', 'users', 'videos']
 }
 
 const rootReducer = combineReducers({
@@ -24,7 +24,7 @@ const rootReducer = combineReducers({
   State: stateSlice,
   companies: CompaniesSlice,
   projects: ProjectsSlice,
-  commissions: CommissionsSlice,
+  bonuses: BonusesSlice,
   users: UsersSlice,
   videos: VideosSlice,
 })

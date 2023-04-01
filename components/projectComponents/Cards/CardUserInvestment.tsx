@@ -20,7 +20,7 @@ interface CardUserInvestmentProps {
 
     pre_sale_price: number,
 
-    commission: string,
+    bonus: string,
     status: string,
 }
 
@@ -86,7 +86,7 @@ const CardUserProject:FC<CardUserInvestmentProps>  = (props) => {
               Comisión
             </Box>
             <Box>
-              {props.commission}
+              {props.bonus}
             </Box>
           </Box>
         }

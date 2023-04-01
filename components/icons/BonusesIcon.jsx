@@ -1,6 +1,6 @@
 import * as React from "react"
 
-function CommissionsIcon({ fill = "#FFFFFF", ...rest }) {
+function BonusesIcon({ fill = "#FFFFFF", ...rest }) {
   return (
     <svg
       width={24}
@@ -18,4 +18,4 @@ function CommissionsIcon({ fill = "#FFFFFF", ...rest }) {
   )
 }
 
-export default CommissionsIcon
+export default BonusesIcon

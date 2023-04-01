@@ -1,4 +1,4 @@
-import { Commission, Companie } from "../../../redux/fetch/responses"
+import { Bonus, Companie } from "../../../redux/fetch/responses"
 
 export interface InputProps {
     ref: any,
@@ -18,10 +18,10 @@ export interface InputProps {
     setPremisesDeliveryDate: (premisesDeliveryDate: string) => void,
     description: string,
     setDescription: (description: string) => void,
-    idCommission: string,
-    setIdCommission: (idCommission: string) => void,
+    idBonus: string,
+    setIdBonus: (idBonus: string) => void,
     idCompany: string,
     setIdCompany: (idCompany: string) => void,
-    commissions: Commission[],
+    bonuses: Bonus[],
     companies: Companie[],
 }

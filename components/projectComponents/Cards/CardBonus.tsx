@@ -7,22 +7,22 @@ import IconButton from '@mui/material/IconButton'
 import { red } from '@mui/material/colors'
 import Button from '@mui/material/Button'
 import Box from '@material-ui/core/Box'
-import { Commission } from '../../../pages/commissions'
+import { Bonus } from '../../../redux/fetch/responses'
 
-interface CommissionProps {
-    commission: Commission,
+interface BonusProps {
+    bonus: Bonus,
     activateForm: (screen: string) => void,
-    updateCommission: (commission: Commission) => void,
+    updateBonus: (bonus: Bonus) => void,
 }
 
-const CardCommissions:FC<CommissionProps> = (props) => {
+const CardBonuses:FC<BonusProps> = (props) => {
 
-    const { commission, activateForm, updateCommission } = props
+    const { bonus, activateForm, updateBonus } = props
 
     const Modal = useRef(null)
 
     return (
-        <Card key={commission.id} style={{
+        <Card key={bonus.id} style={{
             width: 250,
             height: 120,
             marginBottom: 20,
@@ -31,15 +31,15 @@ const CardCommissions:FC<CommissionProps> = (props) => {
             <CardHeader
                 avatar={
                 <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                    {commission.description.substring(0, 1)}
+                    {bonus.description.substring(0, 1)}
                 </Avatar>
                 }
                 action={
                     <IconButton aria-label="settings">
                     </IconButton>
                 }
-                title={`${commission.percentage}`}
-                subheader={`${commission.description}`}
+                title={`${bonus.percentage}`}
+                subheader={`${bonus.description}`}
             />
             <CardContent style={{
                 display: "flex",
@@ -48,11 +48,11 @@ const CardCommissions:FC<CommissionProps> = (props) => {
                 alignItems: "center",
                 }}>
                 <Box>
-                    <Button onClick={()=>updateCommission(commission)} size='small'>Modificar</Button>
+                    <Button onClick={()=>updateBonus(bonus)} size='small'>Modificar</Button>
                 </Box>
             </CardContent>
         </Card>
     )
 }
 
-export default CardCommissions
+export default CardBonuses

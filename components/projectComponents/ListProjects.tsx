@@ -14,7 +14,7 @@ import { getProjects, createProject, updateProject } from '../../redux/fetch/ser
 import { CreateProjectResponse, UpdateProjectResponse } from '../../redux/fetch/responses'
 import { FetchCall } from '../../redux/fetch/FetchCall'
 import { Detail, Extra, Image, Project } from '../../redux/fetch/responses'
-import { Companie, Commission } from '../../redux/fetch/responses'
+import { Companie, Bonus } from '../../redux/fetch/responses'
 import MUIImage from 'next/image'
 import { setIdProjectSelected, setProjects } from '../../redux/slices/projects'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
@@ -34,7 +34,7 @@ const ListProjects:FC<ListProps> = (props) => {
   const [preSaleDate, setPreSaleDate] = useState('')
   const [premisesDeliveryDate, setPremisesDeliveryDate] = useState('')
   const [description, setDescription] = useState('')
-  const [idComission, setIdCommission] = useState('')
+  const [idComission, setIdBonus] = useState('')
   const [idCompany, setIdCompany] = useState('')
 
   const [imagesToShow, setImagesToShow] = useState<Image[]>([])
@@ -70,7 +70,7 @@ const ListProjects:FC<ListProps> = (props) => {
     setShowDetails(true)
   }
 
-  const commissionsList = useAppSelector((state)=>state.commissions.commissions)
+  const bonusesList = useAppSelector((state)=>state.bonuses.bonuses)
   const idProjectSelected = useAppSelector((state)=>state.projects.idProjectSelected)
   const companiesList = useAppSelector((state)=>state.companies.companies)
   const authToken = useAppSelector((state)=>state.State.authToken)
@@ -95,7 +95,7 @@ const ListProjects:FC<ListProps> = (props) => {
       setPreSaleDate(projectIn[0].pre_sale_date)
       setPremisesDeliveryDate(projectIn[0].premises_delivery_date)
       setDescription(projectIn[0].description)
-      setIdCommission(projectIn[0].commission)
+      setIdBonus(projectIn[0].bonus)
       setIdCompany(projectIn[0].company_related)
       projectIn[0].images.forEach((imag)=>setImagesToShow((images)=> [...images, { title: imag.title, url: imag.url, id: imag.id }]))
       projectIn[0].details.forEach((d: Detail)=>addDetailInfo({key: d.key, info: d.info, id: d.id}))
@@ -109,7 +109,7 @@ const ListProjects:FC<ListProps> = (props) => {
       setPreSaleDate('')
       setPremisesDeliveryDate('')
       setDescription('')
-      setIdCommission('')
+      setIdBonus('')
       setIdCompany('')
       setImagesToShow([])
       setDetailsToShow([])
@@ -126,7 +126,7 @@ const ListProjects:FC<ListProps> = (props) => {
 
   const [modalMessage, setModalMessage] = useState('')
 
-  const commissions: Commission[] = commissionsList
+  const bonuses: Bonus[] = bonusesList
 
   const companies: Companie[] = companiesList
 
@@ -263,10 +263,10 @@ const ListProjects:FC<ListProps> = (props) => {
             images: imagesToShow,
             details: detailsToShow,
             extras: extraToShow,
-            commission: idComission,
+            bonus: idComission,
             company_related: idCompany
           }
-          if(idProjectSelected !== null && idProjectSelected !== undefined){
+          if(idProjectSelected){
             let updateResponse = await FetchCall<UpdateProjectResponse>(updateProject(request, authToken, idProjectSelected + "/"))
             if(updateResponse.status===200){
               cancelForm()
@@ -345,12 +345,12 @@ const ListProjects:FC<ListProps> = (props) => {
               setPremisesDeliveryDate={setPremisesDeliveryDate}
               description={description}
               setDescription={setDescription}
-              idCommission={idComission}
-              setIdCommission={setIdCommission}
+              idBonus={idComission}
+              setIdBonus={setIdBonus}
               idCompany={idCompany}
               setIdCompany={setIdCompany}
               companies={companies}
-              commissions={commissions}
+              bonuses={bonuses}
             />
             <Box style={{
                     marginTop: 10,

@@ -75,7 +75,7 @@ const Users:FC = (props) => {
         pre_sale_price={0.0}
 
         status={investment.status}
-        commission={investment.commission}
+        bonus={investment.bonus}
       />
     }) : null
   }
@@ -103,7 +103,7 @@ const Users:FC = (props) => {
         pre_sale_price={project.pre_sale_price}
 
         status={""}
-        commission={""}
+        bonus={""}
       />
     }) : null
   }

@@ -18,7 +18,7 @@ import { setUserInfo } from "../redux/slices/UserInfo/index"
 import { setCompanies } from '../redux/slices/companies'
 import { setAuthToken } from '../redux/slices/state'
 import { setProjects } from '../redux/slices/projects'
-import { setCommissions } from '../redux/slices/commissions'
+import { setBonuses } from '../redux/slices/bonuses'
 import { useAppDispatch } from '../redux/hooks'
 import ModalPer from '../components/projectComponents/Modals/ModalPer'
 import { FetchCall } from '../redux/fetch/FetchCall'
@@ -69,7 +69,7 @@ export default function SignIn() {
             setTimeout(() => {
               dispatch(setAuthToken(rli.data.token))
               dispatch(setUserInfo(responseMeInfo))
-              dispatch(setCommissions(responseMeInfo.data.commissions))
+              dispatch(setBonuses(responseMeInfo.data.bonuses))
               dispatch(setCompanies(responseMeInfo.data.companies))
               dispatch(setProjects(responseMeInfo.data.projects))
               dispatch(setUsers(responseMeInfo.data.users))

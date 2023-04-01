@@ -1,10 +1,10 @@
 import { AxiosOptions } from '../../components/Models/Fetch/AxiosOptions'
 import { CreateInvestment, LoginRequest } from './requests'
 
-//const url_base = "http://localhost:8000"
+const url_base = "http://localhost:8000"
 //const url_base = "http://ec2-3-145-15-251.us-east-2.compute.amazonaws.com"
 
-const url_base = "http://143.198.63.104:8000"
+//const url_base = "http://143.198.63.104:8000"
 
 export function setup(request: any, token: string) {
     let options: AxiosOptions = {
@@ -120,40 +120,40 @@ export function updateReferral(request: any, token: string, id_referral: string)
     return options
 }
 
-export function getCommissions(request: any, token: string) {
+export function getBonuses(request: any, token: string) {
     let options: AxiosOptions = {
         method: 'get',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Token ${token}`
         },
-        url: `${url_base}/api/company/commission/`,
+        url: `${url_base}/api/company/bonus/`,
         data: {}
     }
     return options
 }
 
-export function createCommission(request: any, token: string) {
+export function createBonus(request: any, token: string) {
     let options: AxiosOptions = {
         method: 'post',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Token ${token}`
         },
-        url: `${url_base}/api/company/commission/`,
+        url: `${url_base}/api/company/bonus/`,
         data: request
     }
     return options
 }
 
-export function updateCommission(request: any, token: string, id_commission: string) {
+export function updateBonus(request: any, token: string, id_bonus: string) {
     let options: AxiosOptions = {
         method: 'patch',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Token ${token}`
         },
-        url: `${url_base}/api/company/commission/${id_commission}/`,
+        url: `${url_base}/api/company/bonus/${id_bonus}/`,
         data: request
     }
     return options

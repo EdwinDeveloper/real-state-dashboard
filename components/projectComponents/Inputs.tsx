@@ -17,9 +17,9 @@ const Inputs:FC<InputProps> = forwardRef( (props, ref: any) => {
     }
   })
 
-  const { companies, commissions } = props
+  const { companies, bonuses } = props
 
-  const commissionSelect = commissions !== undefined ? commissions.map((com: any, index: any)=>{
+  const bonusSelect = bonuses !== undefined ? bonuses.map((com: any, index: any)=>{
     let percentage = parseFloat(com.percentage)
     return <MenuItem key={index} value={com.id}>{percentage}% {com.description}</MenuItem>
   }) : []
@@ -28,8 +28,8 @@ const Inputs:FC<InputProps> = forwardRef( (props, ref: any) => {
     return <MenuItem key={index} value={compa.id}>{compa.name}</MenuItem>
   }) : []
 
-    const selectCommission = (event: SelectChangeEvent) => {
-      props.setIdCommission(event.target.value)
+    const selectBonus = (event: SelectChangeEvent) => {
+      props.setIdBonus(event.target.value)
     }
     const selectCompany = (event: SelectChangeEvent) => {
       props.setIdCompany(event.target.value)
@@ -128,17 +128,17 @@ const Inputs:FC<InputProps> = forwardRef( (props, ref: any) => {
                   onChange={(premisesDeliveryDate)=>{props.setPremisesDeliveryDate(premisesDeliveryDate.target.value)}}
                 />
                 <FormControl sx={{ m: 1, minWidth: 120 }}>
-                  <InputLabel id="demo-simple-select-helper-label">Commissión</InputLabel>
+                  <InputLabel id="demo-simple-select-helper-label">Bonus</InputLabel>
                   <Select
                     labelId="demo-simple-select-helper-label"
                     id="demo-simple-select-helper"
-                    value={props.idCommission}
+                    value={props.idBonus}
                     label="Comissión"
-                    onChange={selectCommission}
+                    onChange={selectBonus}
                   >
-                    {commissionSelect}
+                    {bonusSelect}
                   </Select>
-                  <FormHelperText>Commissión por asignar</FormHelperText>
+                  <FormHelperText>Bonus por asignar</FormHelperText>
                 </FormControl>
                 <FormControl sx={{ m: 1, minWidth: 120 }}>
                   <InputLabel id="demo-simple-select-helper-label">Empresa</InputLabel>
@@ -151,7 +151,7 @@ const Inputs:FC<InputProps> = forwardRef( (props, ref: any) => {
                   >
                     {companiesSelect}
                   </Select>
-                  <FormHelperText>Commissión por asignar</FormHelperText>
+                  <FormHelperText>Bonus por asignar</FormHelperText>
                 </FormControl>
                 <Textarea
                   color="neutral"

@@ -4,7 +4,7 @@ export interface LoginRequest {
 }
 
 export interface CreateInvestment {
-    commission: string,
+    bonus: string,
     user_id: string,
     project: string,
 }

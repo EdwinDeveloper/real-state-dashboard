@@ -22,16 +22,16 @@ export interface UpdateCompaniesResponse extends DefaultResponse {
     data: Companie
 }
 
-export interface GetCommissionsResponse extends DefaultResponse {
-    data: Commission[]
+export interface GetBonusesResponse extends DefaultResponse {
+    data: Bonus[]
 }
 
-export interface UpdateCommissionResponse extends DefaultResponse {
-    data: Commission
+export interface UpdateBonusResponse extends DefaultResponse {
+    data: Bonus
 }
 
-export interface CreateCommissionResponse extends DefaultResponse {
-    data: Commission
+export interface CreateBonusResponse extends DefaultResponse {
+    data: Bonus
 }
 
 export interface CreateInvestmentResponse extends DefaultResponse {
@@ -64,7 +64,7 @@ export interface UserInfo {
     projects: Project[],
     videos: Video,
 
-    commissions: Commission[],
+    bonuses: Bonus[],
     companies: Companie[],
     users: User[]
 }
@@ -82,7 +82,7 @@ export interface Project {
     images: Image[],
     details: Detail[],
     extras: Extra[],
-    commission: string,
+    bonus: string,
     company_related: string,
 }
 
@@ -132,7 +132,7 @@ interface Snippet {
     title: string,
 }
 
-export interface Commission {
+export interface Bonus {
     id: string,
     description: string,
     percentage: string,
@@ -163,13 +163,13 @@ export interface Referral {
     name: string,
     last_name: string,
     project: string,
-    commission: string,
+    bonus: string,
     status: string,
 }
 
 export interface Investment {
     id: string,
-    commission: string,
+    bonus: string,
     status: string,
     user_id: string,
     paid: boolean,

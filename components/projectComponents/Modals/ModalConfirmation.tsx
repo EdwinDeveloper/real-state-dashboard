@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography'
 import { createInvestment, meInfo } from '../../../redux/fetch/services'
 import { useAppSelector, useAppDispatch } from '../../../redux/hooks';
 import { FetchCall } from '../../../redux/fetch/FetchCall';
-import { CreateInvestmentResponse, MeInfoResponse, Commission } from '../../../redux/fetch/responses';
+import { CreateInvestmentResponse, MeInfoResponse, Bonus } from '../../../redux/fetch/responses';
 import { CreateInvestment } from '../../../redux/fetch/requests';
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
@@ -42,19 +42,19 @@ interface ModalConfirmationProps {
 
 const ModalConfirmation:FC<ModalConfirmationProps> = forwardRef((props,  ref: any) => {
 
-  const commissionsList = useAppSelector((state)=>state.commissions.commissions)
+  const bonusesList = useAppSelector((state)=>state.bonuses.bonuses)
 
-  const commissions: Commission[] = commissionsList
+  const bonuses: Bonus[] = bonusesList
 
-  const commissionSelect = commissions !== undefined ? commissions.map((com: Commission, index: any)=>{
+  const bonusSelect = bonuses !== undefined ? bonuses.map((com: Bonus, index: any)=>{
     let percentage = parseFloat(com.percentage)
     return <MenuItem key={index} value={com.percentage}>{percentage}% {com.description}</MenuItem>
   }) : []
 
-  const [selectCommission, setSelectCommission] = useState('')
+  const [selectBonus, setSelectBonus] = useState('')
 
-  const selectCommissionSelected = (event: SelectChangeEvent) => {
-    setSelectCommission(event.target.value)
+  const selectBonusSelected = (event: SelectChangeEvent) => {
+    setSelectBonus(event.target.value)
   }
 
     useImperativeHandle(ref, ()=>({
@@ -76,13 +76,13 @@ const ModalConfirmation:FC<ModalConfirmationProps> = forwardRef((props,  ref: an
     setOpen(false)
   }
   const ci = async(projectId: string, user_id: string) => {
-    if(selectCommission == ''){
+    if(selectBonus == ''){
       setMessage("Seleccione una comisión")
     }else {
-      let commission_ = parseFloat(selectCommission) * props.pre_sale_price
+      let bonus_ = parseFloat(selectBonus) * props.pre_sale_price
 
       let request: CreateInvestment = {
-        commission: commission_.toString(),
+        bonus: bonus_.toString(),
         user_id,
         project: projectId
       }
@@ -133,13 +133,13 @@ const ModalConfirmation:FC<ModalConfirmationProps> = forwardRef((props,  ref: an
                       <Select
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
-                        value={selectCommission}
+                        value={selectBonus}
                         label="Empresa"
-                        onChange={selectCommissionSelected}
+                        onChange={selectBonusSelected}
                       >
-                        {commissionSelect}
+                        {bonusSelect}
                       </Select>
-                      <FormHelperText>Commissión por asignar</FormHelperText>
+                      <FormHelperText>Bonus por asignar</FormHelperText>
                     </FormControl>
                     </Box>
                     <Box>

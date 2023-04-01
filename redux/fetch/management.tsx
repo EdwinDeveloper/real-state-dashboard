@@ -6,7 +6,7 @@ interface Response {
     data: any,
     messages: any,
     is_staff: string,
-    commissions: any,
+    bonuses: any,
     companies: any,
     projects: any,
     videos: any
@@ -24,7 +24,7 @@ export const apiCall = async (fun: any, request: any, token: string, id: string)
             value: ""
         }],
         is_staff: "",
-        commissions: [],
+        bonuses: [],
         companies: [],
         projects: [],
         users: [],

@@ -23,7 +23,7 @@ export interface Referral {
   name: string,
   last_name: string,
   project: string,
-  commission: string,
+  bonus: string,
   status: string,
 }
 
@@ -33,7 +33,7 @@ const CardUserReferrals:FC<ReferralProps> = (props) => {
 
   const [modalMessage, setModalMessage] = useState('')
 
-  const { name, status, last_name, commission, country_code, phone_number } = props.referral
+  const { name, status, last_name, bonus, country_code, phone_number } = props.referral
 
   let statusIcon = ''
   let statusBackgound = ''
@@ -88,7 +88,7 @@ const CardUserReferrals:FC<ReferralProps> = (props) => {
             {`${message}`}
           </Typography>
           <Typography>
-            {`$ ${commission.split('.')[0]}`}
+            {`$ ${bonus.split('.')[0]}`}
           </Typography>
         </Box>
         <Box style={{
