@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography'
 import { Image } from '../../../redux/fetch/responses'
 import ModalConfirmation from '../Modals/ModalConfirmation'
 import Box from '@material-ui/core/Box'
+import { getOrdinal } from '../../../utils/functions'
 
 interface CardUserInvestmentProps {
     projectId: string,
@@ -22,6 +23,7 @@ interface CardUserInvestmentProps {
 
     bonus: string,
     status: string,
+    ordinary: number,
 }
 
 const CardUserProject:FC<CardUserInvestmentProps>  = (props) => {
@@ -35,7 +37,7 @@ const CardUserProject:FC<CardUserInvestmentProps>  = (props) => {
   return (
     <Card key={props.projectId} style={{
         width: "90%",
-        height: 480,
+        height: 500,
         backgroundColor: "#fff",
         borderRadius: 12,
         borderColor: "#FFFFFF",
@@ -59,7 +61,7 @@ const CardUserProject:FC<CardUserInvestmentProps>  = (props) => {
         component="img"
         alt="green iguana"
         style={{
-          height: 230
+          height: 240
         }}
         image={props.images[0].url}
       />
@@ -81,12 +83,16 @@ const CardUserProject:FC<CardUserInvestmentProps>  = (props) => {
         justifyContent: 'space-evenly',
       }} key={props.projectId}>
         { props.action === 'investments' &&
-          <Box>
+          <Box style={{
+            marginTop: 20
+          }}>
             <Box>
-              Comisión
+              <Box>
+                {getOrdinal(props.ordinary)} Inversión
+              </Box>
             </Box>
             <Box>
-              {props.bonus}
+              Comisión $ {props.bonus}
             </Box>
           </Box>
         }

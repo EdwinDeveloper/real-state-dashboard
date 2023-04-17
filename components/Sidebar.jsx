@@ -18,7 +18,7 @@ import Logo from '../assets/loadingLogo.png'
 const menuItems = [
   // { id: 1, label: "Bonus", icon: ArticleIcon, link: "/" },
   { id: 2, label: "Proyectos", icon: HomeIcon, link: "/projects" },
-  { id: 3, label: "Compañias", icon: CompaniesIcon, link: "/companies" },
+  { id: 3, label: "Constructoras", icon: CompaniesIcon, link: "/companies" },
   { id: 4, label: "Usuarios", icon: UsersIcon, link: "/users" },
   { id: 5, label: "Bonus", icon: BonusesIcon, link: "/bonuses" },
   { id: 6, label: "Videos", icon: VideosIcon, link: "/videos" },
@@ -51,7 +51,6 @@ const Sidebar = () => {
     setToggleCollapse(!toggleCollapse)
   }
   const finishSesión = () => {
-    console.log("saliendo")
     dispatch(setState(1))
   }
 

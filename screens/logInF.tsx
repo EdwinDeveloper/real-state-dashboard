@@ -50,7 +50,6 @@ export default function SignIn() {
   const ModalRef = useRef<any>()
 
   const handleSubmit = async() => {
-    console.log("hola")
     if(ModalRef.current !== undefined && ModalRef.current !== null){
       const { openModal } = ModalRef.current
       if(email===""){
@@ -64,7 +63,6 @@ export default function SignIn() {
         let rli = await FetchCall<LoginResponse>(logIn(lr, ""))
         if(rli.status===200){
           let responseMeInfo = await FetchCall<MeInfoResponse>(meInfo("", rli.data.token))
-          console.log("responseMeInfo : ", responseMeInfo)
           if(responseMeInfo.data.is_staff){
             setTimeout(() => {
               dispatch(setAuthToken(rli.data.token))

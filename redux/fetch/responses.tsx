@@ -173,6 +173,7 @@ export interface Investment {
     status: string,
     user_id: string,
     paid: boolean,
+    ordinary: number,
     project: Project
 }
 

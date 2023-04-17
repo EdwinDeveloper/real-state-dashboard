@@ -74,6 +74,7 @@ const Users:FC = (props) => {
 
         pre_sale_price={0.0}
 
+        ordinary={investment.ordinary}
         status={investment.status}
         bonus={investment.bonus}
       />
@@ -99,6 +100,7 @@ const Users:FC = (props) => {
         images={project.images}
         description={project.description}
         action={userState}
+        ordinary={0}
 
         pre_sale_price={project.pre_sale_price}
 

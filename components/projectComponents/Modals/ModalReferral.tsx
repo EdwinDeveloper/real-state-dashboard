@@ -11,6 +11,7 @@ import { useAppSelector } from '../../../redux/hooks'
 import { REFERRAL_STATUS } from '../../../utils/const'
 import { Referral } from '../Cards/CardReferral'
 import { FetchCall } from '../../../redux/fetch/FetchCall'
+import { nextStatusReferral } from '../../../utils/functions'
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -57,7 +58,8 @@ const ModalReferral:FC<ModalReferralProps> = forwardRef((props,  ref: any) => {
   }
 
   const reject_referral = async(referral: Referral, status: string) => {
-    let request = { status: status }
+    let newStatus = status == REFERRAL_STATUS.CANCELED ? REFERRAL_STATUS.CANCELED : nextStatusReferral(referral.status)
+    let request = { status: newStatus }
     let responseReferral = await FetchCall<UpdateReferralResponse>(updateReferral(request, authToken, referral.id))
     if(responseReferral.status === 200 ){
         let meInfoResponse = await FetchCall<MeInfoResponse>(meInfo("", authToken))
@@ -98,7 +100,7 @@ const ModalReferral:FC<ModalReferralProps> = forwardRef((props,  ref: any) => {
                 width: '100%',
                 justifyContent: 'space-between',
             }}>
-                { status === REFERRAL_STATUS.WAITING &&
+                { ( status === REFERRAL_STATUS.IN_PROCESS || status === REFERRAL_STATUS.CONTACTED || status === REFERRAL_STATUS.RESERVED || status === REFERRAL_STATUS.SIGNED_DEED ) &&
                     <Box style={{
                         display: 'flex',
                         flexDirection: 'row',
@@ -113,16 +115,16 @@ const ModalReferral:FC<ModalReferralProps> = forwardRef((props,  ref: any) => {
                             }}
                             variant="contained"
                             color="success"
-                            onClick={()=>reject_referral(props.referral, REFERRAL_STATUS.APPROVED)}
+                            onClick={()=>reject_referral(props.referral, REFERRAL_STATUS.ACCEPTED)}
                         >
-                            Aceptar
+                            Continuar
                         </Button>
                         <Button 
                             style={{
                                 width: 110,
                                 marginBottom: 50,
                             }} variant="outlined" color="error"
-                            onClick={()=>reject_referral(props.referral, REFERRAL_STATUS.REJECTED)}
+                            onClick={()=>reject_referral(props.referral, REFERRAL_STATUS.CANCELED)}
                         >
                             Rechazar
                         </Button>

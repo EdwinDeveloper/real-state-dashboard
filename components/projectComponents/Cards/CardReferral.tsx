@@ -39,15 +39,35 @@ const CardUserReferrals:FC<ReferralProps> = (props) => {
   let statusBackgound = ''
   let message = ''
 
-  if(status === REFERRAL_STATUS.WAITING){
+  if(status === REFERRAL_STATUS.IN_PROCESS){
     statusIcon = COLORS.REFERRAL_ICON_WAITING
     statusBackgound = COLORS.REFERRAL_BACKGROUND_WAITING
     message = 'Inversión en revisión'
-  }else if (status === REFERRAL_STATUS.APPROVED){
+  }else if (status === REFERRAL_STATUS.CONTACTED){
+    statusIcon = COLORS.REFERRAL_ICON_WAITING
+    statusBackgound = COLORS.REFERRAL_BACKGROUND_WAITING
+    message = 'Referido contactado'
+  }else if (status === REFERRAL_STATUS.RESERVED){
+    statusIcon = COLORS.REFERRAL_ICON_WAITING
+    statusBackgound = COLORS.REFERRAL_BACKGROUND_WAITING
+    message = 'Proyecto reservado'
+  }else if (status === REFERRAL_STATUS.SIGNED_DEED){
+    statusIcon = COLORS.REFERRAL_ICON_WAITING
+    statusBackgound = COLORS.REFERRAL_BACKGROUND_WAITING
+    message = 'Contrato firmado'
+  }else if (status === REFERRAL_STATUS.ACCEPTED){
+    statusIcon = COLORS.REFERRAL_ICON_APPROVED
+    statusBackgound = COLORS.REFERRAL_BACKGROUND_APPROVED
+    message = 'Proyecto completado'
+  }else if (status === REFERRAL_STATUS.PAID){
+    statusIcon = COLORS.REFERRAL_ICON_APPROVED
+    statusBackgound = COLORS.REFERRAL_BACKGROUND_APPROVED
+    message = 'Proyecto Pagado'
+  }else if (status === REFERRAL_STATUS.ACCEPTED){
     statusIcon = COLORS.REFERRAL_ICON_APPROVED
     statusBackgound = COLORS.REFERRAL_BACKGROUND_APPROVED
     message = 'Inversión completa'
-  }else if (status === REFERRAL_STATUS.REJECTED){
+  }else if (status === REFERRAL_STATUS.CANCELED){
     statusIcon = COLORS.REFERRAL_ICON_REJECTED
     statusBackgound = COLORS.REFERRAL_BACKGROUND_REJECTED
     message = 'Inversión rechazada'
@@ -98,16 +118,16 @@ const CardUserReferrals:FC<ReferralProps> = (props) => {
           width: '100%',
           marginTop: 20,
         }}>
-          { status === REFERRAL_STATUS.APPROVED &&
+          { ( status === REFERRAL_STATUS.ACCEPTED || status === REFERRAL_STATUS.PAID ) &&
               <Button onClick={()=>{}} size='small'>Inversiones</Button>
           }
-          { status === REFERRAL_STATUS.WAITING &&
+          { ( status === REFERRAL_STATUS.IN_PROCESS || status === REFERRAL_STATUS.CONTACTED || status === REFERRAL_STATUS.RESERVED || status === REFERRAL_STATUS.SIGNED_DEED ) &&
               <Button onClick={()=>{
                 setModalMessage('Acción a realizar ?')
                 if(ModalRef.current !== undefined && ModalRef.current !== null) ModalRef.current.openModal()              
               }} size='small'>Revisar referido</Button>
           }
-          { status === REFERRAL_STATUS.REJECTED &&
+          { status === REFERRAL_STATUS.CANCELED &&
             <Box>
               <Button onClick={()=>{}} size='small'>Aceptar referido</Button>
             </Box>

@@ -6,5 +6,5 @@ export interface LoginRequest {
 export interface CreateInvestment {
     bonus: string,
     user_id: string,
-    project: string,
+    project: string
 }

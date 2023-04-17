@@ -1,7 +1,11 @@
 export const REFERRAL_STATUS = {
-    WAITING: 'waiting',
-    APPROVED: 'approved',
-    REJECTED: 'rejected',
+    IN_PROCESS: 'IN PROCESS',
+    CONTACTED: 'CONTACTED',
+    RESERVED: 'RESERVED',
+    SIGNED_DEED: 'SIGNED_DEED',
+    ACCEPTED: 'ACCEPTED',
+    PAID: 'PAID',
+    CANCELED: 'CANCELED'
 }
 export type REFERRAL_STATUS = typeof REFERRAL_STATUS[keyof typeof REFERRAL_STATUS]
 

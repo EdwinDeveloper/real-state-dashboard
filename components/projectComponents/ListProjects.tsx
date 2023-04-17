@@ -135,7 +135,6 @@ const ListProjects:FC<ListProps> = (props) => {
 
   const cancelForm = async() => {
     const responseProjects = await FetchCall<GetProjectsResponse>(getProjects("", authToken))
-    console.log("data : ", responseProjects.data)
     if(responseProjects.status === 200){
       setProjectsList(responseProjects.data)
       dispatch(setProjects(responseProjects.data))
