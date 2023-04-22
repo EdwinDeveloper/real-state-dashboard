@@ -152,7 +152,9 @@ export default function SignIn() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link onClick={()=> {
+                  dispatch(setState(3))
+                }} href="#" variant="body2">
                   {"No tienes cuenta? Registrate"}
                 </Link>
               </Grid>

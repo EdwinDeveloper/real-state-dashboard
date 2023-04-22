@@ -20,6 +20,18 @@ export const nextStatusReferral = (status: string) => {
 
 }
 
+export const passvalidator = (password: string) => {
+    let strong = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})')
+    console.log("strong : ", strong.test(password));
+    
+    return strong.test(password)
+}
+
+export const emailValidator = (email: string) => {
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+    return email.match(reg)
+}
+
 export const getOrdinal = (value: number) => {
     let ordinal = ''
     switch (true) {
