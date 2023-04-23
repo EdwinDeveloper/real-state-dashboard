@@ -197,3 +197,16 @@ export function updateCompany(request: any, token: string, id_company: string) {
     }
     return options
 }
+
+export function changeActiveStatus(request: any, token: string) {
+    let options: AxiosOptions = {
+        method: 'patch',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`
+        },
+        url: `${url_base}/api/user/set/active-user/`,
+        data: request
+    }
+    return options
+}

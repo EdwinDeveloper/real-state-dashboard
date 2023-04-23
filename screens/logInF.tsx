@@ -22,7 +22,7 @@ import { setBonuses } from '../redux/slices/bonuses'
 import { useAppDispatch } from '../redux/hooks'
 import ModalPer from '../components/projectComponents/Modals/ModalPer'
 import { FetchCall } from '../redux/fetch/FetchCall'
-import { setUsers } from '../redux/slices/users'
+import { setUsers, setStaff, setMe, setMyId } from '../redux/slices/users'
 import { setVideos } from '../redux/slices/videos'
 import { LoginRequest } from '../redux/fetch/requests'
 import { LoginResponse, MeInfoResponse } from '../redux/fetch/responses'
@@ -64,14 +64,16 @@ export default function SignIn() {
         if(rli.status===200){
           let responseMeInfo = await FetchCall<MeInfoResponse>(meInfo("", rli.data.token))
           if(responseMeInfo.data.is_staff){
+            
             setTimeout(() => {
               dispatch(setAuthToken(rli.data.token))
-              dispatch(setUserInfo(responseMeInfo))
+              dispatch(setUserInfo(responseMeInfo.data))
               dispatch(setBonuses(responseMeInfo.data.bonuses))
               dispatch(setCompanies(responseMeInfo.data.companies))
               dispatch(setProjects(responseMeInfo.data.projects))
               dispatch(setUsers(responseMeInfo.data.users))
               dispatch(setVideos(responseMeInfo.data.videos))
+              dispatch(setStaff(responseMeInfo.data.staff))
               dispatch(setState(2))
             }, 500)
             setMessage('Bienvenido')

@@ -12,6 +12,7 @@ import {
   VideosIcon,
   BonusesIcon,
   CompaniesIcon,
+  StaffIcon
 } from "./icons"
 import Logo from '../assets/loadingLogo.png'
 
@@ -22,6 +23,7 @@ const menuItems = [
   { id: 4, label: "Usuarios", icon: UsersIcon, link: "/users" },
   { id: 5, label: "Bonus", icon: BonusesIcon, link: "/bonuses" },
   { id: 6, label: "Videos", icon: VideosIcon, link: "/videos" },
+  { id: 7, label: "staff", icon: StaffIcon, link: "/staff" }
 ]
 
 const Sidebar = () => {

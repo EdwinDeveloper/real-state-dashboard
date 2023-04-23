@@ -112,8 +112,8 @@ const SignUp = () => {
           openModal()
           setTimeout(() => {
             setScreen('FORM')
-            setState(1)
-          }, 200);
+            dispatch(setState(1))
+          }, 1000);
         }else {
           setMessage(response.messages[0].value)
           openModal()

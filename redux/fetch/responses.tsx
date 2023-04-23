@@ -66,7 +66,8 @@ export interface UserInfo {
 
     bonuses: Bonus[],
     companies: Companie[],
-    users: User[]
+    users: User[],
+    staff: User[]
 }
 
 export interface Project {
@@ -153,6 +154,7 @@ export interface User {
     email: string,
     referrals: Referral[],
     investments: Investment[],
+    is_active: boolean,
 }
 
 export interface Referral {

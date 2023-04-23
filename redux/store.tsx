@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import authSlice from "./slices/UserInfo/index";
 import stateSlice from './slices/state'
+import meInfoSlice from './slices/UserInfo'
 import CompaniesSlice from './slices/companies'
 import ProjectsSlice from './slices/projects'
 import BonusesSlice from './slices/bonuses'
@@ -22,6 +23,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   AppState: authSlice,
   State: stateSlice,
+  meInfo: meInfoSlice,
   companies: CompaniesSlice,
   projects: ProjectsSlice,
   bonuses: BonusesSlice,
