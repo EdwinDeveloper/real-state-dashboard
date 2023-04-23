@@ -1,10 +1,10 @@
 import { AxiosOptions } from '../../components/Models/Fetch/AxiosOptions'
 import { CreateInvestment, LoginRequest } from './requests'
 
-const url_base = "http://localhost:8000"
+//const url_base = "http://localhost:8000"
 //const url_base = "http://ec2-3-145-15-251.us-east-2.compute.amazonaws.com"
 
-//const url_base = "http://143.198.63.104:8000"
+const url_base = "http://143.198.63.104:8000"
 
 export function setup(request: any, token: string) {
     let options: AxiosOptions = {
