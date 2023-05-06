@@ -50,6 +50,10 @@ export interface UpdateProjectResponse extends DefaultResponse {
     data: Project
 }
 
+export interface ResetPasswordResponse extends DefaultResponse {
+    data: ResetPassword
+}
+
 export interface UserInfo {
     id: string,
     country_code: string,
@@ -196,4 +200,8 @@ export interface AxiosErrorResponse {
 export interface Message {
     key: string,
     value: string,
+}
+
+export interface ResetPassword {
+    message: string,
 }

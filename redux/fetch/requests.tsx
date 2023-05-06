@@ -8,3 +8,7 @@ export interface CreateInvestment {
     user_id: string,
     project: string
 }
+
+export interface EmailResetPassword {
+    email: string,
+}

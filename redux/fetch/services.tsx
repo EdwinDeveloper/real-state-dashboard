@@ -1,5 +1,5 @@
 import { AxiosOptions } from '../../components/Models/Fetch/AxiosOptions'
-import { CreateInvestment, LoginRequest } from './requests'
+import { CreateInvestment, LoginRequest, EmailResetPassword } from './requests'
 
 //const url_base = "http://localhost:8000"
 //const url_base = "http://ec2-3-145-15-251.us-east-2.compute.amazonaws.com"
@@ -206,6 +206,18 @@ export function changeActiveStatus(request: any, token: string) {
             'Authorization': `Token ${token}`
         },
         url: `${url_base}/api/user/set/active-user/`,
+        data: request
+    }
+    return options
+}
+
+export function emailResetPassword(request: EmailResetPassword, token: string){
+    let options: AxiosOptions = {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        url: `${url_base}/api/user/end/reset-password/`,
         data: request
     }
     return options
