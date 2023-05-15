@@ -1,10 +1,10 @@
 import { AxiosOptions } from '../../components/Models/Fetch/AxiosOptions'
 import { CreateInvestment, LoginRequest, EmailResetPassword } from './requests'
 
-//const url_base = "http://localhost:8000"
+const url_base = "http://localhost:8000"
 //const url_base = "http://ec2-3-145-15-251.us-east-2.compute.amazonaws.com"
 
-const url_base = "http://143.198.63.104:8000"
+//const url_base = "http://143.198.63.104:8000"
 
 export function setup(request: any, token: string) {
     let options: AxiosOptions = {
@@ -206,6 +206,19 @@ export function changeActiveStatus(request: any, token: string) {
             'Authorization': `Token ${token}`
         },
         url: `${url_base}/api/user/set/active-user/`,
+        data: request
+    }
+    return options
+}
+
+export function makeUserStaff(request: any, token: string) {
+    let options: AxiosOptions = {
+        method: 'patch',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`
+        },
+        url: `${url_base}/api/user/set/make-staff/`,
         data: request
     }
     return options

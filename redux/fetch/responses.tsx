@@ -159,6 +159,7 @@ export interface User {
     referrals: Referral[],
     investments: Investment[],
     is_active: boolean,
+    is_staff: boolean,
 }
 
 export interface Referral {
