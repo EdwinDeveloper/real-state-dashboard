@@ -27,17 +27,16 @@ const Staff:FC = (props) => {
     sortedUsers.forEach((member: User)=>{
         if(member.id !== userInfo.id) usersCards.push(<CardUserStaff member={member} staff={staff} users={users}/>)
     })
-
-    console.log("********************************************");
-    console.log("sortedStaff : ", sortedStaff);
-    console.log("screen : ", screen)
-    console.log("usersCards : ", usersCards);
-    
     
     return (
         <Layout>
             {   screen === STAFF &&
-                <Box>
+                <Box style={{
+                    width: "100%",
+                    height: "100vh",
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}>
                     <Button
                         style={{
                             backgroundColor: "#159988",
@@ -51,13 +50,24 @@ const Staff:FC = (props) => {
                     >
                         Ver usuarios
                     </Button>
-                    <Box>
+                    <Box style={{
+                        width: "90%",
+                        height: "90vh",
+                        display: "flex",
+                        flexWrap: "wrap",
+                        flexDirection: "row",
+                        justifyContent: "space-evenly",
+                        alignItems: "stretch",
+                    }}>
                         {staffCards}
                     </Box>
                 </Box>
             }
             {   screen === USERS &&
-                 <Box>
+                <Box style={{
+                    width: "100%",
+                    height: "100vh",
+                }}>
                     <Button
                         style={{
                             backgroundColor: "#159988",
@@ -71,7 +81,15 @@ const Staff:FC = (props) => {
                     >
                         Ver Staff
                     </Button>
-                    <Box>
+                    <Box style={{
+                        width: "90%",
+                        height: "90vh",
+                        display: "flex",
+                        flexWrap: "wrap",
+                        flexDirection: "row",
+                        justifyContent: "space-evenly",
+                        alignItems: "stretch",
+                    }}>
                         {usersCards}
                     </Box>
                 </Box>

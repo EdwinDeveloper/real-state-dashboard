@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useState, useRef } from 'react'
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
@@ -13,6 +13,7 @@ import { useAppDispatch } from '../../../redux/hooks'
 import { FetchCall } from '../../../redux/fetch/FetchCall'
 import { changeActiveStatus, makeUserStaff } from '../../../redux/fetch/services'
 import { setStaff, setUsers } from '../../../redux/slices/users'
+import ModalUserStaff from '../Modals/ModalUserStaff'
 
 interface UserStaffProps {
     member: User,
@@ -23,13 +24,15 @@ interface UserStaffProps {
 const CardUserStaff:FC<UserStaffProps> = ({ member, staff, users }) => {
 
     const dispatch = useAppDispatch()
+    const ModalRef = useRef<any>(null)
 
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
+    
     const { id, name, last_name, email, country_code, phone_number, is_active, is_staff } = member
     const { authToken } = useAppSelector((state)=>state.State)
-
-    const [isStaff, setIsStaff] = useState<boolean>(is_staff)
+    let isStaffCheck: boolean = is_staff ? true : false
+    const [isStaff, setIsStaff] = useState<boolean>(isStaffCheck)
     const [isActive, setIsActive] = useState<boolean>(is_active)
 
     const handleActiveChange = async(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,13 +57,17 @@ const CardUserStaff:FC<UserStaffProps> = ({ member, staff, users }) => {
         dispatch(setUsers(sortedUsers))
     }
 
-    const handleMakeStaffChange = async(event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleModalVerification = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if(ModalRef.current !== undefined && ModalRef.current !== null) ModalRef.current.openModal() 
+    }
+
+    const handleMakeStaffChange = async(staff: boolean) => {
         let request = {
             id: id,
-            is_staff: event.target.checked
+            is_staff: staff
         }
+        
         let response = await FetchCall<MeInfoResponse>(makeUserStaff(request, authToken))
-        console.log("response : ", response)
         if(response.status === 200){
             setIsStaff(response.data.is_active);
             handleStaffUpdate(response.data.is_active)
@@ -94,6 +101,7 @@ const CardUserStaff:FC<UserStaffProps> = ({ member, staff, users }) => {
             marginBottom: 20,
             borderRadius: 10,
         }} sx={{ maxWidth: 345 }}>
+            <ModalUserStaff ref={ModalRef} handleMakeStaffChange={handleMakeStaffChange}/>
             <CardHeader
                 avatar={
                 <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -117,7 +125,7 @@ const CardUserStaff:FC<UserStaffProps> = ({ member, staff, users }) => {
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                     Is Staff
-                    <Checkbox onChange={handleMakeStaffChange} checked={isStaff} {...label} defaultChecked color="success"/>
+                    <Checkbox onChange={handleModalVerification} checked={isStaff} {...label} defaultChecked color="success"/>
                 </Typography>
             </CardContent>
         </Card>
