@@ -27,6 +27,11 @@ import { setVideos } from '../redux/slices/videos'
 import { LoginRequest } from '../redux/fetch/requests'
 import { LoginResponse, MeInfoResponse } from '../redux/fetch/responses'
 
+import clsx from 'clsx';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import { green } from '@material-ui/core/colors'
+import CircularProgress from '@material-ui/core/CircularProgress'
+
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -37,9 +42,65 @@ function Copyright(props: any) {
   )
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '100%',
+    },
+    wrapper: {
+      width: '100%',
+      margin: theme.spacing(1),
+      position: 'relative',
+    },
+    buttonSuccess: {
+      width: '100%',
+      backgroundColor: green[500],
+      '&:hover': {
+        backgroundColor: green[700],
+      },
+    },
+    fabProgress: {
+      width: '100%',
+      color: green[500],
+      position: 'absolute',
+      top: -6,
+      left: -6,
+      zIndex: 1,
+    },
+    buttonProgress: {
+      width: 400,
+      color: green[500],
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      marginTop: -12,
+      marginLeft: -12,
+    },
+  }),
+);
+
 const theme = createTheme()
 
 export default function SignIn() {
+
+  const classes = useStyles()
+  const [loading, setLoading] = React.useState(false)
+  const [success, setSuccess] = React.useState(false)
+  const timer = React.useRef<number>()
+
+  const handleButtonClick = () => {
+    if (!loading) {
+      setSuccess(false)
+      setLoading(true)
+      timer.current = window.setTimeout(() => {
+        setSuccess(true)
+        setLoading(false)
+      }, 2000);
+    }
+  };
 
   const [message, setMessage] = React.useState<string>('')
   const [email, setEmail] = React.useState<string>('')
@@ -50,21 +111,28 @@ export default function SignIn() {
   const ModalRef = useRef<any>()
 
   const handleSubmit = async() => {
-    if(ModalRef.current !== undefined && ModalRef.current !== null){
+    if( (ModalRef.current !== undefined && ModalRef.current !== null) && !loading ){
+
+      setSuccess(false)
+      setLoading(true)
+
       const { openModal } = ModalRef.current
       if(email===""){
         setMessage('Debes colocar un correo electronico para iniciar sesión')
         openModal()
+        setSuccess(true)
+        setLoading(false)
       }else if(password===""){
         setMessage('Debes colocar tu contraseña de acceso')
         openModal()
+        setSuccess(true)
+        setLoading(false)
       }else{
         let lr: LoginRequest = { email: email, password: password }
         let rli = await FetchCall<LoginResponse>(logIn(lr, ""))
         if(rli.status===200){
           let responseMeInfo = await FetchCall<MeInfoResponse>(meInfo("", rli.data.token))
           if(responseMeInfo.data.is_staff){
-            
             setTimeout(() => {
               dispatch(setAuthToken(rli.data.token))
               dispatch(setUserInfo(responseMeInfo.data))
@@ -75,16 +143,23 @@ export default function SignIn() {
               dispatch(setVideos(responseMeInfo.data.videos))
               dispatch(setStaff(responseMeInfo.data.staff))
               dispatch(setState(2))
+
+              setSuccess(true)
+              setLoading(false)
             }, 500)
             setMessage('Bienvenido')
             openModal()
           }else{
             setMessage('Solo acceden usuarios staff')
             openModal()
+            setSuccess(true)
+            setLoading(false)
           }
         }else {
           setMessage(rli.messages[0].value)
           openModal()
+          setSuccess(true)
+          setLoading(false)
         }
     } 
   }
@@ -130,11 +205,11 @@ export default function SignIn() {
               autoComplete="current-password"
               onChange={(event)=>{setPassword(event.target.value)}}
             />
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Recordarme"
-            />
-            <Button
+            /> */}
+            {/* <Button
               type="submit"
               fullWidth
               style={{
@@ -146,7 +221,24 @@ export default function SignIn() {
               onClick={handleSubmit}
             >
               Iniciar Sesión
-            </Button>
+            </Button> */}
+            {/****************************************************************/}
+            <Box className={classes.wrapper}>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="success"
+                sx={{ mt: 3, mb: 2 }}
+                className={classes.buttonSuccess}
+                disabled={loading}
+                onClick={handleSubmit}
+              >
+                Iniciar Sesión
+              </Button>
+              {loading && <CircularProgress size={34} className={classes.buttonProgress} />}
+            </Box>
+          {/****************************************************************/}
             <Grid container>
               <Grid item xs>
                 <Link onClick={()=>{
