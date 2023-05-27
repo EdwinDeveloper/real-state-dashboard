@@ -104,7 +104,7 @@ const ResetPass = () => {
                     style={{
                       backgroundColor: "#000000"
                     }}
-                    color="secondary"
+                    color="success"
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
                     onClick={()=>handleSubmit()}
@@ -114,10 +114,7 @@ const ResetPass = () => {
                   <Button
                     type="submit"
                     fullWidth
-                    style={{
-                      backgroundColor: "#000000"
-                    }}
-                    color="secondary"
+                    color="success"
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
                     onClick={()=>{
