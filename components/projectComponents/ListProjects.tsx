@@ -19,6 +19,7 @@ import MUIImage from 'next/image'
 import { setIdProjectSelected, setProjects } from '../../redux/slices/projects'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { GetProjectsResponse } from '../../redux/fetch/responses'
+import CardAmenities from './Cards/CardAmenities'
 
 interface ListProps {
   handleShow: (screen: string) => void,
@@ -36,6 +37,15 @@ const ListProjects:FC<ListProps> = (props) => {
   const [description, setDescription] = useState('')
   const [idComission, setIdBonus] = useState('')
   const [idCompany, setIdCompany] = useState('')
+
+  const [bathrooms, setBathrooms] = useState(0)
+  const [bedrooms, setBetrooms] = useState(0)
+  const [kitchen, setKitchen] = useState(0)
+  const [garage, setGarage] = useState(0)
+  const [gym, setGym] = useState(false)
+  const [security, setSecurity] = useState(false)
+  const [pool, setPool] = useState(false)
+  const [yoga, setYoga] = useState(false)
 
   const [imagesToShow, setImagesToShow] = useState<Image[]>([])
 
@@ -97,6 +107,16 @@ const ListProjects:FC<ListProps> = (props) => {
       setDescription(projectIn[0].description)
       setIdBonus(projectIn[0].bonus)
       setIdCompany(projectIn[0].company_related)
+
+      setBathrooms(projectIn[0].bathrooms)
+      setBetrooms(projectIn[0].bedrooms)
+      setKitchen(projectIn[0].kitchen)
+      setGarage(projectIn[0].garage)
+      setGym(projectIn[0].gym)
+      setSecurity(projectIn[0].security)
+      setPool(projectIn[0].pool)
+      setYoga(projectIn[0].yoga)
+
       projectIn[0].images.forEach((imag)=>setImagesToShow((images)=> [...images, { title: imag.title, url: imag.url, id: imag.id }]))
       projectIn[0].details.forEach((d: Detail)=>addDetailInfo({key: d.key, info: d.info, id: d.id}))
       projectIn[0].extras.forEach((e: Extra)=>addExtraInfo({key: e.key, info: e.info, id: e.id}))
@@ -111,6 +131,16 @@ const ListProjects:FC<ListProps> = (props) => {
       setDescription('')
       setIdBonus('')
       setIdCompany('')
+
+      setBathrooms(0)
+      setBetrooms(0)
+      setKitchen(0)
+      setGarage(0)
+      setGym(false)
+      setSecurity(false)
+      setPool(false)
+      setYoga(false)
+
       setImagesToShow([])
       setDetailsToShow([])
       setExtraToShow([])
@@ -122,6 +152,7 @@ const ListProjects:FC<ListProps> = (props) => {
   const [showExtras, setShowExtras] = useState(false)
   const [extraToShow, setExtraToShow] = useState<any[]>([])
   const [updExtra, setUpdExtra] = useState(null)
+
   const [newImage, setNewImage] = useState('')
 
   const [modalMessage, setModalMessage] = useState('')
@@ -263,7 +294,15 @@ const ListProjects:FC<ListProps> = (props) => {
             details: detailsToShow,
             extras: extraToShow,
             bonus: idComission,
-            company_related: idCompany
+            company_related: idCompany,
+            bathrooms: bathrooms,
+            bedrooms: bedrooms,
+            kitchen: kitchen,
+            garage: garage,
+            gym: gym,
+            security: security,
+            pool: pool,
+            yoga: yoga
           }
           if(idProjectSelected){
             let updateResponse = await FetchCall<UpdateProjectResponse>(updateProject(request, authToken, idProjectSelected + "/"))
@@ -283,7 +322,7 @@ const ListProjects:FC<ListProps> = (props) => {
   return (
       <Box style={{
         width: "100%",
-        height: 2000,
+        height: 800,
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-start",
@@ -318,14 +357,7 @@ const ListProjects:FC<ListProps> = (props) => {
                   Cancelar
               </Button>
          </Box>
-          <Box style={{
-            width: "95%",
-            height: 600,
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}>
+          <Box sx={styles.formImage}>
             <Inputs
               ref={inputRef}
               name={name}
@@ -415,15 +447,26 @@ const ListProjects:FC<ListProps> = (props) => {
               </div>
             </Box>
       </Box>
-       <Box style={{
-        width: "95%",
-        height: 600,
-        display: "flex",
-        flexDirection: "row",
-        marginTop: 50,
+      <Box style={{
+        marginTop: 100,
+        width: '70%',
+        height: 50,
+        display: 'flex',
+        flexWrap: "wrap",
+        justifyContent: 'space-evenly',
+        alignItems: 'stretch',
       }}>
-     
-        <div style={{
+          <CardAmenities title={'Habitaciones'} total={bedrooms} icon={2} check={false} available={false} changeInt={setBetrooms}/>
+          <CardAmenities title={'Baños'} total={bathrooms} icon={1} check={false} available={false} changeInt={setBathrooms}/>
+          <CardAmenities title={'Garaje'} total={garage} icon={3} check={false} available={false} changeInt={setGarage}/>
+          <CardAmenities title={'Cocina'} total={kitchen} icon={4} check={false} available={false} changeInt={setKitchen}/>
+          <CardAmenities title={'Gym'} total={0} icon={5} check={true} available={gym} changeBol={setGym}/>
+          <CardAmenities title={'Seguridad'} total={0} icon={6} check={true} available={security} changeBol={setSecurity}/>
+          <CardAmenities title={'Alberca'} total={0} icon={7} check={true} available={pool} changeBol={setPool}/>
+          <CardAmenities title={'Yoga'} total={0} icon={8} check={true} available={yoga} changeBol={setYoga}/>
+      </Box>
+       <Box sx={styles.buttonDetails}>
+        <Box style={{
           width: "100%",
           display: "flex",
           justifyContent: "flex-start",
@@ -432,7 +475,7 @@ const ListProjects:FC<ListProps> = (props) => {
           flexDirection: "column",
           marginBottom: 30,
         }}>
-          <div style={{
+          <Box style={{
             display: "flex",
             flexDirection: "row",
             width: "100%",
@@ -440,17 +483,17 @@ const ListProjects:FC<ListProps> = (props) => {
             marginBottom: 20,
             marginTop: 40
           }}>
-            <div>
-              <text style={{
-                fontSize: "1.4rem"
-              }}>Detalles del Proyecto</text>
-            </div>
-            <div>
-            <Button style={{backgroundColor: "#159988"}} onClick={()=>{setShowDetails(true)}} variant="contained" color="success">Nuevo detalle</Button>
-            </div>
-          </div>
+            <Box style={{
+              fontSize: "1.4rem"
+            }}>
+              Detalles del Proyecto
+            </Box>
+            <Box>
+              <Button style={{backgroundColor: "#159988"}} onClick={()=>{setShowDetails(true)}} variant="contained" color="success">Nuevo detalle</Button>
+            </Box>
+          </Box>
           { showDetails &&
-            <div style={{
+            <Box style={{
               marginTop: 20,
               width: "100%",
               display: "flex",
@@ -459,10 +502,10 @@ const ListProjects:FC<ListProps> = (props) => {
               alignItems: "center",
             }}>
               <AddDetail upd={updDetail} update={updateDetailInfoFinal} add={addDetailInfo} cancel={cancel}/>
-            </div>
+            </Box>
           }
           { !showDetails &&
-            <div style={{
+            <Box style={{
               overflow: "scroll",
               width: "100%",
             }}>
@@ -475,11 +518,10 @@ const ListProjects:FC<ListProps> = (props) => {
                   />
               })
               }
-            </div>
+            </Box>
           }
-        </div>
-        
-        <div style={{
+        </Box>
+        <Box style={{
           width: "100%",
           display: "flex",
           justifyContent: "flex-start",
@@ -488,23 +530,23 @@ const ListProjects:FC<ListProps> = (props) => {
           flexDirection: "column",
           marginBottom: 30,
         }}>
-          <div style={{
+          <Box style={{
             display: "flex",
             flexDirection: "row",
             width: "100%",
             justifyContent: "space-around",
           }}>
-            <div>
-              <text style={{
+            <Box style={{
                 fontSize: "1.4rem"
-              }}>Información Extra</text>
-            </div>
-            <div>
+              }}>
+                Información Extra
+            </Box>
+            <Box>
               <Button style={{backgroundColor: "#159988"}} onClick={()=>{setShowExtras(true)}} variant="contained" color="success">Nuevo extra</Button>
-            </div>
-          </div>
+            </Box>
+          </Box>
           { showExtras && 
-            <div style={{
+            <Box style={{
               marginTop: 20,
               width: "100%",
               display: "flex",
@@ -513,10 +555,10 @@ const ListProjects:FC<ListProps> = (props) => {
               alignItems: "center",
             }}>
               <AddExtra upd={updExtra} update={updateExtraInfoFinal} add={addExtraInfo} cancel={cancel}/>
-            </div>
+            </Box>
           }
           { !showExtras &&
-            <div style={{
+            <Box style={{
               overflow: "scroll",
               width: "100%",
             }}>
@@ -528,12 +570,46 @@ const ListProjects:FC<ListProps> = (props) => {
                 />
                 })
               }
-            </div>
+            </Box>
           }
-        </div>
+        </Box>
       </Box>
       </Box>
   )
+}
+
+const styles = {
+  formImage: {
+    width: "95%",
+    height: 600,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    '@media (max-width: 1200px)': {
+      flexDirection: 'column',
+      height: 1200,
+    },
+  },
+  amenities: {
+    marginTop: 100,
+    width: '70%',
+    height: '30vh',
+    display: 'flex',
+    flexWrap: "wrap",
+    justifyContent: 'space-evenly',
+    alignItems: 'stretch',
+  },
+  buttonDetails: {
+    width: "95%",
+    height: 600,
+    display: "flex",
+    flexDirection: "row",
+    marginTop: 50,
+    '@media (max-width: 1200px)': {
+      flexDirection: 'column',
+    },
+  }
 }
 
 export default ListProjects

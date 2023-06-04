@@ -39,7 +39,7 @@ const CardProject:FC<ProjectCard>  = (props) => {
         style={{
           height: "20vh"
         }}
-        image={props.images[0].url}
+        image={props.images.length > 0 ? props.images[0].url : ''}
       />
       <CardContent key={props.id}>
         <Typography gutterBottom variant="h5" component="div">

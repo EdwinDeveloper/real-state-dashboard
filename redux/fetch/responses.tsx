@@ -89,6 +89,15 @@ export interface Project {
     extras: Extra[],
     bonus: string,
     company_related: string,
+
+    bedrooms: number,
+    bathrooms: number,
+    garage: number,
+    kitchen: number,
+    gym: boolean,
+    security: boolean,
+    pool: boolean,
+    yoga: boolean,
 }
 
 export interface Image {
