@@ -37,7 +37,7 @@ const CardUserProject:FC<CardUserInvestmentProps>  = (props) => {
   return (
     <Card key={props.projectId} style={{
         width: "90%",
-        height: 500,
+        height: 550,
         backgroundColor: "#fff",
         borderRadius: 12,
         borderColor: "#FFFFFF",

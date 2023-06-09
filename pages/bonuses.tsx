@@ -159,15 +159,27 @@ const Bonuses:FC = (props)=>{
                             Nueva comisión
                         </Button>
                         <Box style={{
-                            width: "94%",
-                            height: "90vh",
-                            display: "flex",
-                            flexWrap: "wrap",
-                            flexDirection: "row",
-                            justifyContent: "space-evenly",
-                            alignItems: "stretch",
+                            width: "100%",
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
                         }}>
-                            {bonuses()}
+                                <Box sx={{
+                                    fontSize: '1.6em',
+                                    paddingBottom: 5,
+                                }}>Lista de bonos</Box>
+                                <Box sx={{
+                                    width: "94%",
+                                    height: "90vh",
+                                    display: "flex",
+                                    flexWrap: "wrap",
+                                    flexDirection: "row",
+                                    justifyContent: "space-evenly",
+                                    alignItems: "stretch",
+                                }}>
+                                    {bonuses()}
+                                </Box>
                         </Box>
                     </Box>
                 }

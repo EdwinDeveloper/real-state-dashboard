@@ -126,10 +126,15 @@ const ModalConfirmation:FC<ModalConfirmationProps> = forwardRef((props,  ref: an
                   <CircularProgress />
                 }
                 { message !== 'Creando inversión' &&
-                  <Box>
+                  <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
                     <Box>
                     <FormControl sx={{ m: 1, minWidth: 120 }}>
-                      <InputLabel id="demo-simple-select-helper-label">Empresa</InputLabel>
+                      <InputLabel id="demo-simple-select-helper-label">Bono</InputLabel>
                       <Select
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
