@@ -16,13 +16,15 @@ const Users:FC = (props) => {
 
   const [userState, setUserState] = useState('main')
   const [userSelected, setUserSelected] = useState('')
+  const [nameUserSelected, setNameUserSelected] = useState('')
   const [userInvestment, setUserInvestment] = useState<Investment[]>([])
   const [allProjects, setAllProjects] = useState<Project[]>(projects !== undefined ? projects : [])
 
   const [referrals, setReferrals] = useState<Referral[]>([])
 
-  const userSelect = (id: string, action: string, investments: Investment[]) => {
+  const userSelect = (id: string, action: string, investments: Investment[], nameUser: string) => {
     setUserSelected(id)
+    setNameUserSelected(nameUser)
     setUserState(action)
     setUserInvestment(investments)
   }
@@ -114,15 +116,29 @@ const Users:FC = (props) => {
     <Layout>
       { userState === 'main' &&
         <Box style={{
-          width: "94%",
-          height: "90vh",
-          display: "flex",
-          flexWrap: "wrap",
-          flexDirection: "row",
-          justifyContent: "space-evenly",
-          alignItems: "stretch",
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}>
-          {renderUsers()}
+          <Box sx={{
+            fontSize: '1.4em',
+            marginBottom: 20,
+          }}>
+            Usuarios Registrados
+          </Box>
+          <Box sx={{
+            width: "94%",
+            height: "90vh",
+            display: "flex",
+            flexWrap: "wrap",
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            alignItems: "stretch",
+          }}>
+            {renderUsers()}
+          </Box>
         </Box>
       }
       { userState === 'investments' &&
@@ -150,15 +166,28 @@ const Users:FC = (props) => {
           </Box>
           <Box style={{
             width: "100%",
-            height: "90vh",
-            display: "flex",
-            flexWrap: "wrap",
-            flexDirection: "row",
-            justifyContent: "space-evenly",
-            alignItems: "stretch",
-            backgroundColor: '#FFFFFF',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}>
-            {renderCards()}
+            <Box sx={{
+              fontSize: '1.4em'
+            }}>
+                Inversiones de {nameUserSelected}
+            </Box>
+            <Box style={{
+              width: "100%",
+              height: "90vh",
+              display: "flex",
+              flexWrap: "wrap",
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+              alignItems: "stretch",
+              backgroundColor: '#FFFFFF'
+            }}>
+              {renderCards()}
+            </Box>
           </Box>
         </Box>
       }

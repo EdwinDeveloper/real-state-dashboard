@@ -21,7 +21,7 @@ interface CardUserProps {
     phone_number: string,
     investments: Investment[],
     referrals: Referral[],
-    userSelect: (id: string, action: string, investments: Investment[]) => void,
+    userSelect: (id: string, action: string, investments: Investment[], name: string) => void,
     userReferrals: (idUser: string, action: string, referrals: Referral[]) => void,
 }
 
@@ -79,8 +79,8 @@ const CardUser:FC<CardUserProps> = (props) => {
           }}>
             { action === 'investments' &&
               <Box>
-                <Button onClick={()=>props.userSelect(props.id, "newInvestment", props.investments)} size='small'>Nueva Inversión</Button>
-                <Button onClick={()=>props.userSelect(props.id, "investments", props.investments)} size="small">Ver Inversiones</Button>
+                <Button onClick={()=>props.userSelect(props.id, "newInvestment", props.investments, props.name)} size='small'>Nueva Inversión</Button>
+                <Button onClick={()=>props.userSelect(props.id, "investments", props.investments, props.name)} size="small">Ver Inversiones</Button>
             </Box>
             }
             { action === 'payments' &&
