@@ -22,7 +22,7 @@ interface CardUserProps {
     investments: Investment[],
     referrals: Referral[],
     userSelect: (id: string, action: string, investments: Investment[], name: string) => void,
-    userReferrals: (idUser: string, action: string, referrals: Referral[]) => void,
+    userReferrals: (idUser: string, action: string, referrals: Referral[], name: string) => void,
 }
 
 const CardUser:FC<CardUserProps> = (props) => {
@@ -70,7 +70,7 @@ const CardUser:FC<CardUserProps> = (props) => {
         }}>
           <Button onClick={()=>handleExpandClick('investments')} size='small'>Inversiones</Button>
           <Button onClick={()=>handleExpandClick('payments')} size='small'>Pagos</Button>
-          <Button onClick={()=>props.userReferrals(props.id, "referrals", props.referrals)} size="small">Feferidos</Button>
+          <Button onClick={()=>props.userReferrals(props.id, "referrals", props.referrals, props.name)} size="small">Feferidos</Button>
         </Box>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent style={{

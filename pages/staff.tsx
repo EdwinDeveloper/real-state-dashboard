@@ -51,15 +51,29 @@ const Staff:FC = (props) => {
                         Ver usuarios
                     </Button>
                     <Box style={{
-                        width: "90%",
-                        height: "90vh",
-                        display: "flex",
-                        flexWrap: "wrap",
-                        flexDirection: "row",
-                        justifyContent: "space-evenly",
-                        alignItems: "stretch",
+                        width: "100%",
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
                     }}>
-                        {staffCards}
+                        <Box style={{
+                            fontSize: '1.4em',
+                            marginBottom: 10,
+                        }}>
+                            Miembros del staff
+                        </Box>
+                        <Box style={{
+                            width: "90%",
+                            height: "90vh",
+                            display: "flex",
+                            flexWrap: "wrap",
+                            flexDirection: "row",
+                            justifyContent: "space-evenly",
+                            alignItems: "stretch",
+                        }}>
+                            {staffCards}
+                        </Box>
                     </Box>
                 </Box>
             }
@@ -82,15 +96,29 @@ const Staff:FC = (props) => {
                         Ver Staff
                     </Button>
                     <Box style={{
-                        width: "90%",
-                        height: "90vh",
-                        display: "flex",
-                        flexWrap: "wrap",
-                        flexDirection: "row",
-                        justifyContent: "space-evenly",
-                        alignItems: "stretch",
+                        width: "100%",
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
                     }}>
-                        {usersCards}
+                        <Box sx={{
+                            fontSize: '1.4em',
+                            marginBottom: 20,
+                        }}>
+                            Permisos de usuarios
+                        </Box>
+                        <Box style={{
+                            width: "90%",
+                            height: "90vh",
+                            display: "flex",
+                            flexWrap: "wrap",
+                            flexDirection: "row",
+                            justifyContent: "space-evenly",
+                            alignItems: "stretch",
+                        }}>
+                            {usersCards}
+                        </Box>
                     </Box>
                 </Box>
             }

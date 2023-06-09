@@ -130,7 +130,7 @@ const Bonuses:FC = (props)=>{
         <Layout>
             <Box style={{
                 width: "100%",
-                height: "100vh",
+                height: "90vh",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
@@ -148,6 +148,7 @@ const Bonuses:FC = (props)=>{
                     }}>
                         <Button
                             style={{
+                                marginTop: 30,
                                 backgroundColor: "#159988",
                                 width: 300,
                                 marginBottom: 50,

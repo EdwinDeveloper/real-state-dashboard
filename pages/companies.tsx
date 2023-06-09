@@ -146,15 +146,27 @@ const Companies:FC = (props)=>{
                             Nueva Empresa
                         </Button>
                         <Box style={{
-                            width: "94%",
-                            height: "90vh",
-                            display: "flex",
-                            flexWrap: "wrap",
-                            flexDirection: "row",
-                            justifyContent: "space-evenly",
-                            alignItems: "stretch",
+                            width: '100%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center',
                         }}>
-                            {companies()}
+                            <Box style={{
+                                fontSize: '1.4em',
+                                marginBottom: 10,
+                            }}>Compañias registradas</Box>
+                            <Box sx={{
+                                width: "94%",
+                                height: "90vh",
+                                display: "flex",
+                                flexWrap: "wrap",
+                                flexDirection: "row",
+                                justifyContent: "space-evenly",
+                                alignItems: "stretch",
+                            }}>
+                                {companies()}
+                            </Box>
                         </Box>
                     </Box>
                     
@@ -168,7 +180,7 @@ const Companies:FC = (props)=>{
                         justifyContent: "center",
                         alignItems: "center",
                     }}>
-                        { action === "new" ? <h1>{"Registrar nueva empresa"}</h1> : <h1>{"Actualizar empresa"}</h1> }
+                        { action === "new" ? <Box sx={{fontSize: '1.4em'}}>{"Registrar nueva empresa"}</Box> : <Box sx={{fontSize: '1.4em'}}>{"Actualizar empresa"}</Box> }
                         <Button
                             style={{
                             backgroundColor: "#159988",

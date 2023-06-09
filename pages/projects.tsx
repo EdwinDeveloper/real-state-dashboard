@@ -69,16 +69,29 @@ const projects:FC = (props) => {
             </Button>
           </Box>
           <Box style={{
-            width: "100%",
-            height: "90vh",
-            display: "flex",
-            flexWrap: "wrap",
-            flexDirection: "row",
-            justifyContent: "space-evenly",
-            alignItems: "stretch",
-            backgroundColor: '#FFFFFF',
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}>
-            {renderCards()}
+            <Box style={{
+              fontSize:'1.4em',
+            }}>
+                Lista de proyectos
+            </Box>
+            <Box style={{
+              width: "100%",
+              height: "90vh",
+              display: "flex",
+              flexWrap: "wrap",
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+              alignItems: "stretch",
+              backgroundColor: '#FFFFFF',
+            }}>
+              {renderCards()}
+            </Box>
           </Box>
         </Box>
       }

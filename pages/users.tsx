@@ -29,7 +29,8 @@ const Users:FC = (props) => {
     setUserInvestment(investments)
   }
 
-  const referralsUser = (idUser: string, action: string, referrals: Referral[]) => {
+  const referralsUser = (idUser: string, action: string, referrals: Referral[], nameUser: string) => {
+    setNameUserSelected(nameUser)
     setUserState(action)
     setReferrals(referrals)
   }
@@ -263,16 +264,30 @@ const Users:FC = (props) => {
                 Volver
               </Button>
         <Box style={{
-          width: "100%",
-          height: "90vh",
-          display: "flex",
-          flexWrap: "wrap",
-          flexDirection: "row",
-          justifyContent: "space-evenly",
-          alignItems: "stretch",
-          backgroundColor: '#FFFFFF',
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}>
-          {renderAllReferrals()}
+            <Box sx={{
+              fontSize: '1.4em',
+              marginBottom: 20,
+            }}>
+              Referidos de {nameUserSelected}
+            </Box>
+            <Box style={{
+              width: "100%",
+              height: "90vh",
+              display: "flex",
+              flexWrap: "wrap",
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+              alignItems: "stretch",
+              backgroundColor: '#FFFFFF',
+            }}>
+              {renderAllReferrals()}
+            </Box>
         </Box>
       </Box>
       }
