@@ -41,7 +41,7 @@ const Inputs:FC<InputProps> = forwardRef( (props, ref: any) => {
           alignItems: "center",
           justifyContent: "center",
             width: "50%",
-            height: 900,
+            height: 600,
             marginTop: 70,
           }}>
             <Box

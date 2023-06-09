@@ -85,7 +85,7 @@ const projects:FC = (props) => {
       { show === 'form' &&
         <Box style={{
           width: "100%",
-          height: 1900,
+          height: 700,
           display: "flex",
           flexDirection: "column",
           justifyContent: "flex-start",

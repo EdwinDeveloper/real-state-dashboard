@@ -320,14 +320,17 @@ const ListProjects:FC<ListProps> = (props) => {
   }
 
   return (
-      <Box style={{
+      <Box sx={{
         width: "100%",
-        height: 800,
+        height: 600,
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-start",
         alignItems: "center",
         overflow: "scroll",
+        '@media (max-width: 1200px)': {
+          flexDirection: 'column',
+        },
       }}>
         <ModalPer ref={ModalRef} title={"Formulario"} message={modalMessage}/>
          <Box style={{
@@ -447,14 +450,27 @@ const ListProjects:FC<ListProps> = (props) => {
               </div>
             </Box>
       </Box>
-      <Box style={{
-        marginTop: 100,
+      <Box sx={{
+        marginTop: 5,
         width: '70%',
-        height: 50,
+        height: 250,
         display: 'flex',
         flexWrap: "wrap",
         justifyContent: 'space-evenly',
         alignItems: 'stretch',
+        marginBottom: 5,
+        '@media (min-width: 800px) and (max-width: 1300px)': {
+          marginTop: 160,
+          marginBottom: 40,
+        },
+        '@media (min-width: 500px) and (max-width: 799px)': {
+          marginTop: 160,
+          marginBottom: 80,
+        },
+        '@media (min-width: 200px) and (max-width: 499px)': {
+          marginTop: 200,
+          marginBottom: 80,
+        },
       }}>
           <CardAmenities title={'Habitaciones'} total={bedrooms} icon={2} check={false} available={false} changeInt={setBetrooms}/>
           <CardAmenities title={'Baños'} total={bathrooms} icon={1} check={false} available={false} changeInt={setBathrooms}/>
@@ -588,13 +604,13 @@ const styles = {
     alignItems: "center",
     '@media (max-width: 1200px)': {
       flexDirection: 'column',
-      height: 1200,
+      height: 200,
     },
   },
   amenities: {
     marginTop: 100,
     width: '70%',
-    height: '30vh',
+    height: 100,
     display: 'flex',
     flexWrap: "wrap",
     justifyContent: 'space-evenly',
@@ -602,10 +618,10 @@ const styles = {
   },
   buttonDetails: {
     width: "95%",
-    height: 600,
+    height: 400,
     display: "flex",
     flexDirection: "row",
-    marginTop: 50,
+    marginTop: 2,
     '@media (max-width: 1200px)': {
       flexDirection: 'column',
     },
