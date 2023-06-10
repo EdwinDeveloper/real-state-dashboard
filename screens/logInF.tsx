@@ -3,8 +3,6 @@ import Image from 'next/image'
 import Button from '@mui/material/Button'
 import CssBaseline from '@mui/material/CssBaseline'
 import TextField from '@mui/material/TextField'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Checkbox from '@mui/material/Checkbox'
 import Link from '@mui/material/Link'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
@@ -89,18 +87,6 @@ export default function SignIn() {
   const classes = useStyles()
   const [loading, setLoading] = React.useState(false)
   const [success, setSuccess] = React.useState(false)
-  const timer = React.useRef<number>()
-
-  const handleButtonClick = () => {
-    if (!loading) {
-      setSuccess(false)
-      setLoading(true)
-      timer.current = window.setTimeout(() => {
-        setSuccess(true)
-        setLoading(false)
-      }, 2000);
-    }
-  };
 
   const [message, setMessage] = React.useState<string>('')
   const [email, setEmail] = React.useState<string>('')
@@ -205,23 +191,6 @@ export default function SignIn() {
               autoComplete="current-password"
               onChange={(event)=>{setPassword(event.target.value)}}
             />
-            {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Recordarme"
-            /> */}
-            {/* <Button
-              type="submit"
-              fullWidth
-              style={{
-                backgroundColor: "#000000"
-              }}
-              color="secondary"
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              onClick={handleSubmit}
-            >
-              Iniciar Sesión
-            </Button> */}
             {/****************************************************************/}
             <Box className={classes.wrapper}>
               <Button

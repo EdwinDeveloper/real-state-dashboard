@@ -20,12 +20,44 @@ import { setIdProjectSelected, setProjects } from '../../redux/slices/projects'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { GetProjectsResponse } from '../../redux/fetch/responses'
 import CardAmenities from './Cards/CardAmenities'
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import { green } from '@material-ui/core/colors'
+import CircularProgress from '@material-ui/core/CircularProgress'
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    wrapper: {
+      width: '100%',
+      margin: theme.spacing(1),
+      position: 'relative',
+    },
+    buttonSuccess: {
+      width: '100%',
+      backgroundColor: "#159988",
+      '&:hover': {
+        backgroundColor: "#159988",
+      },
+    },
+    buttonProgress: {
+      width: 400,
+      color: green[500],
+      position: 'absolute',
+      top: '30%',
+      left: '20%',
+      marginTop: -12,
+      marginLeft: -12,
+    },
+  }),
+);
 
 interface ListProps {
   handleShow: (screen: string) => void,
 }
 
 const ListProjects:FC<ListProps> = (props) => {
+
+  const classes = useStyles()
+  const [loading, setLoading] = React.useState(false)
 
   const [name, setName] = useState('')
   const [model, setModel] = useState('')
@@ -170,6 +202,7 @@ const ListProjects:FC<ListProps> = (props) => {
       setProjectsList(responseProjects.data)
       dispatch(setProjects(responseProjects.data))
     }
+    setLoading(false)
     dispatch(setIdProjectSelected(""))
     handleShow("list")
   }
@@ -222,6 +255,8 @@ const ListProjects:FC<ListProps> = (props) => {
   }
 
   const checkForm = async() => {
+
+    setLoading(true)
       
       if(ModalRef.current!==undefined && ModalRef.current!==null){
         const { openModal } = ModalRef.current   
@@ -229,58 +264,72 @@ const ListProjects:FC<ListProps> = (props) => {
         if(name===''){
           setModalMessage("El proyecto debe tener un nombre")
           openModal()
+          setLoading(false)
         }
         else if(model===''){
           setModalMessage("El proyecto debe tener un modelo")
           openModal()
+          setLoading(false)
         }
         else if(description===''){
           setModalMessage("El proyecto debe tener una descripción")
           openModal()
+          setLoading(false)
         }
         else if(description.length>255){
           setModalMessage("La descripción debe tener maximo 255 caracteres")
           openModal()
+          setLoading(false)
         }
         else if(preSalePrice===""){
           setModalMessage("El proyecto debe tener un precio de preventa")
           openModal()
+          setLoading(false)
         }
         else if(rentPriceApproximate===""){
           setModalMessage("El proyecto debe tener un precio de renta")
           openModal()
+          setLoading(false)
         }
         else if(resalePriceApproximate===""){
           setModalMessage("El proyecto debe tener un precio de reventa")
           openModal()
+          setLoading(false)
         }
         else if(idComission===''){
           setModalMessage("El proyecto debe tener una comisión")
           openModal()
+          setLoading(false)
         }
         else if(idCompany===''){
           setModalMessage("El proyecto debe tener una compañia asociada")
           openModal()
+          setLoading(false)
         }
         else if(imagesToShow.length===0){
           setModalMessage("El proyecto debe tener al menos una imagen")
           openModal()
+          setLoading(false)
         }
         else if(detailsToShow.length===0){
           setModalMessage("El proyecto debe tener al menos un detalle")
           openModal()
+          setLoading(false)
         }
         else if(extraToShow.length===0){
           setModalMessage("El proyecto debe tener al menos un extra")
           openModal()
+          setLoading(false)
         }
         else if( preSaleDate===''){
           setModalMessage("Lo sentimos, debes seleccionar la fecha de preventa")
           openModal()
+          setLoading(false)
         }
         else if( premisesDeliveryDate === ''){
           setModalMessage("Lo sentimos, debes seleccionar la fecha de entrega")
           openModal()
+          setLoading(false)
         }
         else{
           let request = {
@@ -341,15 +390,23 @@ const ListProjects:FC<ListProps> = (props) => {
           justifyContent: "space-around",
           alignItems: "center",
          }}>
-              <Button style={{
-                  backgroundColor: "#159988",
-                  width: "40%"
-                }}
+          {/*********************************************/}
+            <Box className={classes.wrapper}>
+              <Button
+                type="submit"
+                fullWidth
                 variant="contained"
-                color="success"
+                style={{
+                  width: "40%",
+                }}
+                className={classes.buttonSuccess}
+                disabled={loading}
                 onClick={checkForm}>
                   Guardar
               </Button>
+              {loading && <CircularProgress size={34} className={classes.buttonProgress} />}
+            </Box>
+              {/*********************************************/}
               <Button style={{
                   backgroundColor: "#dc5e5e",
                   width: "40%"
