@@ -3,7 +3,14 @@ import Link from "next/link"
 import React, { useState } from "react"
 import Image from 'next/image'
 import { setState } from "../redux/slices/state"
-import { useAppDispatch } from "../redux/hooks"
+import { useAppDispatch, useAppSelector } from "../redux/hooks"
+import { setAuthToken } from "../redux/slices/state"
+import { setBonuses } from "../redux/slices/bonuses"
+import { setCompanies } from "../redux/slices/companies"
+import { setProjects } from "../redux/slices/projects"
+import { setUsers } from "../redux/slices/users"
+import { setStaff } from "../redux/slices/users"
+import Box from '@mui/material/Box'
 import {
   CollapsIcon,
   HomeIcon,
@@ -32,6 +39,8 @@ const Sidebar = () => {
 
   const dispatch = useAppDispatch()
 
+  const duedate = useAppSelector( (state) => state.State.dueDate)
+
   const collapseIconClasses = classNames(
     "p-4 rounded bg-light-lighter absolute right-0",
     {
@@ -52,12 +61,19 @@ const Sidebar = () => {
   const handleSidebarToggle = () => {
     setToggleCollapse(!toggleCollapse)
   }
-  const finishSesión = () => {
+  const finishSesion = () => {
     dispatch(setState(1))
+
+    dispatch(setAuthToken(""))
+    dispatch(setBonuses([]))
+    dispatch(setCompanies([]))
+    dispatch(setProjects([]))
+    dispatch(setUsers([]))
+    dispatch(setStaff([]))
   }
 
   return (
-    <div
+    <Box
       onMouseEnter={onMouseOver}
       onMouseLeave={onMouseOver}
       style={{
@@ -73,18 +89,18 @@ const Sidebar = () => {
         transition: "width 300ms cubic-bezier(0.2, 0, 0, 1) 0s",
       }}
     >
-      <div style={{
+      <Box style={{
         display: "flex",
         flexDirection: "column"
       }}>
-        <div style={{
+        <Box style={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
           alignItems: "center",
           position: "relative"
         }}>
-          <div style={{
+          <Box style={{
             display: "flex",
             flexDirection: "column",
             paddingLeft: 1,
@@ -99,7 +115,7 @@ const Sidebar = () => {
             >
               
             </span>
-          </div>
+          </Box>
           {isCollapsible && (
             <button
               className={collapseIconClasses}
@@ -108,9 +124,9 @@ const Sidebar = () => {
               <CollapsIcon />
             </button>
           )}
-        </div>
+        </Box>
 
-        <div style={{
+        <Box style={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "flex-start",
@@ -119,8 +135,8 @@ const Sidebar = () => {
           {menuItems.map(({ icon: Icon, ...menu }, index) => {
             const classes = getNavItemClasses(menu)
             return (
-              <div key={index} className={classes}>
-                <Link key={index} legacyBehavior href={menu.link}>
+              <Box onClick={()=> duedate >= Date.now() ? "" : finishSesion()} key={index} className={classes}>
+                <Link key={index} legacyBehavior href={ duedate >= Date.now() ? menu.link : "/" }>
                   <a style={{
                     display: "flex",
                     flexDirection: "row",
@@ -128,9 +144,9 @@ const Sidebar = () => {
                     width: "100%",
                     height: 60
                   }}>
-                    <div style={{ width: "2.5rem" }}>
+                    <Box style={{ width: "2.5rem" }}>
                       <Icon />
-                    </div>
+                    </Box>
                     {!toggleCollapse && (
                       <span style={{color: "white"}}>
                         {menu.label}
@@ -138,16 +154,16 @@ const Sidebar = () => {
                     )}
                   </a>
                 </Link>
-              </div>
+              </Box>
             )
           })}
-        </div>
-      </div>
+        </Box>
+      </Box>
 
-      <div className={`${getNavItemClasses({})} px-3 py-4`}>
-        <div style={{ width: "2.5rem" }}>
+      <Box className={`${getNavItemClasses({})} px-3 py-4`}>
+        <Box style={{ width: "2.5rem" }}>
           <LogoutIcon />
-        </div>
+        </Box>
         {!toggleCollapse && (
           <Link key={"pop"} legacyBehavior href={'/'}>
           <a style={{
@@ -157,14 +173,14 @@ const Sidebar = () => {
             width: "100%",
             height: 60
           }}>
-              <span onClick={()=> finishSesión()} style={{color: "white"}}>
+              <Box onClick={()=> finishSesion()} style={{color: "white"}}>
                 Cerrar Sesión
-              </span>
+              </Box>
           </a>
         </Link>
         )}
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }
 

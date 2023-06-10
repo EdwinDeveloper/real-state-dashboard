@@ -11,7 +11,7 @@ import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import logo from '../assets/loadingLogo.png'
 import { logIn, meInfo } from '../redux/fetch/services'
-import { setState } from '../redux/slices/state'
+import { setState, setDueDate } from '../redux/slices/state'
 import { setUserInfo } from "../redux/slices/UserInfo/index"
 import { setCompanies } from '../redux/slices/companies'
 import { setAuthToken } from '../redux/slices/state'
@@ -25,7 +25,6 @@ import { setVideos } from '../redux/slices/videos'
 import { LoginRequest } from '../redux/fetch/requests'
 import { LoginResponse, MeInfoResponse } from '../redux/fetch/responses'
 
-import clsx from 'clsx';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 import { green } from '@material-ui/core/colors'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -84,9 +83,10 @@ const theme = createTheme()
 
 export default function SignIn() {
 
+  console.log("tag en el login")
+  
   const classes = useStyles()
   const [loading, setLoading] = React.useState(false)
-  const [success, setSuccess] = React.useState(false)
 
   const [message, setMessage] = React.useState<string>('')
   const [email, setEmail] = React.useState<string>('')
@@ -99,19 +99,16 @@ export default function SignIn() {
   const handleSubmit = async() => {
     if( (ModalRef.current !== undefined && ModalRef.current !== null) && !loading ){
 
-      setSuccess(false)
       setLoading(true)
 
       const { openModal } = ModalRef.current
       if(email===""){
         setMessage('Debes colocar un correo electronico para iniciar sesión')
         openModal()
-        setSuccess(true)
         setLoading(false)
       }else if(password===""){
         setMessage('Debes colocar tu contraseña de acceso')
         openModal()
-        setSuccess(true)
         setLoading(false)
       }else{
         let lr: LoginRequest = { email: email, password: password }
@@ -119,6 +116,8 @@ export default function SignIn() {
         if(rli.status===200){
           let responseMeInfo = await FetchCall<MeInfoResponse>(meInfo("", rli.data.token))
           if(responseMeInfo.data.is_staff){
+            let sixHours = Date.now() + ( 6 * 60 * 60 * 1000 )
+            //let sixHours = Date.now() + ( 10 * 1000 )
             setTimeout(() => {
               dispatch(setAuthToken(rli.data.token))
               dispatch(setUserInfo(responseMeInfo.data))
@@ -129,8 +128,8 @@ export default function SignIn() {
               dispatch(setVideos(responseMeInfo.data.videos))
               dispatch(setStaff(responseMeInfo.data.staff))
               dispatch(setState(2))
+              dispatch(setDueDate(sixHours))
 
-              setSuccess(true)
               setLoading(false)
             }, 500)
             setMessage('Bienvenido')
@@ -138,13 +137,11 @@ export default function SignIn() {
           }else{
             setMessage('Solo acceden usuarios staff')
             openModal()
-            setSuccess(true)
             setLoading(false)
           }
         }else {
           setMessage(rli.messages[0].value)
           openModal()
-          setSuccess(true)
           setLoading(false)
         }
     } 

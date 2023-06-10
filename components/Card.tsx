@@ -66,7 +66,7 @@ const RecipeReviewCard:FC = (props) => {
             Mexico
           </Typography>
           <Typography paragraph>
-            Numero de Télefono: 3221812552
+            Numero de Télefono: 
           </Typography>
         </CardContent>
       </Collapse>

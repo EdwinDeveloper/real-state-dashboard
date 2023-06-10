@@ -1,16 +1,18 @@
 import React from "react"
 import Sidebar from "./Sidebar"
+import Box from '@mui/material/Box'
 
 const Layout = ({ children }) => {
+  
   return (
-    <div style={{
+    <Box style={{
       display: "flex",
       flexDirection: "row",
       heigth: "100vh",
       justifyContent: "flex-start",
     }}>
       <Sidebar />
-      <div style={{
+      <Box style={{
         backgroundColor: "#FFFFFF",
         justifyContent: "center",
         alignItems: "center",
@@ -23,8 +25,8 @@ const Layout = ({ children }) => {
         padding: "1rem",
       }}>
           {children}
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }
 

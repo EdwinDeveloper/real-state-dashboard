@@ -6,14 +6,16 @@ import Box from '@material-ui/core/Box'
 import CardProject from '../components/projectComponents/Cards/CardProject'
 import { useAppSelector } from '../redux/hooks'
 import { Project } from '../redux/fetch/responses'
+import { useAppDispatch } from '../redux/hooks'
+import { setState } from '../redux/slices/state'
 import { setIdProjectSelected } from '../redux/slices/projects'
-import { useDispatch as UseDispatch } from "react-redux"
+
 
 const projects:FC = (props) => {
 
   const projects = useAppSelector((state)=> state.projects.projects)
 
-  const dispatch = UseDispatch()
+  const dispatch = useAppDispatch()
 
   const [show, setShow] = UseState('list')
 

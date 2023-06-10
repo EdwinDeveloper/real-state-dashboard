@@ -8,6 +8,8 @@ import { useAppSelector } from '../redux/hooks'
 const Home:FC = (props) => {
 
   const state = useAppSelector((state)=> state.State.state)
+
+  console.log("tag ingex : ", state)
   
   return (
     <>
