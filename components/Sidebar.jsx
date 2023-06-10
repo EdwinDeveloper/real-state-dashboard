@@ -2,7 +2,7 @@ import classNames from "classnames"
 import Link from "next/link"
 import React, { useState } from "react"
 import Image from 'next/image'
-import { setState } from "../redux/slices/state"
+import { setDueDate, setState } from "../redux/slices/state"
 import { useAppDispatch, useAppSelector } from "../redux/hooks"
 import { setAuthToken } from "../redux/slices/state"
 import { setBonuses } from "../redux/slices/bonuses"
@@ -63,6 +63,7 @@ const Sidebar = () => {
   }
   const finishSesion = () => {
     dispatch(setState(1))
+    dispatch(setDueDate(0))
 
     dispatch(setAuthToken(""))
     dispatch(setBonuses([]))
