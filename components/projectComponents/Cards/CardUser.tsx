@@ -11,6 +11,7 @@ import Box from '@material-ui/core/Box'
 import Collapse from '@mui/material/Collapse'
 import { Referral } from '../../../redux/fetch/responses'
 import { Investment } from '../../../redux/fetch/responses'
+import { REFERRAL_STATUS, COLORS } from '../../../utils/const'
 
 interface CardUserProps {
     id: string,
@@ -39,13 +40,10 @@ const CardUser:FC<CardUserProps> = (props) => {
     setAction(actionIn)
   }
 
+  const notificationAnimation = props.referrals.length === 0 ? false : verifyReferrals(props.referrals)
+
   return (
-    <Card style={{
-        width: 340,
-        height: 220,
-        marginBottom: 20,
-        borderRadius: 10,
-    }} sx={{ maxWidth: 345 }}>
+    <Card style={Object.assign( {} ,styles.user, notificationAnimation ? styles.userAnimation : {} )} sx={{ maxWidth: 345 }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -94,6 +92,34 @@ const CardUser:FC<CardUserProps> = (props) => {
       </CardContent>
     </Card>
   )
+}
+
+const styles = {
+  user: {
+    width: 340,
+    height: 220,
+    marginBottom: 20,
+    borderRadius: 10,
+  },
+  userAnimation: {
+    animationName: 'backgroundColorPalette',
+    animationDuration: '1s',
+    animationIterationCount: 'infinite',
+    animationDirection: 'alternate',
+    animationTimingFunction: 'linear',
+  },
+}
+
+const verifyReferrals = (referrals: Referral[]) => {
+  for (let i = 0; i < referrals.length; i++) {
+    let status = referrals[i].status
+    if( status !== REFERRAL_STATUS.ACCEPTED && status !== REFERRAL_STATUS.CANCELED){
+      return true
+    }else{
+      continue
+    }
+  }
+  return false
 }
 
 export default CardUser

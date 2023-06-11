@@ -12,6 +12,7 @@ import { REFERRAL_STATUS } from '../../../utils/const'
 import { Referral } from '../Cards/CardReferral'
 import { FetchCall } from '../../../redux/fetch/FetchCall'
 import { nextStatusReferral } from '../../../utils/functions'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -47,6 +48,8 @@ const ModalReferral:FC<ModalReferralProps> = forwardRef((props,  ref: any) => {
 
   const dispatch = useAppDispatch()
 
+  const [waiting, setWaiting] = useState(false)
+
   const authToken = useAppSelector((state) => state.State.authToken)
 
   const [open, setOpen] = useState(false)
@@ -58,14 +61,16 @@ const ModalReferral:FC<ModalReferralProps> = forwardRef((props,  ref: any) => {
   }
 
   const reject_referral = async(referral: Referral, status: string) => {
+    setWaiting(true)
     let newStatus = status == REFERRAL_STATUS.CANCELED ? REFERRAL_STATUS.CANCELED : nextStatusReferral(referral.status)
     let request = { status: newStatus }
     let responseReferral = await FetchCall<UpdateReferralResponse>(updateReferral(request, authToken, referral.id))
-    if(responseReferral.status === 200 ){
+    if(responseReferral.status === 200 ){        
         let meInfoResponse = await FetchCall<MeInfoResponse>(meInfo("", authToken))
         dispatch(setUsers(meInfoResponse.data.users))
         handleClose()
         props.setUserState('main')
+        setWaiting(false)
     }
   }
 
@@ -92,7 +97,7 @@ const ModalReferral:FC<ModalReferralProps> = forwardRef((props,  ref: any) => {
               justifyContent: 'space-evenly',
               width: '100%',
             }} id="modal-modal-title" variant="h6" component="h2">
-                {props.message}
+                { waiting ? "Actualizando..." : props.message}
             </Typography>
             <Box style={{
                 display: 'flex',
@@ -101,33 +106,35 @@ const ModalReferral:FC<ModalReferralProps> = forwardRef((props,  ref: any) => {
                 justifyContent: 'space-between',
             }}>
                 { ( status === REFERRAL_STATUS.IN_PROCESS || status === REFERRAL_STATUS.CONTACTED || status === REFERRAL_STATUS.RESERVED || status === REFERRAL_STATUS.SIGNED_DEED ) &&
-                    <Box style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        width: '100%',
-                        justifyContent: 'space-between',
-                    }}>
-                        <Button
-                            style={{
-                            backgroundColor: "#159988",
-                            width: 110,
-                            marginBottom: 50,
-                            }}
-                            variant="contained"
-                            color="success"
-                            onClick={()=>reject_referral(props.referral, REFERRAL_STATUS.ACCEPTED)}
-                        >
-                            Continuar
-                        </Button>
-                        <Button 
-                            style={{
-                                width: 110,
-                                marginBottom: 50,
-                            }} variant="outlined" color="error"
-                            onClick={()=>reject_referral(props.referral, REFERRAL_STATUS.CANCELED)}
-                        >
-                            Rechazar
-                        </Button>
+                    <Box sx={ waiting ? styles.waiting : styles.noWaiting }>
+                        { !waiting &&
+                            <>
+                              <Button
+                                style={{
+                                  backgroundColor: "#159988",
+                                  width: 110,
+                                  marginBottom: 50,
+                                }}
+                                variant="contained"
+                                color="success"
+                                onClick={()=>reject_referral(props.referral, REFERRAL_STATUS.ACCEPTED)}
+                              >
+                                Continuar
+                              </Button>
+                              <Button 
+                                style={{
+                                    width: 110,
+                                    marginBottom: 50,
+                                }} variant="outlined" color="error"
+                                onClick={()=>reject_referral(props.referral, REFERRAL_STATUS.CANCELED)}
+                              >
+                                Rechazar
+                              </Button>
+                            </>
+                        }
+                        { waiting &&
+                          <CircularProgress></CircularProgress>
+                        }
                     </Box>
                 }
             </Box>
@@ -136,6 +143,22 @@ const ModalReferral:FC<ModalReferralProps> = forwardRef((props,  ref: any) => {
     </Box>
   )
 })
+
+const styles = {
+  noWaiting: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
+  },
+  waiting: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
+}
 
 ModalReferral.displayName="ModalReferral"
 

@@ -121,3 +121,39 @@ a {
 * {
   box-sizing: border-box;
 }
+
+@keyframes backgroundColorPalette {
+	0% {
+		background: #FFFFFF;
+	}
+	10% {
+		background: #FFFFFF;
+	}
+	20% {
+		background: #FEF8F8;
+	}
+	30% {
+		background: #FDF0F0;
+	}
+  40% {
+		background: #FCE7E7;
+	}
+  50% {
+		background: #FEE1E1;
+	}
+  60% {
+		background: #FED8D8;
+	}
+  70% {
+		background: #FECFCF;
+	}
+  80% {
+		background: #FEC7C7;
+	}
+  90% {
+		background: #FEBFBF;
+	}
+  100% {
+		background: #FFB7B7;
+	}
+}
