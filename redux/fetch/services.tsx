@@ -235,3 +235,15 @@ export function emailResetPassword(request: EmailResetPassword, token: string){
     }
     return options
 }
+
+export function deleteReferral(id_referral: string, token: string){
+    let options: AxiosOptions = {
+        method: 'delete',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Token ${token}`
+        },
+        url: `${url_base}/api/company/referral/${id_referral}/`
+    }
+    return options
+}

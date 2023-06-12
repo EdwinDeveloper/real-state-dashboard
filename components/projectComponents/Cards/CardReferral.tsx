@@ -9,6 +9,7 @@ import Button from '@mui/material/Button'
 import Box from '@material-ui/core/Box'
 import { REFERRAL_STATUS, COLORS } from '../../../utils/const'
 import ModalReferral from '../Modals/ModalReferral'
+import DefaultIcon from '../../icons/DefaultIcon'
 
 export interface ReferralProps {
   referral: Referral,
@@ -32,6 +33,7 @@ const CardUserReferrals:FC<ReferralProps> = (props) => {
   const ModalRef = useRef<any>(null)
 
   const [modalMessage, setModalMessage] = useState('')
+  const [action, setAction] = useState('continue')
 
   const { name, status, last_name, bonus, country_code, phone_number } = props.referral
 
@@ -81,20 +83,40 @@ const CardUserReferrals:FC<ReferralProps> = (props) => {
         borderRadius: 10,
         backgroundColor: statusBackgound,
     }} sx={{ maxWidth: 345 }}>
-      <ModalReferral ref={ModalRef} message={modalMessage} setUserState={props.setUserState} referral={props.referral}/>
-      <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: statusIcon }} aria-label="recipe">
-            {name.substring(0, 1)}
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label="settings">
-          </IconButton>
-        }
-        title={`${name} ${last_name}`}
-        subheader={`+${country_code} ${phone_number}`}
-      />
+      <ModalReferral ref={ModalRef} action={action} message={modalMessage} setUserState={props.setUserState} referral={props.referral}/>
+      <Box sx={{
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: "space-around",
+        alignItems: 'center',
+      }}>
+        <CardHeader
+          avatar={
+            <Avatar sx={{ bgcolor: statusIcon }} aria-label="recipe">
+              {name.substring(0, 1)}
+            </Avatar>
+          }
+          action={
+            <IconButton aria-label="settings">
+            </IconButton>
+          }
+          title={`${name} ${last_name}`}
+          subheader={`+${country_code} ${phone_number}`}
+        />
+        <Box
+          onClick={()=>{
+            setModalMessage('Eliminar referido ?')
+            setAction("delete")
+            if(ModalRef.current !== undefined && ModalRef.current !== null) ModalRef.current.openModal()              
+          }}
+          style={{
+          cursor: 'pointer',
+        }}>
+          { ( status === REFERRAL_STATUS.IN_PROCESS || status === REFERRAL_STATUS.CONTACTED || status === REFERRAL_STATUS.RESERVED || status === REFERRAL_STATUS.SIGNED_DEED ) &&
+            <DefaultIcon title={"Borrar"} icon={15}/>
+          }
+        </Box>
+      </Box>
       <CardContent>
         
         <Box style={{
@@ -124,8 +146,10 @@ const CardUserReferrals:FC<ReferralProps> = (props) => {
           { ( status === REFERRAL_STATUS.IN_PROCESS || status === REFERRAL_STATUS.CONTACTED || status === REFERRAL_STATUS.RESERVED || status === REFERRAL_STATUS.SIGNED_DEED ) &&
               <Button onClick={()=>{
                 setModalMessage('Acción a realizar ?')
+                setAction("continue")
                 if(ModalRef.current !== undefined && ModalRef.current !== null) ModalRef.current.openModal()              
               }} size='small'>Revisar referido</Button>
+              
           }
           { status === REFERRAL_STATUS.CANCELED &&
             <Box>

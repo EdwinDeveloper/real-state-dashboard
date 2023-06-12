@@ -3,7 +3,7 @@ import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-import { meInfo, updateReferral } from '../../../redux/fetch/services'
+import { meInfo, updateReferral, deleteReferral } from '../../../redux/fetch/services'
 import { UpdateReferralResponse, MeInfoResponse } from '../../../redux/fetch/responses'
 import { setUsers } from '../../../redux/slices/users'
 import { useAppDispatch } from '../../../redux/hooks'
@@ -31,9 +31,10 @@ const style = {
 
 interface ModalReferralProps {
   ref: any,
-    message: string,
-    referral: Referral,
-    setUserState: (action: string) => void,
+  message: string,
+  referral: Referral,
+  action: string,
+  setUserState: (action: string) => void,
 }
 
 const ModalReferral:FC<ModalReferralProps> = forwardRef((props,  ref: any) => {
@@ -49,6 +50,7 @@ const ModalReferral:FC<ModalReferralProps> = forwardRef((props,  ref: any) => {
   const dispatch = useAppDispatch()
 
   const [waiting, setWaiting] = useState(false)
+  const [message, setMessage] = useState('')
 
   const authToken = useAppSelector((state) => state.State.authToken)
 
@@ -60,17 +62,30 @@ const ModalReferral:FC<ModalReferralProps> = forwardRef((props,  ref: any) => {
     setOpen(false)
   }
 
-  const reject_referral = async(referral: Referral, status: string) => {
+  const actions_referral = async(referral: Referral, status: string) => {
     setWaiting(true)
-    let newStatus = status == REFERRAL_STATUS.CANCELED ? REFERRAL_STATUS.CANCELED : nextStatusReferral(referral.status)
-    let request = { status: newStatus }
-    let responseReferral = await FetchCall<UpdateReferralResponse>(updateReferral(request, authToken, referral.id))
-    if(responseReferral.status === 200 ){        
+    if(props.action === "delete"){
+      setMessage("Eliminando...")
+      let deleteResponse = await FetchCall<MeInfoResponse>(deleteReferral(referral.id, authToken))
+      if(deleteResponse.status === 204 ){
         let meInfoResponse = await FetchCall<MeInfoResponse>(meInfo("", authToken))
         dispatch(setUsers(meInfoResponse.data.users))
         handleClose()
         props.setUserState('main')
         setWaiting(false)
+      }
+    }else if(props.action === "continue") {
+      setMessage("Actualizando...")
+      let newStatus = status == REFERRAL_STATUS.CANCELED ? REFERRAL_STATUS.CANCELED : nextStatusReferral(referral.status)
+      let request = { status: newStatus }
+      let responseReferral = await FetchCall<UpdateReferralResponse>(updateReferral(request, authToken, referral.id))
+      if(responseReferral.status === 200 ){        
+          let meInfoResponse = await FetchCall<MeInfoResponse>(meInfo("", authToken))
+          dispatch(setUsers(meInfoResponse.data.users))
+          handleClose()
+          props.setUserState('main')
+          setWaiting(false)
+      }
     }
   }
 
@@ -97,7 +112,7 @@ const ModalReferral:FC<ModalReferralProps> = forwardRef((props,  ref: any) => {
               justifyContent: 'space-evenly',
               width: '100%',
             }} id="modal-modal-title" variant="h6" component="h2">
-                { waiting ? "Actualizando..." : props.message}
+                { waiting ? message : props.message}
             </Typography>
             <Box style={{
                 display: 'flex',
@@ -117,19 +132,32 @@ const ModalReferral:FC<ModalReferralProps> = forwardRef((props,  ref: any) => {
                                 }}
                                 variant="contained"
                                 color="success"
-                                onClick={()=>reject_referral(props.referral, REFERRAL_STATUS.ACCEPTED)}
+                                onClick={()=>actions_referral(props.referral, REFERRAL_STATUS.ACCEPTED)}
                               >
                                 Continuar
                               </Button>
+                              { props.action === "delete" &&
                               <Button 
-                                style={{
-                                    width: 110,
-                                    marginBottom: 50,
-                                }} variant="outlined" color="error"
-                                onClick={()=>reject_referral(props.referral, REFERRAL_STATUS.CANCELED)}
-                              >
-                                Rechazar
+                                  style={{
+                                      width: 110,
+                                      marginBottom: 50,
+                                  }} variant="outlined" color="error"
+                                  onClick={()=>handleClose()}
+                                >
+                                  Cancelar
                               </Button>
+                              }
+                              { props.action === "continue" &&
+                                <Button 
+                                  style={{
+                                      width: 110,
+                                      marginBottom: 50,
+                                  }} variant="outlined" color="error"
+                                  onClick={()=>actions_referral(props.referral, REFERRAL_STATUS.CANCELED)}
+                                >
+                                  Rechazar
+                              </Button>
+                              }
                             </>
                         }
                         { waiting &&
