@@ -1,6 +1,6 @@
 import classNames from "classnames"
 import Link from "next/link"
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import Image from 'next/image'
 import { setDueDate, setState } from "../redux/slices/state"
 import { useAppDispatch, useAppSelector } from "../redux/hooks"
@@ -41,12 +41,61 @@ const Sidebar = () => {
 
   const duedate = useAppSelector( (state) => state.State.dueDate)
 
+  /*********************SESSION ADMIN***********************************/
+  const [hours, setHours] = useState(0)
+  const [minutes, setMinutes] = useState(0)
+  const [seconds, setSeconds] = useState(0)
+  /********************************************************/
+
   const collapseIconClasses = classNames(
     "p-4 rounded bg-light-lighter absolute right-0",
     {
       "rotate-180": toggleCollapse,
     }
   )
+
+    useEffect(()=>{
+      let targetTime
+      let timerInterval
+    
+      const formatTime = (time) => {
+        const hours_ = Math.floor((time % 86400) / 3600);
+        const minutes_ = Math.floor((time % 3600) / 60);
+        const seconds_ = Math.floor(time % 60);
+        setHours(hours_)
+        setMinutes(minutes_)
+        setSeconds(seconds_)
+      }
+      function updateTimer() {
+        const currentTime = Math.floor((targetTime - Date.now()) / 1000)
+        if (currentTime <= 0) {
+          clearInterval(timerInterval);
+          setHours(0)
+          setMinutes(0)
+          setSeconds(0)
+          return;
+        }
+        formatTime(currentTime);
+      }
+      function startTimer(time) {
+        const remainingTime = time % (24 * 60 * 60 * 1000);
+        const hours_ = Math.floor(remainingTime / (60 * 60 * 1000));
+        const minutes_ = Math.floor((remainingTime % (60 * 60 * 1000)) / (60 * 1000));
+        const hours = hours_ || 0;
+        const minutes = minutes_ || 0;
+        const seconds = 0 || 0;
+        const totalSeconds =
+            (hours * 60 * 60) +
+            (minutes * 60) +
+            seconds;
+        const currentTime = Math.floor(Date.now() / 1000);
+        targetTime = (currentTime + totalSeconds) * 1000;
+        updateTimer();
+        timerInterval = setInterval(updateTimer, 1000);
+      }
+      startTimer(duedate - Date.now())
+    }, [])
+
 
   const getNavItemClasses = (menu) => {
     return classNames(
@@ -160,7 +209,24 @@ const Sidebar = () => {
           })}
         </Box>
       </Box>
-
+      <Box style={{
+        display: 'flex',
+        flexDirection: 'column',
+        color: "#FFFFFF"
+      }}>
+          <Box>
+            Sessión
+          </Box>
+          <Box>
+            {hours} Horas
+          </Box>
+          <Box>
+            {minutes} Minutos
+          </Box>
+          <Box>
+            {seconds} Segundos
+          </Box>
+      </Box>
       <Box className={`${getNavItemClasses({})} px-3 py-4`}>
         <Box style={{ width: "2.5rem" }}>
           <LogoutIcon />

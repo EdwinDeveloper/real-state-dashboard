@@ -67,7 +67,7 @@ const CardUser:FC<CardUserProps> = (props) => {
           marginTop: 20,
         }}>
           <Button onClick={()=>handleExpandClick('investments')} size='small'>Inversiones</Button>
-          <Button onClick={()=>handleExpandClick('payments')} size='small'>Pagos</Button>
+          {/* <Button onClick={()=>handleExpandClick('payments')} size='small'>Pagos</Button> */}
           <Button onClick={()=>props.userReferrals(props.id, "referrals", props.referrals, props.name)} size="small">Feferidos</Button>
         </Box>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
@@ -81,12 +81,12 @@ const CardUser:FC<CardUserProps> = (props) => {
                 <Button onClick={()=>props.userSelect(props.id, "investments", props.investments, props.name)} size="small">Ver Inversiones</Button>
             </Box>
             }
-            { action === 'payments' &&
+            {/* { action === 'payments' &&
               <Box>
                 <Button size='small'>Realizar pago</Button>
                 <Button size="small">Listar pagos</Button>
             </Box>
-            }
+            } */}
           </CardContent>
       </Collapse>
       </CardContent>
