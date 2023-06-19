@@ -8,6 +8,10 @@ import { ValidationTextField } from '../public/ValidationTextField'
 import CardUserReferrals from '../components/projectComponents/Cards/CardReferral'
 import { User, Investment, Referral, Project } from '../redux/fetch/responses'
 import { useAppSelector } from "../redux/hooks"
+import UsersInDB from "./users/usersInDB"
+import ReferralList from "./users/referralsList"
+import UserInvestments from "./users/userInvestments"
+import NewInvestment from "./users/newInvestment"
 
 const Users:FC = (props) => {
 
@@ -116,180 +120,16 @@ const Users:FC = (props) => {
   return (
     <Layout>
       { userState === 'main' &&
-        <Box style={{
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-          <Box sx={{
-            fontSize: '1.4em',
-            marginBottom: 20,
-          }}>
-            Usuarios Registrados
-          </Box>
-          <Box sx={{
-            width: "94%",
-            height: "90vh",
-            display: "flex",
-            flexWrap: "wrap",
-            flexDirection: "row",
-            justifyContent: "space-evenly",
-            alignItems: "stretch",
-          }}>
-            {renderUsers()}
-          </Box>
-        </Box>
+        <UsersInDB renderUsers={renderUsers}/>
       }
       { userState === 'investments' &&
-        <Box style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: "95%",
-          marginTop: 30,
-        }}>
-          <Box>
-              <Button
-                style={{
-                  backgroundColor: "#159988",
-                  width: 300,
-                  marginBottom: 50,
-                }}
-                onClick={()=>setUserState('main')}
-                variant="contained"
-                color="success"
-              >
-                Volver
-              </Button>
-          </Box>
-          <Box style={{
-            width: "100%",
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-            <Box sx={{
-              fontSize: '1.4em'
-            }}>
-                Inversiones de {nameUserSelected}
-            </Box>
-            <Box style={{
-              width: "100%",
-              height: "90vh",
-              display: "flex",
-              flexWrap: "wrap",
-              flexDirection: "row",
-              justifyContent: "space-evenly",
-              alignItems: "stretch",
-              backgroundColor: '#FFFFFF'
-            }}>
-              {renderCards()}
-            </Box>
-          </Box>
-        </Box>
+        <UserInvestments setUserState={setUserState} nameUserSelected={nameUserSelected} renderCards={renderCards} />
       }
       { userState === 'newInvestment' && 
-          <Box style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: 100,
-          }}>
-            <Box style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'cemter'
-            }}>
-                <Button
-                  style={{
-                    backgroundColor: "#159988",
-                    width: 300,
-                    marginBottom: 50,
-                  }}
-                  onClick={()=>setUserState('main')}
-                  variant="contained"
-                  color="success"
-                >
-                  Volver
-                </Button>
-                <ValidationTextField
-                    label="Nombre del proyecto"
-                    required
-                    variant="outlined"
-                    helperText="Introduce el nombre del proyecto"
-                    defaultValue=""
-                    placeholder='Nombre del proyecto'
-                    id="validation-outlined-input"
-                    onChange={(model: any)=>{filterProjects(model.target.value)}}
-                  />
-            </Box>
-            <Box style={{
-              width: "100%",
-              height: "90vh",
-              display: "flex",
-              flexWrap: "wrap",
-              flexDirection: "row",
-              justifyContent: "space-evenly",
-              alignItems: "stretch",
-              backgroundColor: '#FFFFFF',
-            }}>
-              {renderAllProjects()}
-            </Box>
-        </Box>
+          <NewInvestment setUserState={setUserState} filterProjects={filterProjects} renderAllProjects={renderAllProjects} />
       }
       { userState === 'referrals' &&
-      <Box style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: "95%",
-        marginTop: 100,
-      }}>
-        <Button
-                style={{
-                  backgroundColor: "#159988",
-                  width: 300,
-                  marginBottom: 50,
-                }}
-                onClick={()=>setUserState('main')}
-                variant="contained"
-                color="success"
-              >
-                Volver
-              </Button>
-        <Box style={{
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-            <Box sx={{
-              fontSize: '1.4em',
-              marginBottom: 20,
-            }}>
-              Referidos de {nameUserSelected}
-            </Box>
-            <Box style={{
-              width: "100%",
-              height: "90vh",
-              display: "flex",
-              flexWrap: "wrap",
-              flexDirection: "row",
-              justifyContent: "space-evenly",
-              alignItems: "stretch",
-              backgroundColor: '#FFFFFF',
-            }}>
-              {renderAllReferrals()}
-            </Box>
-        </Box>
-      </Box>
+        <ReferralList setUserState={setUserState} nameUserSelected={nameUserSelected} renderAllReferrals={renderAllReferrals}/>
       }
     </Layout>
   )

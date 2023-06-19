@@ -32,6 +32,15 @@ export const emailValidator = (email: string) => {
     return email.match(reg)
 }
 
+export const dueDateElement = (date: string, days: number) => {
+    const day = (1000 * 60 * 60 * 24)
+    var externalDate = new Date(date)
+    var currentDate = new Date()
+    var timeDifference: number = currentDate.getTime() - externalDate.getTime()
+    const daysDifference: number = timeDifference / day
+    return daysDifference >= days ? true : false
+}
+
 export const getOrdinal = (value: number) => {
     let ordinal = ''
     switch (true) {

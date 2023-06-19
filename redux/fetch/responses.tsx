@@ -181,6 +181,14 @@ export interface Referral {
     project: string,
     bonus: string,
     status: string,
+
+    created_at: string,
+
+    user_id: string,
+    info_project: Project[]
+
+    staff: string,
+    info_staff: User[],
 }
 
 export interface Investment {

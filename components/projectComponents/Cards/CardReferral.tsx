@@ -10,22 +10,11 @@ import Box from '@material-ui/core/Box'
 import { REFERRAL_STATUS, COLORS } from '../../../utils/const'
 import ModalReferral from '../Modals/ModalReferral'
 import DefaultIcon from '../../icons/DefaultIcon'
+import { Referral } from '../../../redux/fetch/responses'
 
 export interface ReferralProps {
   referral: Referral,
   setUserState: (action: string) => void,
-}
-
-export interface Referral {
-  id: string,
-  country_code: string,
-  phone_number: string,
-  gender: string,
-  name: string,
-  last_name: string,
-  project: string,
-  bonus: string,
-  status: string,
 }
 
 const CardUserReferrals:FC<ReferralProps> = (props) => {
@@ -35,7 +24,9 @@ const CardUserReferrals:FC<ReferralProps> = (props) => {
   const [modalMessage, setModalMessage] = useState('')
   const [action, setAction] = useState('continue')
 
-  const { name, status, last_name, bonus, country_code, phone_number } = props.referral
+  const { name, status, last_name, bonus, country_code, phone_number, info_staff, created_at } = props.referral
+
+  console.log("created_at : ", created_at)
 
   let statusIcon = ''
   let statusBackgound = ''
@@ -79,7 +70,7 @@ const CardUserReferrals:FC<ReferralProps> = (props) => {
     <Card style={{
         width: 340,
         height: 220,
-        marginBottom: 20,
+        marginBottom: 10,
         borderRadius: 10,
         backgroundColor: statusBackgound,
     }} sx={{ maxWidth: 345 }}>
@@ -87,7 +78,7 @@ const CardUserReferrals:FC<ReferralProps> = (props) => {
       <Box sx={{
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: "space-around",
+        justifyContent: "center",
         alignItems: 'center',
       }}>
         <CardHeader
@@ -122,9 +113,9 @@ const CardUserReferrals:FC<ReferralProps> = (props) => {
         <Box style={{
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'space-evenly',
+          justifyContent: 'center',
           alignItems: 'center',
-          marginTop: 20,
+          marginTop: 5,
         }}>
           <Typography>
             {`${message}`}
@@ -134,11 +125,18 @@ const CardUserReferrals:FC<ReferralProps> = (props) => {
           </Typography>
         </Box>
         <Box style={{
+          display: "flex",
+          flexDirection: "row",
+          width: "100%",
+          marginTop: 10,
+        }}>
+          Asesor : { info_staff[0].name }
+        </Box>
+        <Box style={{
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'center',
           width: '100%',
-          marginTop: 20,
         }}>
           { ( status === REFERRAL_STATUS.ACCEPTED || status === REFERRAL_STATUS.PAID ) &&
               <Button onClick={()=>{}} size='small'>Inversiones</Button>
