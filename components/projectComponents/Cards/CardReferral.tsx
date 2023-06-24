@@ -11,6 +11,7 @@ import { REFERRAL_STATUS, COLORS } from '../../../utils/const'
 import ModalReferral from '../Modals/ModalReferral'
 import DefaultIcon from '../../icons/DefaultIcon'
 import { Referral } from '../../../redux/fetch/responses'
+import { nextStatusReferral, messageNextStatusReferral } from '../../../utils/functions'
 
 export interface ReferralProps {
   referral: Referral,
@@ -26,8 +27,6 @@ const CardUserReferrals:FC<ReferralProps> = (props) => {
 
   const { name, status, last_name, bonus, country_code, phone_number, info_staff, created_at } = props.referral
 
-  console.log("created_at : ", created_at)
-
   let statusIcon = ''
   let statusBackgound = ''
   let message = ''
@@ -37,16 +36,16 @@ const CardUserReferrals:FC<ReferralProps> = (props) => {
     statusBackgound = COLORS.REFERRAL_BACKGROUND_WAITING
     message = 'Inversión en revisión'
   }else if (status === REFERRAL_STATUS.CONTACTED){
-    statusIcon = COLORS.REFERRAL_ICON_WAITING
-    statusBackgound = COLORS.REFERRAL_BACKGROUND_WAITING
+    statusIcon = COLORS.REFERRAL_ICON_FOLLOWUP
+    statusBackgound = COLORS.REFERRAL_BACKGROUND_FOLLOWUP
     message = 'Referido contactado'
   }else if (status === REFERRAL_STATUS.RESERVED){
-    statusIcon = COLORS.REFERRAL_ICON_WAITING
-    statusBackgound = COLORS.REFERRAL_BACKGROUND_WAITING
+    statusIcon = COLORS.REFERRAL_ICON_FOLLOWUP
+    statusBackgound = COLORS.REFERRAL_BACKGROUND_FOLLOWUP
     message = 'Proyecto reservado'
   }else if (status === REFERRAL_STATUS.SIGNED_DEED){
-    statusIcon = COLORS.REFERRAL_ICON_WAITING
-    statusBackgound = COLORS.REFERRAL_BACKGROUND_WAITING
+    statusIcon = COLORS.REFERRAL_ICON_FOLLOWUP
+    statusBackgound = COLORS.REFERRAL_BACKGROUND_FOLLOWUP
     message = 'Contrato firmado'
   }else if (status === REFERRAL_STATUS.ACCEPTED){
     statusIcon = COLORS.REFERRAL_ICON_APPROVED
@@ -127,6 +126,7 @@ const CardUserReferrals:FC<ReferralProps> = (props) => {
         <Box style={{
           display: "flex",
           flexDirection: "row",
+          justifyContent: 'center',
           width: "100%",
           marginTop: 10,
         }}>
@@ -143,7 +143,9 @@ const CardUserReferrals:FC<ReferralProps> = (props) => {
           }
           { ( status === REFERRAL_STATUS.IN_PROCESS || status === REFERRAL_STATUS.CONTACTED || status === REFERRAL_STATUS.RESERVED || status === REFERRAL_STATUS.SIGNED_DEED ) &&
               <Button onClick={()=>{
-                setModalMessage('Acción a realizar ?')
+                let nextStatus = nextStatusReferral(status)
+                let message = nextStatus !== undefined ? messageNextStatusReferral(nextStatus) : 'Acción a realizar ?'
+                message !== undefined ? setModalMessage(message) : setModalMessage('Acción a realizar ?')
                 setAction("continue")
                 if(ModalRef.current !== undefined && ModalRef.current !== null) ModalRef.current.openModal()              
               }} size='small'>Revisar referido</Button>
@@ -151,7 +153,7 @@ const CardUserReferrals:FC<ReferralProps> = (props) => {
           }
           { status === REFERRAL_STATUS.CANCELED &&
             <Box>
-              <Button onClick={()=>{}} size='small'>Aceptar referido</Button>
+              {/* <Button onClick={()=>{}} size='small'>Aceptar referido</Button> */}
             </Box>
           }
         </Box>

@@ -17,7 +17,25 @@ export const nextStatusReferral = (status: string) => {
         default:
             break;
     }
+}
 
+export const messageNextStatusReferral = (status: string) => {
+    switch (status) {
+        case REFERRAL_STATUS.IN_PROCESS:
+            return "Pasar estatus a contactado ?"
+        case REFERRAL_STATUS.CONTACTED:
+            return "Pasar estatus a reservado ?"
+        case REFERRAL_STATUS.RESERVED:
+            return "Pasar estatus a escritura firmada ?"
+        case REFERRAL_STATUS.SIGNED_DEED:
+            return "Pasar estatus a aceptado ?"
+        case REFERRAL_STATUS.ACCEPTED:
+            return "Pasar estatus a pagago ?"
+        case REFERRAL_STATUS.CANCELED:
+            return "Pasar estatus a cancelado ?"
+        default:
+            break;
+    }
 }
 
 export const passvalidator = (password: string) => {

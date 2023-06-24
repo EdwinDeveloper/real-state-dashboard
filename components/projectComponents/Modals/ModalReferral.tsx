@@ -9,7 +9,7 @@ import { setUsers } from '../../../redux/slices/users'
 import { useAppDispatch } from '../../../redux/hooks'
 import { useAppSelector } from '../../../redux/hooks'
 import { REFERRAL_STATUS } from '../../../utils/const'
-import { Referral } from '../Cards/CardReferral'
+import { Referral } from '../../../redux/fetch/responses'
 import { FetchCall } from '../../../redux/fetch/FetchCall'
 import { nextStatusReferral } from '../../../utils/functions'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -96,14 +96,19 @@ const ModalReferral:FC<ModalReferralProps> = forwardRef((props,  ref: any) => {
         onClose={handleClose}
         aria-labelledby="parent-modal-title"
         aria-describedby="parent-modal-description"
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
       >
         <Box style={{
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          width: 300,
-          height: 150,
+          width: 340,
+          height: 160,
 
         }} sx={{ ...style, width: 350 }}>
             <Typography style={{

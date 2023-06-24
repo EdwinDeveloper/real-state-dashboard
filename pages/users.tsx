@@ -1,11 +1,7 @@
 import React, { FC, useState } from "react"
 import Layout from "../components/Layout"
-import Box from '@material-ui/core/Box'
 import CardUser from "../components/projectComponents/Cards/CardUser"
 import CardUserProject from '../components/projectComponents/Cards/CardUserInvestment'
-import Button from '@mui/material/Button'
-import { ValidationTextField } from '../public/ValidationTextField'
-import CardUserReferrals from '../components/projectComponents/Cards/CardReferral'
 import { User, Investment, Referral, Project } from '../redux/fetch/responses'
 import { useAppSelector } from "../redux/hooks"
 import UsersInDB from "./users/usersInDB"
@@ -88,15 +84,6 @@ const Users:FC = (props) => {
     }) : null
   }
 
-  const renderAllReferrals = () => {
-    return referrals.length > 0 ? referrals.map((referral: Referral) => {
-      return <CardUserReferrals key={referral.id}
-        referral={referral}
-        setUserState={setUserState}
-      />
-    }) : null
-  }
-
   const renderAllProjects = () => {
     return allProjects !== undefined && allProjects !== null ? allProjects.map((project: Project) => {
       return <CardUserProject key={project.id}
@@ -129,7 +116,7 @@ const Users:FC = (props) => {
           <NewInvestment setUserState={setUserState} filterProjects={filterProjects} renderAllProjects={renderAllProjects} />
       }
       { userState === 'referrals' &&
-        <ReferralList setUserState={setUserState} nameUserSelected={nameUserSelected} renderAllReferrals={renderAllReferrals}/>
+        <ReferralList setUserState={setUserState} nameUserSelected={nameUserSelected} referrals={referrals}/>
       }
     </Layout>
   )
