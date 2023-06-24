@@ -30,7 +30,7 @@ export const messageNextStatusReferral = (status: string) => {
         case REFERRAL_STATUS.SIGNED_DEED:
             return "Pasar estatus a aceptado ?"
         case REFERRAL_STATUS.ACCEPTED:
-            return "Pasar estatus a pagago ?"
+            return "Pasar estatus a pagado ?"
         case REFERRAL_STATUS.CANCELED:
             return "Pasar estatus a cancelado ?"
         default:

@@ -139,7 +139,9 @@ const CardUserReferrals:FC<ReferralProps> = (props) => {
           width: '100%',
         }}>
           { ( status === REFERRAL_STATUS.ACCEPTED || status === REFERRAL_STATUS.PAID ) &&
-              <Button onClick={()=>{}} size='small'>Inversiones</Button>
+              <>
+                {/* <Button onClick={()=>{}} size='small'>Inversiones</Button> */}
+              </>
           }
           { ( status === REFERRAL_STATUS.IN_PROCESS || status === REFERRAL_STATUS.CONTACTED || status === REFERRAL_STATUS.RESERVED || status === REFERRAL_STATUS.SIGNED_DEED ) &&
               <Button onClick={()=>{

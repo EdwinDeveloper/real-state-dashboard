@@ -85,7 +85,7 @@ const ReferralList: FC<ReferralsListProps> = ( { setUserState, nameUserSelected,
                 </Box>
                 <ul className="nav" style={styles.tabs}>
                     <TabNavItem position={'I'} title="Nuevos" id="tab1" activeTab={activeTab} setActiveTab={setActiveTab}/>
-                    <TabNavItem position={'M'} title="En seguimiento" id="tab2" activeTab={activeTab} setActiveTab={setActiveTab}/>
+                    <TabNavItem position={'M'} title="Seguimiento" id="tab2" activeTab={activeTab} setActiveTab={setActiveTab}/>
                     <TabNavItem position={'M'} title="Cerrado" id="tab3" activeTab={activeTab} setActiveTab={setActiveTab}/>
                     <TabNavItem position={'F'} title="Terminado" id="tab4" activeTab={activeTab} setActiveTab={setActiveTab}/>
                 </ul>
