@@ -175,7 +175,11 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
-              onChange={(event)=>{setEmail(event.target.value)}}
+              value={email}
+              onChange={(event)=>{
+                let lowerValue: string = event.target.value.toLowerCase()
+                setEmail(lowerValue)}
+              }
             />
             <TextField
               margin="normal"

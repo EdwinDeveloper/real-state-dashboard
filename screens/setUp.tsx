@@ -57,9 +57,6 @@ const SignUp = () => {
     if(ModalRef.current !== undefined && ModalRef.current !== null){
       const { openModal } = ModalRef.current
 
-      console.log("name : ", name);
-      
-
       if(name===''){
         setMessage('El nombre de usuario es requerido')
         openModal()
@@ -181,7 +178,6 @@ const SignUp = () => {
                     autoComplete="name"
                     autoFocus
                     onChange={(event)=>{
-                      console.log(event.target.value)
                       setName(event.target.value)
                     }}
                   />
@@ -206,7 +202,11 @@ const SignUp = () => {
                     autoComplete="email"
                     autoFocus
                     value={email}
-                    onChange={(event)=>setEmail(event.target.value)}
+                    onChange={(event)=>{
+                        let lowerValue: string = event.target.value.toLowerCase()
+                        setEmail(lowerValue)
+                      }
+                    }
                   />
                   <TextField
                     margin="normal"

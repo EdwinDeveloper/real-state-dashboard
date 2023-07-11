@@ -96,7 +96,10 @@ const ResetPass = () => {
                     autoComplete="email"
                     autoFocus
                     value={email}
-                    onChange={(event)=>setEmail(event.target.value)}
+                    onChange={(event)=>{
+                      let lowerValue: string = event.target.value.toLowerCase()
+                      setEmail(lowerValue)
+                    }}
                   />
                   <Button
                     type="submit"
